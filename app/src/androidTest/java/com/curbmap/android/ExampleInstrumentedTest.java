@@ -1,4 +1,4 @@
-package com.curbmap.curbmap;
+package com.curbmap.android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
