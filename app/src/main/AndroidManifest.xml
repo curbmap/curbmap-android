@@ -41,11 +41,11 @@
             </intent-filter>
         </activity>
     <activity
-        android:name=".MainActivity"
+        android:name=".LoginActivity"
         android:label="@string/title_activity_maps">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.APP_MAPS" />
+            <category android:name="android.intent.category.DEFAULT" />
         </intent-filter>
     </activity>
 
