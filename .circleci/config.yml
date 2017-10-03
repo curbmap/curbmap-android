@@ -1,13 +1,11 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/code
+    
     docker:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-      ANDROID_HOME: /usr/local/android-sdk-linux
-      ANDROID_BUILD_TOOLS: 26.0.0
     steps:
       - checkout
       - restore_cache:
