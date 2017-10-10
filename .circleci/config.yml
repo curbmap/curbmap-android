@@ -15,7 +15,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Android Licenses
-          command: mkdir -p $ANDROID_HOME/licenses && cp -r /.circleci/licenses/ $ANDROID_HOME/licenses
+          command: mkdir -p $ANDROID_HOME/licenses;  cp -r .circleci/licenses/ $ANDROID_HOME/licenses
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
