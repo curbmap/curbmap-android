@@ -5,8 +5,7 @@
     android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.curbmap.curbmap.MainActivity"
+    tools:context="com.curbmap.android.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <android.support.design.widget.FloatingActionButton
@@ -17,7 +16,7 @@
         app:srcCompat="@android:drawable/ic_menu_add"
         android:layout_alignParentRight="true"
         android:layout_gravity="right|top"
-        app:fabSize="mini" />
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_location"

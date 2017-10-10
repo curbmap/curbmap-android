@@ -1,7 +1,6 @@
-package com.curbmap.curbmap;
+package com.curbmap.android;
 
 import android.app.Activity;
-import android.os.Bundle;
 
 /**
  * Created by Developer on 7/17/17.
