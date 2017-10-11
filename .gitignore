@@ -2,12 +2,16 @@
 .gradle
 *.md
 /local.properties
+/.idea/*
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
 /build
 /captures
+README.md
+LICENSE
 .externalNativeBuild
 .circleci
 LICENSE
-
+LICENSE.md
+*.md
