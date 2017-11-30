@@ -1,2 +1,2 @@
 # curbmap-android
-Android native application 
+Android native application

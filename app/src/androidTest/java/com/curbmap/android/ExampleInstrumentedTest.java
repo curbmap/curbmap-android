@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.curbmap.curbmap", appContext.getPackageName());
+        assertEquals("com.curbmap.android", appContext.getPackageName());
     }
 }
