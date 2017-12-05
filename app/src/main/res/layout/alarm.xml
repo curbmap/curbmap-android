@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/alarmTitle"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Alarm"
+        android:textAlignment="center"
+        android:textColor="@color/colorTitle"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/alarmTitle"
+        android:layout_marginTop="23dp" />
+
+    <TextView
+        android:id="@+id/reminderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Reminder"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/numberPicker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/alarmTitle"
+        android:layout_below="@+id/reminderTitle"
+        android:layout_marginStart="24dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="textEnd" />
+
+    <Spinner
+        android:id="@+id/reminderSpinner"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/numberPicker"
+        android:layout_alignBottom="@+id/numberPicker"
+        android:layout_toEndOf="@+id/numberPicker"
+        android:entries="@array/time_unit_array" />
+
+</RelativeLayout>
