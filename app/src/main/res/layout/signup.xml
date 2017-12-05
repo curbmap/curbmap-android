@@ -21,7 +21,7 @@
         android:layout_marginTop="11dp"
         android:layout_weight="1"
         android:background="@drawable/back"
-        android:text="username"
+        android:text="@string/username"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:background="@drawable/back"
-        android:text="password"
+        android:text="@string/password"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -45,7 +45,7 @@
         android:layout_below="@+id/passwordField"
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
-        android:text="email"
+        android:text="@string/email"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -57,7 +57,7 @@
         android:layout_below="@+id/emailField"
         android:layout_marginTop="12dp"
         android:background="@drawable/back"
-        android:text="confirm email"
+        android:text="@string/confirm_email"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -69,6 +69,6 @@
         android:layout_below="@+id/confirmEmailField"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="13dp"
-        android:text="Sign Up" />
+        android:text="@string/sign_up" />
 
 </RelativeLayout>

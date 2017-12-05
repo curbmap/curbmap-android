@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/userTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/user"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/userImage"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/userTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:contentDescription="@string/description_user_image"
+        app:srcCompat="@drawable/profile_pic_default" />
+
+    <TextView
+        android:id="@+id/nameField"
+        android:layout_width="200dp"
+        android:layout_height="22dp"
+        android:layout_alignStart="@+id/confirmEmailField"
+        android:layout_below="@+id/editIconClickable"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/back"
+        android:text="@string/name"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/emailField"
+        android:layout_width="200dp"
+        android:layout_height="22dp"
+        android:layout_below="@+id/nameField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/back"
+        android:text="@string/someone_email_com"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/confirmEmailField"
+        android:layout_width="200dp"
+        android:layout_height="22dp"
+        android:layout_alignStart="@+id/emailField"
+        android:layout_below="@+id/emailField"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/back"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/editIconClickable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/nameField"
+        android:layout_alignTop="@+id/userImage"
+        android:layout_marginEnd="13dp"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/description_edit_icon"
+        app:srcCompat="@drawable/edit" />
+
+    <TextView
+        android:id="@+id/editName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nameField"
+        android:layout_alignTop="@+id/nameField"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/nameField"
+        android:text="@string/edit" />
+
+    <TextView
+        android:id="@+id/editEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/emailField"
+        android:layout_alignBottom="@+id/emailField"
+        android:layout_alignStart="@+id/editConfirmEmail"
+        android:text="@string/edit" />
+
+    <TextView
+        android:id="@+id/editConfirmEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/confirmEmailField"
+        android:layout_alignBottom="@+id/confirmEmailField"
+        android:layout_alignStart="@+id/editName"
+        android:text="@string/edit" />
+
+
+</RelativeLayout>

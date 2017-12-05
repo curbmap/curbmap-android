@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/yourContributionsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/your_contributions"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/yourContributionsScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/yourContributionsTitle">
+
+        <TextView
+            android:id="@+id/yourContributionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="" />
+    </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/yourContributionsTitle"
+        android:layout_marginStart="20dp"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/emailContributionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yourContributionsScrollView"
+        android:layout_centerHorizontal="true"
+        android:text="@string/share_contributions" />
+
+
+    <Button
+        android:id="@+id/clearContributionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emailContributionsButton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/clear_contributions" />
+
+
+</RelativeLayout>
