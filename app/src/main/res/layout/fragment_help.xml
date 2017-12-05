@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/helpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/help"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/appTutorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/helpTitle"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_tutorial"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sendFeedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/appTutorial"
+        android:layout_below="@+id/appTutorial"
+        android:layout_marginTop="20dp"
+        android:text="@string/send_feedback"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/contactEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sendFeedback"
+        android:layout_below="@+id/sendFeedback"
+        android:layout_marginTop="20dp"
+        android:text="@string/contact_email"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/versionNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/contactEmail"
+        android:layout_below="@+id/contactEmail"
+        android:layout_marginTop="20dp"
+        android:text="@string/version_1_1"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/termsAndPrivacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/versionNumber"
+        android:layout_below="@+id/versionNumber"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/terms_amp_privacy"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/openSourceLicenses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/termsAndPrivacy"
+        android:layout_below="@+id/termsAndPrivacy"
+        android:layout_marginTop="20dp"
+        android:text="@string/open_source_licenses"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+    <Switch
+        android:id="@+id/locationDataCollection"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/openSourceLicenses"
+        android:layout_below="@+id/openSourceLicenses"
+        android:layout_marginTop="20dp"
+        android:text="@string/location_data_collection"
+        android:textSize="16sp" />
+</RelativeLayout>

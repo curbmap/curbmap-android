@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/homeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/home"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/homeTitle"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/addRestrictionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_restriction"
+        android:layout_below="@+id/mapView"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/addRestrictionExplanation"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:text="@string/add_restriction_explanation"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/mapView"
+        android:layout_marginBottom="5dp" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update_map"
+        android:layout_below="@+id/addRestrictionButton"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
