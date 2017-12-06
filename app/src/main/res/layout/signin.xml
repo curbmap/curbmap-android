@@ -21,7 +21,7 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="@drawable/back"
-        android:text="username"
+        android:text="@string/username"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
-        android:text="password"
+        android:text="@string/password"
         android:textAlignment="center"
         android:textSize="16dp" />
 
@@ -45,7 +45,7 @@
         android:layout_below="@+id/passwordField"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Sign In" />
+        android:text="@string/sign_in" />
 
     <TextView
         android:id="@+id/signUpLink"
@@ -56,7 +56,7 @@
         android:layout_marginTop="10dp"
         android:autoLink="web"
         android:linksClickable="true"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textColor="@color/colorHyperLink" />
 
     <CheckBox
@@ -66,5 +66,5 @@
         android:layout_below="@+id/signUpLink"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Remember Me" />
+        android:text="@string/remember_me" />
 </RelativeLayout>
