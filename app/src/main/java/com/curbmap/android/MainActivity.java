@@ -11,6 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.curbmap.android.fragments.AlarmFragment;
+import com.curbmap.android.fragments.HelpFragment;
+import com.curbmap.android.fragments.HomeFragment;
+import com.curbmap.android.fragments.SettingsFragment;
+import com.curbmap.android.fragments.UserFragment;
+import com.curbmap.android.fragments.YourContributionsFragment;
+import com.curbmap.android.fragments.YourPlacesFragment;
+import com.curbmap.android.fragments.YourTimelineFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
