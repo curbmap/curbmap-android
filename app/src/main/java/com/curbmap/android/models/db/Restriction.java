@@ -3,6 +3,9 @@ package com.curbmap.android.models.db;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +26,7 @@ public class Restriction {
     @PrimaryKey
     public int id;
 
-    public String coordinates;
-
-    public String endCoordinates;
+    public Polyline polyline;
 
     public String type;
 
@@ -47,8 +48,7 @@ public class Restriction {
 
     public String permitDistrict;
 
-    public Restriction(String coordinates,
-                       String endCoordinates,
+    public Restriction(Polyline polyline,
                        String type,
                        String days,
                        String start_time,
@@ -58,8 +58,9 @@ public class Restriction {
                        double cost,
                        int per,
                        String permitDistrict) {
-        this.coordinates = coordinates;
-        this.endCoordinates = endCoordinates;
+
+
+        this.polyline = polyline;
         this.type = type;
         this.id = (int) System.currentTimeMillis();
         this.days = days;
@@ -71,6 +72,37 @@ public class Restriction {
         this.per = per;
         this.permitDistrict = permitDistrict;
     }
+
+    public Restriction(String polylineString,
+                       String type,
+                       String days,
+                       String start_time,
+                       String end_time,
+                       int angle,
+                       int time_limit,
+                       double cost,
+                       int per,
+                       String permitDistrict) {
+        this.type = type;
+        this.id = (int) System.currentTimeMillis();
+        this.days = days;
+        this.start_time = start_time;
+        this.end_time = end_time;
+        this.angle = angle;
+        this.time_limit = time_limit;
+        this.cost = cost;
+        this.per = per;
+        this.permitDistrict = permitDistrict;
+
+
+        Gson gson = new Gson();
+        Polyline polyline = gson.fromJson(polylineString, Polyline.class);
+        this.polyline = polyline;
+
+
+    }
+
+
 
     public String getDays() {
         int NUMBER_OF_DAYS = 7;
@@ -149,12 +181,21 @@ public class Restriction {
         }
     }
 
+    public String getCoordinatesList() {
+        String result = "";
+        //we start the iteration with 1 instead of 0 because this is meant for human-friendly reading
+        int nCoordinate = 1;
+        for (LatLng coordinates : polyline.getPolyline()) {
+            result += "Coordinate " + nCoordinate + ": ";
+            result += "(" + coordinates.latitude + ", " + coordinates.longitude + ")\n";
+            nCoordinate++;
+        }
+        return result;
+    }
+
     public String getCard() {
         String result = "";
-        result += "Coordinates: " + coordinates + "\n";
-        if (endCoordinates != null && endCoordinates.length() > 0) {
-            result += "End Coordinates: " + endCoordinates + "\n";
-        }
+        result += getCoordinatesList();
         result += "Type: " + type + "\n";
         if (permitDistrict.length() > 0) {
             result += "District: " + permitDistrict + "\n";

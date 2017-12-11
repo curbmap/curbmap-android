@@ -5,18 +5,21 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.controller.AddRestrictionController;
+import com.curbmap.android.controller.addRestriction.HandleSubmit;
 import com.curbmap.android.models.SetTime;
 
 public class AddRestrictionFragment extends Fragment {
@@ -50,10 +53,24 @@ public class AddRestrictionFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_add_restriction, container, false);
         super.onCreateView(inflater, container, savedInstanceState);
 
+
+        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
+        menu_icon.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View view) {
+                                             DrawerLayout drawer = (DrawerLayout)
+                                                     getActivity()
+                                                             .getWindow()
+                                                             .getDecorView()
+                                                             .findViewById(R.id.drawer_layout);
+                                             drawer.openDrawer(GravityCompat.START);
+                                         }
+                                     }
+        );
+
         Button submitButton = myView.findViewById(R.id.submitButton);
 
-        final String coordinatesOfRestriction = getArguments().getString("coordinatesOfRestriction");
-        final String endCoordinates = getArguments().getString("endCoordinates");
+    final String polylineString = getArguments().getString("polylineString");
         final EditText startTimeObject = myView.findViewById(R.id.fromTime);
         final EditText endTimeObject = myView.findViewById(R.id.toTime);
 
@@ -63,8 +80,6 @@ public class AddRestrictionFragment extends Fragment {
         SetTime startTime = new SetTime(startTimeObject);
         SetTime endTime = new SetTime(endTimeObject);
 
-
-        //<editor-fold desc="type onChange">
         RadioGroup typeRadioGroup = myView.findViewById(R.id.typeOfRestrictionRadioGroup);
         final EditText customTypeText = myView.findViewById(R.id.customTypeText);
         customTypeText.setVisibility(View.INVISIBLE);
@@ -84,21 +99,14 @@ public class AddRestrictionFragment extends Fragment {
             }
         });
 
-
-        //</editor-fold>
-
-
-        //<editor-fold desc="submitButton onClick">
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 View parentView = (View) view.getParent();
 
-                if (AddRestrictionController.submitAddRestriction(
-                        view,
+                if (HandleSubmit.submitAddRestriction(
                         parentView,
-                        coordinatesOfRestriction,
-                        endCoordinates)) {
+                        polylineString)) {
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame
@@ -113,7 +121,6 @@ public class AddRestrictionFragment extends Fragment {
                 }
             }
         });
-        //</editor-fold>
 
         return myView;
     }

@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -28,9 +30,14 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AddRestrictionTest {
+
+    private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
+
     @Rule
     public ActivityTestRule mActivityRule =
-            new ActivityTestRule(MainActivity.class, false, false) {
+            new ActivityTestRule(MainActivity.class,
+                    false,
+                    false) {
             };
 
     @Before
@@ -43,6 +50,12 @@ public class AddRestrictionTest {
     public void custom() throws Exception {
         pauseTestFor(500);
         onView(withContentDescription("Google Map")).perform(click());
+        for (int x = 300; x < 800; x += 300) {
+            for (int y = 1000; y < 1500; y += 300) {
+                uiDevice.click(x,y);
+                pauseTestFor(300);
+            }
+        }
         onView(withId(R.id.addRestrictionButton)).perform(click());
         pauseTestFor(500);
         onView(withId(R.id.customTypeLabel)).perform(scrollTo(), click());
@@ -51,16 +64,25 @@ public class AddRestrictionTest {
         onView(withId(R.id.sunday)).perform(scrollTo(), click());
         onView(withId(R.id.saturday)).perform(scrollTo(), click());
         onView(withId(R.id.allDay)).perform(scrollTo(), click());
-        onView(withId(R.id.headIn)).perform(scrollTo(), click());
+        onView(withId(R.id.parallel)).perform(scrollTo(), click());
         onView(withId(R.id.submitButton)).perform(click());
         pauseTestFor(500);
     }
 
     @Test
+    //warning: the submit button is over the head in when scroll to head in
+    //so it will be unable to select head in during the test and thus unable to submit
     //no parking, 20 minutes, monday, from 4 to 5, angle_angled
     public void addFromTo() throws Exception {
         pauseTestFor(500);
-        onView(withContentDescription("Google Map")).perform(click());
+        onView(withContentDescription("Google Map"))
+                .perform(click());
+        for (int x = 300; x < 800; x += 300) {
+            for (int y = 1000; y < 1500; y += 300) {
+                uiDevice.click(x,y);
+                pauseTestFor(300);
+            }
+        }
         onView(withId(R.id.addRestrictionButton)).perform(click());
         pauseTestFor(500);
         onView(withId(R.id.noParking)).perform(scrollTo(), click());
@@ -70,7 +92,7 @@ public class AddRestrictionTest {
         onView(withId(R.id.withinHoursOf)).perform(scrollTo(), click());
         onView(allOf(withId(R.id.fromTime))).perform(replaceText("4:0"));
         onView(allOf(withId(R.id.toTime))).perform(replaceText("5:0"));
-        onView(withId(R.id.angled)).perform(scrollTo(), click());
+        onView(withId(R.id.parallel)).perform(scrollTo(), click());
         onView(withId(R.id.submitButton)).perform(click());
         pauseTestFor(500);
     }
@@ -80,6 +102,12 @@ public class AddRestrictionTest {
     public void addAllDay() throws Exception {
         pauseTestFor(500);
         onView(withContentDescription("Google Map")).perform(click());
+        for (int x = 300; x < 800; x += 300) {
+            for (int y = 1000; y < 1500; y += 300) {
+                uiDevice.click(x,y);
+                pauseTestFor(300);
+            }
+        }
         onView(withId(R.id.addRestrictionButton)).perform(click());
         pauseTestFor(500);
         onView(withId(R.id.timeLimitParking)).perform(scrollTo(), click());
@@ -99,6 +127,6 @@ public class AddRestrictionTest {
             e.printStackTrace();
         }
     }
-}
 
+}
 

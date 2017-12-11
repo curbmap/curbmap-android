@@ -3,11 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <include layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
     <TextView
         android:id="@+id/yourContributionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
         android:layout_centerHorizontal="true"
         android:text="@string/your_contributions"
         android:textColor="@color/colorTitle"
@@ -17,7 +23,7 @@
     <ScrollView
         android:id="@+id/yourContributionsScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="fill_parent"
         android:layout_below="@id/yourContributionsTitle">
 
         <TextView
@@ -40,7 +46,7 @@
         android:id="@+id/emailContributionsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/yourContributionsScrollView"
+        android:layout_above="@+id/clearContributionsButton"
         android:layout_centerHorizontal="true"
         android:text="@string/share_contributions" />
 
@@ -49,7 +55,7 @@
         android:id="@+id/clearContributionsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/emailContributionsButton"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/clear_contributions" />
 

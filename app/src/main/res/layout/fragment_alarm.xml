@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/alarm_layout"
     android:orientation="vertical">
+
+    <include layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:id="@+id/alarmTitle"
         android:layout_width="147dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
         android:text="@string/alarm"
         android:textAlignment="center"
@@ -22,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/alarmTitle"
-        android:layout_marginTop="23dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/reminderTitle"
@@ -55,5 +63,6 @@
         android:layout_alignBottom="@+id/reminderTimeNumberPicker"
         android:layout_toEndOf="@+id/reminderTimeNumberPicker"
         android:entries="@array/time_units" />
+
 
 </RelativeLayout>
