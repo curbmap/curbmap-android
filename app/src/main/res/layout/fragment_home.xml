@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/homeTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/home"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/title_size"
-        android:textStyle="bold" />
-
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
         android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@+id/homeTitle"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/back"
+        android:id="@+id/searchContainer">
+
+        <include layout="@layout/menu_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:id="@+id/searchBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="60dp"
+            android:width="250dp"
+            android:height="50dp"
+            android:text="@string/search_here"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/addRestrictionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_restriction"
-        android:layout_below="@+id/mapView"
-        android:layout_centerHorizontal="true" />
-
-
-    <TextView
-        android:id="@+id/addRestrictionExplanation"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:text="@string/add_restriction_explanation"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/mapView"
-        android:layout_marginBottom="5dp" />
-
-    <Button
-        android:id="@+id/updateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/update_map"
-        android:layout_below="@+id/addRestrictionButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBottom="@+id/mapView"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_restriction" />
 
 </RelativeLayout>
