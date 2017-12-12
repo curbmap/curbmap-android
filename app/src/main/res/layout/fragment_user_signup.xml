@@ -4,28 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp" />
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="186dp"
+        android:layout_height="180dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/description_logo"
         app:srcCompat="@drawable/curbmap_256x256" />
 
-    <TextView
+    <EditText
         android:id="@+id/usernameField"
         android:layout_width="200dp"
         android:layout_height="22dp"
         android:layout_alignEnd="@+id/confirmEmailField"
         android:layout_below="@+id/logo"
         android:layout_marginTop="11dp"
-        android:layout_weight="1"
         android:background="@drawable/back"
-        android:text="@string/username"
+        android:hint="@string/username"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/passwordField"
         android:layout_width="200dp"
         android:layout_height="22dp"
@@ -33,11 +40,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:background="@drawable/back"
-        android:text="@string/password"
+        android:hint="@string/password"
+        android:inputType="textPassword"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/emailField"
         android:layout_width="200dp"
         android:layout_height="22dp"
@@ -45,11 +53,12 @@
         android:layout_below="@+id/passwordField"
         android:layout_marginTop="10dp"
         android:background="@drawable/back"
-        android:text="@string/email"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
-    <TextView
+    <EditText
         android:id="@+id/confirmEmailField"
         android:layout_width="200dp"
         android:layout_height="22dp"
@@ -57,9 +66,10 @@
         android:layout_below="@+id/emailField"
         android:layout_marginTop="12dp"
         android:background="@drawable/back"
-        android:text="@string/confirm_email"
+        android:hint="@string/confirm_email"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
 
     <Button
