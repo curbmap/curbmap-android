@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">curbmap</string>
     <string name="title_activity_maps">curbmap</string>
-    <string name="google_maps_key">INSERT_GOOGLE_MAPS_API_KEY</string>
+    <string name="google_maps_key">AIzaSyBrTHZFcJoxkvzmE7pNzY084nhoALrY-lY</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -147,8 +147,18 @@
     <string name="description_edit_icon">Icon for edit profile picture</string>
     <string name="toggle_icons">Toggle Icons</string>
     <string name="update_map">Update Map</string>
-    <string name="warn_select_restriction">You must select a location for the restriction by tapping the map.</string>
+    <string name="warn_select_restriction">You must select at least two locations
+        for the restriction by tapping the map at two points to create a line.</string>
     <string name="location_request">Curbmap needs location permissions</string>
-    <string name="MAP_API_BASE_URL">https://curbmap.com:50003</string>
+    <string name="BASE_URL_API_MAP">https://curbmap.com:50003</string>
+    <string name="BASE_URL_API">https://curbmap.com</string>
+    <string name="menu_icon">menu icon</string>
+    <string name="search_here">Search here</string>
+    <string name="info_cancel_select_place">User cancelled operation of selecting a place.</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="description_logo">Logo of curbmap</string>
+    <string name="success_signin">Succeeded in signing in</string>
+    <string name="fail_signin">Failed to sign in.</string>
+    <string name="issue_signin">Wrong credentials</string>
 
 </resources>
