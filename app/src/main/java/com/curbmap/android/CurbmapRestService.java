@@ -1,7 +1,8 @@
 package com.curbmap.android;
 
 
-import com.curbmap.android.models.User;
+import com.curbmap.android.models.db.SignUpResponse;
+import com.curbmap.android.models.db.User;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -12,6 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface CurbmapRestService {
+    static final String TAG = "CurbmapRestService";
 
     //warning:watch out for 50003 in url
     // base urls are "curbmap.com:50003/" or just "curbmap.com/"
@@ -36,6 +38,15 @@ public interface CurbmapRestService {
     Call<User> doLoginPOST(
             @Field("username") String username,
             @Field("password") String password
+    );
+
+    //https://curbmap.com/signup
+    @POST("signup")
+    @FormUrlEncoded
+    Call<SignUpResponse> signup(
+            @Field("username") String username,
+            @Field("password") String password,
+            @Field("email") String email
     );
 
 }

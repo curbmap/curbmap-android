@@ -160,5 +160,17 @@
     <string name="success_signin">Succeeded in signing in</string>
     <string name="fail_signin">Failed to sign in.</string>
     <string name="issue_signin">Wrong credentials</string>
+    <string name="terms"><![CDATA[Terms & Conditions]]></string>
+    <string name="privacy">Privacy Policy</string>
+
+
+    <string name="link_tutorial">https://github.com/hexicle/MarkerMap/wiki/App-Tutorial</string>
+    <string name="link_credits">https://github.com/hexicle/MarkerMap/wiki/App-Credits</string>
+    <string name="link_releases">https://github.com/hexicle/MarkerMap/releases</string>
+    <string name="link_terms">https://github.com/hexicle/MarkerMap/wiki/App-Terms-and-Conditions</string>
+    <string name="link_privacy">https://github.com/hexicle/MarkerMap/wiki/App-Privacy-Policy</string>
+    <string name="link_open_source_licenses">https://github.com/hexicle/MarkerMap/wiki/App-Open-Source-Licenses</string>
+    <string name="credits">Credits</string>
+    <string name="warn_null_restriction">The restriction object is null.</string>
 
 </resources>

@@ -22,7 +22,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/appTutorial"
+        android:id="@+id/tutorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -37,8 +37,8 @@
         android:id="@+id/sendFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/appTutorial"
-        android:layout_below="@+id/appTutorial"
+        android:layout_alignStart="@+id/tutorial"
+        android:layout_below="@+id/tutorial"
         android:layout_marginTop="20dp"
         android:text="@string/send_feedback"
         android:textColor="@color/colorText"
@@ -56,7 +56,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/versionNumber"
+        android:id="@+id/releases"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/contactEmail"
@@ -67,25 +67,50 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/termsAndPrivacy"
+        android:id="@+id/terms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/versionNumber"
-        android:layout_below="@+id/versionNumber"
+        android:layout_alignStart="@+id/releases"
+        android:layout_below="@+id/releases"
         android:layout_centerVertical="true"
         android:layout_marginTop="20dp"
-        android:text="@string/terms_amp_privacy"
+        android:text="@string/terms"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/releases"
+        android:layout_below="@+id/terms"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/privacy"
         android:textColor="@color/colorText"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/openSourceLicenses"
+        android:id="@+id/open_source_licenses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/termsAndPrivacy"
-        android:layout_below="@+id/termsAndPrivacy"
+        android:layout_alignStart="@+id/privacy"
+        android:layout_below="@+id/privacy"
         android:layout_marginTop="20dp"
         android:text="@string/open_source_licenses"
+        android:textColor="@color/colorText"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/credits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/open_source_licenses"
+        android:layout_below="@+id/open_source_licenses"
+        android:layout_marginTop="20dp"
+        android:text="@string/credits"
         android:textColor="@color/colorText"
         android:textSize="16sp" />
 
@@ -93,8 +118,8 @@
         android:id="@+id/locationDataCollection"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/openSourceLicenses"
-        android:layout_below="@+id/openSourceLicenses"
+        android:layout_alignStart="@+id/credits"
+        android:layout_below="@+id/credits"
         android:layout_marginTop="20dp"
         android:text="@string/location_data_collection"
         android:textSize="16sp" />

@@ -6,13 +6,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.models.db.AppDatabase;
+import com.curbmap.android.models.db.RestrictionAppDatabase;
 import com.curbmap.android.models.db.Restriction;
 import com.curbmap.android.models.db.RestrictionDao;
 
-class CheckExceptions {
+public class CheckExceptions {
+    static final String TAG = "CheckExceptions";
 
 
+    static final int OKAY_RESTRICTIONS = -1;
 
     /**
      * Checks for exceptions
@@ -50,7 +52,9 @@ class CheckExceptions {
                 restriction);
 
 
-        if (warningResult != -5) {
+        if (warningResult != OKAY_RESTRICTIONS) {
+            //there was an error in the form for add restrictions
+
             Toast.makeText(view.getContext(),
                     HandleSubmit.getViewString(view, warningResult),
                     Toast.LENGTH_LONG)
@@ -70,7 +74,7 @@ class CheckExceptions {
      *
      * @return Toast string id, or -5 for success
      */
-    private static int checkWarning(
+    public static int checkWarning(
             String parkingMeter,
             String timeLimitParking,
             String permitParkingDistricts,
@@ -80,7 +84,9 @@ class CheckExceptions {
             int selectedAngleId,
             String length,
             Restriction restriction) {
-        if (restriction.polyline == null) {
+        if (restriction == null) {
+            return R.string.warn_null_restriction;
+        } else if (restriction.polyline == null) {
             //actually this condition is not being handled properly
             //but it is okay because the user would never be able to reach here
             //unless they selected 2 or more points
@@ -113,7 +119,6 @@ class CheckExceptions {
             return R.string.warning_no_angle;
         } else {
             //no errors and good to go
-            int OKAY_RESTRICTIONS = -5;
             return OKAY_RESTRICTIONS;
         }
     }
@@ -126,12 +131,11 @@ class CheckExceptions {
             Context context,
             Restriction restriction) {
 
-
-        //todo: refactor so it does not run on main thread
+        //todo: refactor db operations to run on a non-main thread
         //the name of the database is "restrictions"
-        AppDatabase db = Room.databaseBuilder(
+        RestrictionAppDatabase db = Room.databaseBuilder(
                 context,
-                AppDatabase.class,
+                RestrictionAppDatabase.class,
                 "restrictions")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
