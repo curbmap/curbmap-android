@@ -8,6 +8,7 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 
 public class SetTime implements View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
+    static final String TAG = "SetTime";
 
     private EditText editText;
     private Calendar myCalendar;

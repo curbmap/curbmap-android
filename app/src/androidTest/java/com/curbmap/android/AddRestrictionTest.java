@@ -30,6 +30,7 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AddRestrictionTest {
+    static final String TAG = "AddRestrictionTest";
 
     private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
 
