@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+    static final String TAG = "MyAdapter";
     private String[] mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)

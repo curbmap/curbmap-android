@@ -2,6 +2,7 @@ package com.curbmap.android.fragments.user;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -13,11 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
-import com.curbmap.android.models.User;
+import com.curbmap.android.models.db.User;
+import com.curbmap.android.models.db.UserAppDatabase;
+import com.curbmap.android.models.db.UserDao;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,11 +73,26 @@ public class UserSigninFragment extends Fragment {
                     }
                 });
 
+        TextView signUpButton = myView.findViewById(R.id.signUpLink);
+        signUpButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame
+                                        , new UserSignupFragment())
+                                .commit();
+                    }
+                });
+
+
         return myView;
     }
 
     /**
      * posts the signin info onto server
+     *
      * @param username
      * @param password
      */
@@ -96,7 +115,24 @@ public class UserSigninFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, getString(R.string.success_signin));
-                    Toast.makeText(getContext(), "signed in!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            getContext(),
+                            "Signed in!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                    Log.d(TAG,response.body().makeString());
+                    User user = response.body();
+
+                    UserAppDatabase db = Room.databaseBuilder(
+                            getContext(),
+                            UserAppDatabase.class,
+                            "user")
+                            .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
+                            .build();
+                    UserDao userDao = db.getUserDao();
+                    userDao.insert(user);
+
 
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
@@ -106,6 +142,12 @@ public class UserSigninFragment extends Fragment {
 
                 } else {
                     Log.d(TAG, getString(R.string.issue_signin));
+                    Toast.makeText(
+                            getContext(),
+                            "Wrong username or password",
+                            Toast.LENGTH_LONG)
+                            .show();
+
                 }
             }
 

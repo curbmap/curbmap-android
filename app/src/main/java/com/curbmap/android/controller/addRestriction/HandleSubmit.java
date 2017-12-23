@@ -9,6 +9,7 @@ import com.curbmap.android.models.db.Restriction;
 import com.curbmap.android.models.db.RestrictionDao;
 
 public class HandleSubmit {
+    static final String TAG = "HandleSubmit";
 
     /**
      * Handles the event of user clicking submit button on Add Restriction fragment
@@ -24,8 +25,6 @@ public class HandleSubmit {
         //although we restrictionDao as null, it should work properly.
         //...this is just an intricacy of Room.
         RestrictionDao restrictionDao = null;
-
-        String TAG = "AddRestrictionCon";
 
         Restriction restriction = CreateRestriction.createRestriction(view, polylineString);
 

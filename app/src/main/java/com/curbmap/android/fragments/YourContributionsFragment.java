@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.curbmap.android.models.db.AppDatabase;
+import com.curbmap.android.models.db.RestrictionAppDatabase;
 import com.curbmap.android.MyAdapter;
 import com.curbmap.android.R;
 import com.curbmap.android.models.db.Restriction;
@@ -59,8 +59,8 @@ public class YourContributionsFragment extends Fragment {
         );
 
 
-        AppDatabase db = Room.databaseBuilder(myView.getContext(),
-                AppDatabase.class,
+        RestrictionAppDatabase db = Room.databaseBuilder(myView.getContext(),
+                RestrictionAppDatabase.class,
                 "restrictions")
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
