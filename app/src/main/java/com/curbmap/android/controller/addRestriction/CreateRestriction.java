@@ -14,11 +14,10 @@ import com.curbmap.android.models.db.Restriction;
 import static com.curbmap.android.controller.addRestriction.HandleSubmit.getViewString;
 
 public class CreateRestriction {
-
-    static String TAG = "CreateRestriction";
+    final static String TAG = "CreateRestriction";
 
     /**
-     * Creates a restriction from the Add Restriction view
+     * Creates a restriction object from the values in Add Restriction view
      *
      * @param view the add restriction view
      * @return Restriction object containing information from the view

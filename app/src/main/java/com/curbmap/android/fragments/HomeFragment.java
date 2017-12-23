@@ -1,11 +1,9 @@
 package com.curbmap.android.fragments;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -27,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
 import com.curbmap.android.controller.MapController;
 import com.curbmap.android.models.db.Polyline;
@@ -51,21 +48,16 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
-
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
 
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final long MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1;
+    int DEFAULT_ZOOM_LEVEL = 18;
     MapView mapView;
     View view;
     String TAG = "HomeFragment";
@@ -78,16 +70,20 @@ public class HomeFragment extends Fragment
 
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-
+            //commented out because we want user to manually choose their location
             Log.d("locationchanged","yay");
             // Called when a new location is found by the network location provider.
             //makeUseOfNewLocation(location);
             if (location != null) {
+                /*
+                //commented out so it doesn't keep moving to user's location
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL);
                 map.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
-                getMarkers();
+                MapController.getMarkers(map, coordinatesList);
+                */
+
             }
         }
 
@@ -217,7 +213,7 @@ public class HomeFragment extends Fragment
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 Log.i(TAG, "Place: " + place.getName());
                 LatLng latLng = place.getLatLng();;
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL);
                 map.animateCamera(cameraUpdate);
 
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
@@ -282,7 +278,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if (checkLocationPermission()) {
+        if (MapController.checkLocationPermission(getActivity(), getContext())) {
             if (ContextCompat.checkSelfPermission(this.getContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -313,7 +309,7 @@ public class HomeFragment extends Fragment
         //LatLng laLatLng = new LatLng(34.040011, -118.259419);
         LatLng laLatLng = new LatLng(34.0377002544831, -118.248260994197);
         map.moveCamera(CameraUpdateFactory.newLatLng(laLatLng));
-        map.moveCamera(CameraUpdateFactory.zoomTo(16));
+        map.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM_LEVEL));
 
         map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
@@ -323,7 +319,7 @@ public class HomeFragment extends Fragment
                     //map.clear();
                 }
 
-                getMarkers();
+                MapController.getMarkers(map, coordinatesList);
             }
         });
 
@@ -359,120 +355,6 @@ public class HomeFragment extends Fragment
 
             }
         });
-    }
-
-
-    /**
-     * Gets the coordinates of screen,
-     * requests server for data in the screen area,
-     * then asks drawMarkers to draw the markers on the map
-     */
-    public void getMarkers() {
-
-        //add the markers to the map
-        //warning: could not separate this function out into a new class
-        //...because then we would have to declare map as final
-        //...todo: figure out how to put this in a separate class
-        /*
-        (lat1,      NE
-         lng1)+----+
-              |    |
-              +----+(lat2,
-             SW      lng2)
-         */
-        LatLngBounds curScreen = map.getProjection()
-                .getVisibleRegion().latLngBounds;
-        double lat1 = curScreen.southwest.latitude;
-        double lng1 = curScreen.northeast.longitude;
-        double lat2 = curScreen.northeast.latitude;
-        double lng2 = curScreen.southwest.longitude;
-
-        //todo: Rest API must ONLY be called by Room!!!
-        //we should NEVER EVER call the Rest API directly!!!
-        //this way the interaction will be 100% offline-friendly
-        final String BASE_URL = getString(R.string.BASE_URL_API_MAP);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
-
-        CurbmapRestService service = retrofit.create(CurbmapRestService.class);
-        Call<String> results = service.doAreaPolygon(
-                "curbmaptest",
-                lat1,
-                lng1,
-                lat2,
-                lng2);
-
-        results.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "Succeeded in getting markers");
-                    map.clear();
-                    PolylineOptions line =
-                            new PolylineOptions()
-                                    .addAll(coordinatesList)
-                                    .width(5)
-                                    .color(Color.RED);
-                    map.addPolyline(line);
-                    for (LatLng x : coordinatesList) {
-                        map.addMarker(new MarkerOptions().position(x));
-                    }
-                    MapController.updateMap(response, map);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e(TAG, "Failed to get markers.");
-                t.printStackTrace();
-            }
-        });
-    }
-
-
-    /**
-     * Checks for location permission
-     * If not granted, makes an alert requesting user to grant location permission.
-     * @return true if location permission is granted, false otherwise
-     */
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this.getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this.getContext())
-                        .setTitle("Location permissions")
-                        .setMessage(R.string.location_request)
-                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        MY_PERMISSIONS_REQUEST_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
     }
 
 

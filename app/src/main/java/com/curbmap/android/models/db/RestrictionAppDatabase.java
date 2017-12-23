@@ -6,6 +6,6 @@ import android.arch.persistence.room.TypeConverters;
 
 @Database(entities = {Restriction.class}, version = 6, exportSchema = false)
 @TypeConverters({PolylineConverter.class})
-public abstract class AppDatabase extends RoomDatabase {
+public abstract class RestrictionAppDatabase extends RoomDatabase {
     public abstract RestrictionDao getRestrictionDao();
 }

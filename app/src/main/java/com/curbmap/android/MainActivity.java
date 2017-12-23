@@ -1,11 +1,13 @@
 package com.curbmap.android;
 
 import android.app.FragmentManager;
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,10 +18,16 @@ import com.curbmap.android.fragments.SettingsFragment;
 import com.curbmap.android.fragments.YourContributionsFragment;
 import com.curbmap.android.fragments.YourPlacesFragment;
 import com.curbmap.android.fragments.YourTimelineFragment;
-import com.curbmap.android.fragments.user.UserSigninupFragment;
+import com.curbmap.android.fragments.user.UserProfileFragment;
+import com.curbmap.android.fragments.user.UserSigninFragment;
+import com.curbmap.android.models.db.User;
+import com.curbmap.android.models.db.UserAppDatabase;
+import com.curbmap.android.models.db.UserDao;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,10 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame
                         , new HomeFragment())
                 .commit();
+
+
+
+
     }
 
     @Override
@@ -101,10 +113,31 @@ public class MainActivity extends AppCompatActivity
                     .commit();
 
         } else if (id == R.id.nav_user) {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content_frame
-                            , new UserSigninupFragment())
-                    .commit();
+            UserAppDatabase db = Room.databaseBuilder(
+                    getApplicationContext(),
+                    UserAppDatabase.class,
+                    "user")
+                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
+                    .build();
+            UserDao userDao = db.getUserDao();
+            User user = userDao.getUser();
+            if (user == null) {
+                Log.d(TAG, "user is not logged in");
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame
+                                , new UserSigninFragment())
+                        .commit();
+            } else {
+                Log.d(TAG, user.toString());
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame
+                                , new UserProfileFragment())
+                        .commit();
+            }
+
 
         }
 
@@ -112,7 +145,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
 }
