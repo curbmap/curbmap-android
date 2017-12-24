@@ -39,10 +39,12 @@ public class MapController {
      * Gets the coordinates of screen,
      * requests server for data in the screen area,
      * then asks drawMarkers to draw the markers on the map
-     * @param map the Google Maps object
+     *
+     * @param map             the Google Maps object
      * @param coordinatesList the list of coordinates
      */
-    public static void getMarkers(final GoogleMap map, final List<LatLng> coordinatesList) {
+    public static void getMarkers(final GoogleMap map, final List<LatLng> coordinatesList,
+                                  String username) {
 
         //add the markers to the map
         //warning: could not separate this function out into a new class
@@ -73,9 +75,12 @@ public class MapController {
 
         CurbmapRestService service = retrofit.create(CurbmapRestService.class);
 
+
+
+
         //the current map area displayed on user's phone
         Call<String> results = service.doAreaPolygon(
-                "curbmaptest",
+                username,
                 lat1,
                 lng1,
                 lat2,
@@ -112,8 +117,9 @@ public class MapController {
      * When receive a response from the server call GET /AreaPolygon
      * Updates the map with the responses by sending a call to
      * drawMarker to draw a marker for every single restriction
+     *
      * @param response the response from the server
-     * @param map the Google Map object
+     * @param map      the Google Map object
      */
     private static void updateMap(Response<String> response, GoogleMap map) {
         String CurbmapPolylineObjectList = response.body();
@@ -122,7 +128,11 @@ public class MapController {
         for (JsonElement point : pointsArray) {
             JsonObject p = point.getAsJsonObject();
             JsonObject multiPointProperties = p.getAsJsonObject("multiPointProperties");
-            int numberOfPoints = multiPointProperties.getAsJsonArray("points").size();
+
+            int numberOfPoints = 0;
+            if (multiPointProperties != null) {
+                numberOfPoints = multiPointProperties.getAsJsonArray("points").size();
+            }
 
             if (numberOfPoints > 0) {
                 JsonArray restrictions = (JsonArray) multiPointProperties
@@ -154,11 +164,10 @@ public class MapController {
     }
 
 
-
     /**
      * Draws a marker on the map to represent a type of restriction
      * this is called after sending a get request to the server
-     *   asking the server for restriction points
+     * asking the server for restriction points
      *
      * @param type    Type of restriction. Can be "sweep", "red", "hyd" or "ppd"
      * @param pLatLng The coordinates of the restriction
@@ -200,6 +209,7 @@ public class MapController {
     /**
      * Checks for location permission
      * If not granted, makes an alert requesting user to grant location permission.
+     *
      * @return true if location permission is granted, false otherwise
      */
     public static boolean checkLocationPermission(final Activity activity, final Context context) {
@@ -242,4 +252,100 @@ public class MapController {
             return true;
         }
     }
+
+
+    /**
+     * Checks for write external storage permission
+     * If not granted, makes an alert requesting user to grant write external storage permission.
+     *
+     * @return true if write external storage permission is granted, false otherwise
+     */
+    public static boolean checkWritePermission(final Activity activity, final Context context) {
+
+        final int MY_PERMISSIONS_REQUEST_WRITE = 786;
+
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(context)
+                        .setTitle("Storage permissions")
+                        .setMessage(R.string.write_request)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(activity,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        MY_PERMISSIONS_REQUEST_WRITE);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Checks for camera permission
+     * If not granted, makes an alert requesting user to grant camera permission.
+     *
+     * @return true if camera permission is granted, false otherwise
+     */
+    public static boolean checkCameraPermission(final Activity activity, final Context context) {
+
+
+        final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
+        if (ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.CAMERA)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(context)
+                        .setTitle("Camera permissions")
+                        .setMessage(R.string.camera_request)
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(activity,
+                                        new String[]{Manifest.permission.CAMERA},
+                                        MY_PERMISSIONS_REQUEST_CAMERA);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

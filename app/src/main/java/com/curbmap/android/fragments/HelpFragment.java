@@ -46,6 +46,7 @@ public class HelpFragment extends Fragment {
     /**
      * Sets the links for some of the buttons
      * todo: its very repetitive, try to dry the code
+     *
      * @param view
      */
     private void setLinks(View view) {

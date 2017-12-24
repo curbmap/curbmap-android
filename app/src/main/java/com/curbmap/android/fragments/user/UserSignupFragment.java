@@ -40,17 +40,17 @@ public class UserSignupFragment extends Fragment {
         ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
 
         menu_icon.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DrawerLayout drawer = (DrawerLayout)
-                            getActivity()
-                                    .getWindow()
-                                    .getDecorView()
-                                    .findViewById(R.id.drawer_layout);
-                    drawer.openDrawer(GravityCompat.START);
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DrawerLayout drawer = (DrawerLayout)
+                                getActivity()
+                                        .getWindow()
+                                        .getDecorView()
+                                        .findViewById(R.id.drawer_layout);
+                        drawer.openDrawer(GravityCompat.START);
+                    }
                 }
-            }
         );
 
 

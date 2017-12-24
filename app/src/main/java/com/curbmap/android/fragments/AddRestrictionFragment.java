@@ -70,7 +70,7 @@ public class AddRestrictionFragment extends Fragment {
 
         Button submitButton = myView.findViewById(R.id.submitButton);
 
-    final String polylineString = getArguments().getString("polylineString");
+        final String polylineString = getArguments().getString("polylineString");
         final EditText startTimeObject = myView.findViewById(R.id.fromTime);
         final EditText endTimeObject = myView.findViewById(R.id.toTime);
 

@@ -42,9 +42,26 @@
         android:id="@+id/addRestrictionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/clearButton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_restriction_photo" />
+
+
+    <Button
+        android:id="@+id/addRestrictionButtonForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addRestrictionButton"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_restriction_form" />
+
+    <Button
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
         android:layout_alignBottom="@+id/mapView"
         android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/add_restriction" />
+        android:text="@string/clear_map" />
 
 </RelativeLayout>
