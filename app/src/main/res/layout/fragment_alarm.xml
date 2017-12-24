@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/alarm_layout"
+    android:orientation="vertical">
+
+    <include layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/alarmTitle"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/alarm"
+        android:textAlignment="center"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/alarmTitle"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/reminderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timePicker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:labelFor="@+id/reminderTimeNumberPicker"
+        android:text="@string/reminder"
+        android:textColor="@color/colorTitle"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/reminderTimeNumberPicker"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/alarmTitle"
+        android:layout_below="@+id/reminderTitle"
+        android:layout_marginStart="24dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textAlignment="textEnd" />
+
+    <Spinner
+        android:id="@+id/reminderSpinner"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/reminderTimeNumberPicker"
+        android:layout_alignBottom="@+id/reminderTimeNumberPicker"
+        android:layout_toEndOf="@+id/reminderTimeNumberPicker"
+        android:entries="@array/time_units" />
+
+
+</RelativeLayout>

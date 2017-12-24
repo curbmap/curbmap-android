@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/yourPlacesTitle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="14dp"
+        android:layout_height="wrap_content"
+        android:text="@string/your_places"
+        android:textAlignment="center"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/homeIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignStart="@+id/workIcon"
+        android:layout_alignTop="@+id/homeAddress"
+        android:contentDescription="@string/description_home_icon"
+        app:srcCompat="@drawable/places_home" />
+
+    <ImageView
+        android:id="@+id/workIcon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/homeIcon"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="29dp"
+        android:contentDescription="@string/description_work_icon"
+        app:srcCompat="@drawable/places_work" />
+
+
+    <TextView
+        android:id="@+id/homeAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yourPlacesTitle"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/homeIcon"
+        android:text="@string/home_address" />
+
+    <TextView
+        android:id="@+id/workAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/homeAddress"
+        android:layout_alignTop="@+id/workIcon"
+        android:text="@string/work_address" />
+</RelativeLayout>
