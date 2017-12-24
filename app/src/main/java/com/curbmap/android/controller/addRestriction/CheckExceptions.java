@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.models.db.RestrictionAppDatabase;
 import com.curbmap.android.models.db.Restriction;
+import com.curbmap.android.models.db.RestrictionAppDatabase;
 import com.curbmap.android.models.db.RestrictionDao;
 
 public class CheckExceptions {
@@ -18,12 +18,13 @@ public class CheckExceptions {
 
     /**
      * Checks for exceptions
+     *
      * @param view
-     * @param selectedTypeId the id of type selected radioButton
+     * @param selectedTypeId   the id of type selected radioButton
      * @param selectedLengthId the id of the length selected radioButton
-     * @param selectedAngleId the id of the angle selected radioButton
-     * @param length the length of restriction: "All Day" or "Within hours of:"
-     * @param restriction the Restriction object containing restriction information
+     * @param selectedAngleId  the id of the angle selected radioButton
+     * @param length           the length of restriction: "All Day" or "Within hours of:"
+     * @param restriction      the Restriction object containing restriction information
      * @return false if user needs to fill form properly, true otherwise
      */
     static boolean checkNoExceptions(
@@ -34,20 +35,11 @@ public class CheckExceptions {
             String length,
             Restriction restriction) {
         //make sure the fragment_user entered all required values
-        //try to display only one toast, instead of multiple toasts
-        String parkingMeter = HandleSubmit.getViewString(view, R.string.parking_meter);
-        String timeLimitParking = HandleSubmit.getViewString(view, R.string.time_limit_parking);
-        String permitParkingDistricts = HandleSubmit.getViewString(view, R.string.permit_parking_districts);
-        String withinHoursOf = HandleSubmit.getViewString(view, R.string.within_hours_of);
-
+        //display only one toast, instead of multiple toasts
         int warningResult = checkWarning(
-                parkingMeter,
-                timeLimitParking,
-                permitParkingDistricts,
-                withinHoursOf,
-                selectedTypeId,
-                selectedLengthId,
-                selectedAngleId,
+                selectedTypeId != -1,
+                selectedLengthId != -1,
+                selectedAngleId != -1,
                 length,
                 restriction);
 
@@ -72,19 +64,35 @@ public class CheckExceptions {
      * Return the id of the string that should appear as a result
      * But if there is no exception (yay!) returns -5
      *
-     * @return Toast string id, or -5 for success
+     * @param typeIsSelected   true if type is selected, false otherwise
+     * @param angleIsSelected  true if angle is selected, false otherwise
+     * @param lengthIsSelected true if length is selected, false otherwise
+     * @param length           either "All Day" or "Within hours of:"
+     *                         to represent the length of parking
+     *                         restriction
+     * @param restriction      the restriction object containing a lot of data
+     * @return Toast string id for warning toast,
+     * or OKAY_RESTRICTIONS === -1 for success
      */
     public static int checkWarning(
-            String parkingMeter,
-            String timeLimitParking,
-            String permitParkingDistricts,
-            String withinHoursOf,
-            int selectedTypeId,
-            int selectedLengthId,
-            int selectedAngleId,
+            boolean typeIsSelected,
+            boolean lengthIsSelected,
+            boolean angleIsSelected,
             String length,
             Restriction restriction) {
+
+        String parkingMeter = "Parking Meter";
+        String timeLimitParking = "Time Limit Parking";
+        String permitParkingDistricts = "Permit Parking Districts";
+        String withinHoursOf = "Within hours of:";
+
+        /**
+         * These toasts are sequenced to be intuitive by being based on the
+         * sequence of answers that the user types into the form.
+         * The first questions have the first warnings and so forth.
+         */
         if (restriction == null) {
+            //the null restriction test is meant for unit testing
             return R.string.warn_null_restriction;
         } else if (restriction.polyline == null) {
             //actually this condition is not being handled properly
@@ -92,7 +100,7 @@ public class CheckExceptions {
             //unless they selected 2 or more points
             //so this check should be unnecessary
             return R.string.warn_select_restriction;
-        } else if (selectedTypeId == -1) {
+        } else if (!typeIsSelected) {
             return R.string.warning_no_type;
         } else if (restriction.type.equals("")) {
             return R.string.warning_no_type;
@@ -109,13 +117,13 @@ public class CheckExceptions {
             return R.string.warning_no_permit_district;
         } else if (restriction.days.equals("0000000")) {
             return R.string.warning_no_days;
-        } else if (selectedLengthId == -1) {
+        } else if (!lengthIsSelected) {
             return R.string.warning_no_length;
         } else if (length.equals(withinHoursOf) && restriction.start_time.equals("undefined")) {
             return R.string.warning_no_from;
         } else if (length.equals(withinHoursOf) && restriction.end_time.equals("undefined")) {
             return R.string.warning_no_to;
-        } else if (selectedAngleId == -1) {
+        } else if (!angleIsSelected) {
             return R.string.warning_no_angle;
         } else {
             //no errors and good to go
@@ -143,7 +151,7 @@ public class CheckExceptions {
         RestrictionDao restrictionDao = db.getRestrictionDao();
         restrictionDao.insertAll(restriction);
     }
-
 }
+
 
 

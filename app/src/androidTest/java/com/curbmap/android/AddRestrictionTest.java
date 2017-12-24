@@ -53,7 +53,7 @@ public class AddRestrictionTest {
         onView(withContentDescription("Google Map")).perform(click());
         for (int x = 300; x < 800; x += 300) {
             for (int y = 1000; y < 1500; y += 300) {
-                uiDevice.click(x,y);
+                uiDevice.click(x, y);
                 pauseTestFor(300);
             }
         }
@@ -80,7 +80,7 @@ public class AddRestrictionTest {
                 .perform(click());
         for (int x = 300; x < 800; x += 300) {
             for (int y = 1000; y < 1500; y += 300) {
-                uiDevice.click(x,y);
+                uiDevice.click(x, y);
                 pauseTestFor(300);
             }
         }
@@ -105,7 +105,7 @@ public class AddRestrictionTest {
         onView(withContentDescription("Google Map")).perform(click());
         for (int x = 300; x < 800; x += 300) {
             for (int y = 1000; y < 1500; y += 300) {
-                uiDevice.click(x,y);
+                uiDevice.click(x, y);
                 pauseTestFor(300);
             }
         }

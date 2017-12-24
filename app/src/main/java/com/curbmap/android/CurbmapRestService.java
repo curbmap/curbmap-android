@@ -4,12 +4,16 @@ package com.curbmap.android;
 import com.curbmap.android.models.db.SignUpResponse;
 import com.curbmap.android.models.db.User;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface CurbmapRestService {
@@ -48,5 +52,18 @@ public interface CurbmapRestService {
             @Field("password") String password,
             @Field("email") String email
     );
+
+
+    //https://curbmap.com:50003/imageUpload
+    @POST("imageUpload")
+    @Multipart
+    Call<String> doUploadImage(
+            @Header("username") String username,
+            @Header("session") String session,
+
+            @Part MultipartBody.Part image,
+            @Part("olc") RequestBody olc
+    );
+
 
 }

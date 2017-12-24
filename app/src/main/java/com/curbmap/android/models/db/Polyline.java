@@ -12,6 +12,12 @@ public class Polyline {
 
     public List<LatLng> coordinatesList;
 
+    //meant to help us do unit testing
+    //this should be removed once unit testing is better...
+    public Polyline() {
+
+    }
+
     public Polyline(List<LatLng> coordinatesList) {
         this.coordinatesList = coordinatesList;
     }

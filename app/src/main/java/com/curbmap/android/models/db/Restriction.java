@@ -51,16 +51,17 @@ public class Restriction {
     /**
      * Create the Restriction object
      * The object containing information about a parking restriction at a polyline
-     * @param polyline The line describing the location of the parking restriction.
-     *                 This is a line with multiple straight segments.
-     * @param type The type of parking restriction.
-     * @param days The days that the parking restriction is in effect.
-     * @param start_time The time that the parking restriction starts.
-     * @param end_time The time that the parking restriction ends.
-     * @param angle The angle of parking.
-     * @param time_limit The time limit for the parking restriction, if any.
-     * @param cost The cost for the parking restriction, if any.
-     * @param per The duration used to count the cost of the parking restriction, if any.
+     *
+     * @param polyline       The line describing the location of the parking restriction.
+     *                       This is a line with multiple straight segments.
+     * @param type           The type of parking restriction.
+     * @param days           The days that the parking restriction is in effect.
+     * @param start_time     The time that the parking restriction starts.
+     * @param end_time       The time that the parking restriction ends.
+     * @param angle          The angle of parking.
+     * @param time_limit     The time limit for the parking restriction, if any.
+     * @param cost           The cost for the parking restriction, if any.
+     * @param per            The duration used to count the cost of the parking restriction, if any.
      * @param permitDistrict The permit district for the parking restriction for
      *                       permit parking restrictions.
      */
@@ -90,16 +91,17 @@ public class Restriction {
     /**
      * Create the Restriction object
      * The object containing information about a parking restriction at a polyline
+     *
      * @param polylineString The line describing the location of the parking restriction.
-     *                 This is a line with multiple straight segments.
-     * @param type The type of parking restriction.
-     * @param days The days that the parking restriction is in effect.
-     * @param start_time The time that the parking restriction starts.
-     * @param end_time The time that the parking restriction ends.
-     * @param angle The angle of parking.
-     * @param time_limit The time limit for the parking restriction, if any.
-     * @param cost The cost for the parking restriction, if any.
-     * @param per The duration used to count the cost of the parking restriction, if any.
+     *                       This is a line with multiple straight segments.
+     * @param type           The type of parking restriction.
+     * @param days           The days that the parking restriction is in effect.
+     * @param start_time     The time that the parking restriction starts.
+     * @param end_time       The time that the parking restriction ends.
+     * @param angle          The angle of parking.
+     * @param time_limit     The time limit for the parking restriction, if any.
+     * @param cost           The cost for the parking restriction, if any.
+     * @param per            The duration used to count the cost of the parking restriction, if any.
      * @param permitDistrict The permit district for the parking restriction for
      *                       permit parking restrictions.
      */
@@ -131,7 +133,6 @@ public class Restriction {
 
 
     }
-
 
 
     public String getDays() {

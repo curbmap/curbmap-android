@@ -172,5 +172,10 @@
     <string name="link_open_source_licenses">https://github.com/hexicle/MarkerMap/wiki/App-Open-Source-Licenses</string>
     <string name="credits">Credits</string>
     <string name="warn_null_restriction">The restriction object is null.</string>
+    <string name="add_restriction_photo">Snap Restriction</string>
+    <string name="add_restriction_form">Write Restriction</string>
+    <string name="clear_map">Clear Map</string>
+    <string name="camera_request">curbmap needs camera permissions</string>
+    <string name="write_request">curbmap needs permission to write to external storage</string>
 
 </resources>

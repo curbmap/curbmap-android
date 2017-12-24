@@ -121,11 +121,10 @@ public class CreateRestriction {
             } else {
                 end_time = endTimeObject.getText().toString();
             }
-        }
-        else {
+        } else {
             //todo: refactor this... the code is repetitive
-            start_time="error";
-            end_time="error";
+            start_time = "error";
+            end_time = "error";
         }
 
         int angle;
@@ -178,6 +177,7 @@ public class CreateRestriction {
 
     /**
      * Given the form for adding restrictions, give the string of days
+     *
      * @param view The form for adding restrictions
      * @return 7 character string of days, 1 is checked day.
      * eg "1000000" is Sunday only checked

@@ -1,6 +1,7 @@
 package com.curbmap.android.models.db;
 
 import android.arch.persistence.room.TypeConverter;
+
 import com.google.gson.Gson;
 
 public class PolylineConverter {
