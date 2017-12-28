@@ -34,7 +34,7 @@ public class SignUpResponse {
                         "Password must have at least one each of " +
                         "special, capital, lower and number " +
                         "characters.";
-            case  -4:
+            case -4:
                 return "Email does not meet criteria. " +
                         "Please fix your email address.";
             case -5:
@@ -58,7 +58,6 @@ public class SignUpResponse {
     public void setSuccess(int success) {
         this.success = success;
     }
-
 
 
 }

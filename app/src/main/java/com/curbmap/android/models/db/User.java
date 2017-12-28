@@ -30,9 +30,6 @@ public class User {
     String session;
 
 
-
-
-
     public String makeString() {
         String result = "";
         result += "username : " + this.getUsername();
@@ -43,8 +40,6 @@ public class User {
         result += ", session : " + this.getSession();
         return result;
     }
-
-
 
 
     public String getUsername() {

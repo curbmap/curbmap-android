@@ -120,7 +120,7 @@ public class UserSigninFragment extends Fragment {
                             "Signed in!",
                             Toast.LENGTH_LONG)
                             .show();
-                    Log.d(TAG,response.body().makeString());
+                    Log.d(TAG, response.body().makeString());
                     User user = response.body();
 
                     UserAppDatabase db = Room.databaseBuilder(
