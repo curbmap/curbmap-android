@@ -62,7 +62,8 @@ public interface CurbmapRestService {
             @Header("session") String session,
 
             @Part MultipartBody.Part image,
-            @Part("olc") RequestBody olc
+            @Part("olc") RequestBody olc,
+            @Part("bearing") RequestBody bearing
     );
 
 

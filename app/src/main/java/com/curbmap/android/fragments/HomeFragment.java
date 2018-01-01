@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
 import com.curbmap.android.controller.MapController;
+import com.curbmap.android.models.Compass;
 import com.curbmap.android.models.OpenLocationCode;
 import com.curbmap.android.models.db.Polyline;
 import com.curbmap.android.models.db.User;
@@ -83,8 +84,12 @@ public class HomeFragment extends Fragment
 
     final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1;
+
+    //minimum time in miliseconds before update location
+    private static final long MIN_TIME = 200;
+
+    //minimum distance user moved in meters before update location
+    private static final float MIN_DISTANCE = 0.5f;
     int DEFAULT_ZOOM_LEVEL = 18;
     MapView mapView;
     View view;
@@ -98,6 +103,8 @@ public class HomeFragment extends Fragment
     private LocationManager locationManager;
     Location mLocation;
     String imagePath;
+    Compass compass;
+    float azimuth;
 
     Button addResBtn;
     Button clearBtn;
@@ -125,7 +132,7 @@ public class HomeFragment extends Fragment
                 map.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
 
-                MapController.getMarkers(map, coordinatesList, username);
+                //MapController.getMarkers(map, coordinatesList, username);
 
             }
         }
@@ -149,6 +156,13 @@ public class HomeFragment extends Fragment
         this.mContext = this.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //initialize the compass..
+        //please note the compass takes some time to initialize
+        //right now we do not have to do any async because we assume that the compass will
+        //initialize by the time the user presses the snap restriction button
+        //since that is when we record the azimuth
+        compass = new Compass(this.getContext());
+        compass.start();
 
         ImageView menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
         menu_icon.setOnClickListener(new View.OnClickListener() {
@@ -250,10 +264,14 @@ public class HomeFragment extends Fragment
             //bookmark
 
             String olcString = "";
+
+            //12 is about the size of a parking spot
+            final int OLC_LENGTH = 12;
             if (mLocation != null) {
                 OpenLocationCode code = new OpenLocationCode(
                         mLocation.getLatitude(),
-                        mLocation.getLongitude()
+                        mLocation.getLongitude(),
+                        OLC_LENGTH
                 );
                 olcString = code.getCode();
             }
@@ -276,8 +294,11 @@ public class HomeFragment extends Fragment
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
             RequestBody olc = RequestBody.create(MediaType.parse("text/plain"), olcString);
+            RequestBody bearing = RequestBody.create(
+                    MediaType.parse("text/plain"),
+                    String.valueOf(azimuth));
 
-            Log.d(TAG, olcString);
+            Log.d("olc is", olcString);
 
 
             UserAppDatabase db = Room.databaseBuilder(
@@ -307,19 +328,29 @@ public class HomeFragment extends Fragment
                     username,
                     session,
                     body,
-                    olc
+                    olc,
+                    bearing
             );
 
             results.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d(TAG,response.body());
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Succeeded in uploading image.");
                         Toast.makeText(view.getContext(),
                                 "Succeeded in uploading image.",
-                                Toast.LENGTH_SHORT)
+                                Toast.LENGTH_LONG)
+                                .show();
+                    } else {
+                        Log.d(TAG, "Server rejected image upload.");
+                        Toast.makeText(view.getContext(),
+                                "Server rejected image upload." +
+                                response.body(),
+                                Toast.LENGTH_LONG)
                                 .show();
                     }
+
                 }
 
                 @Override
@@ -457,7 +488,7 @@ public class HomeFragment extends Fragment
 
                 Log.d("username", username);
 
-                MapController.getMarkers(map, coordinatesList, username);
+                //MapController.getMarkers(map, coordinatesList, username);
             }
         });
 
@@ -551,6 +582,9 @@ public class HomeFragment extends Fragment
 
                             Uri _fileUri = Uri.fromFile(_photoFile);
 
+
+                            Log.d("compass azimuth", String.valueOf(compass.getAzimuth()));
+                            azimuth = compass.getAzimuth();
 
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, _fileUri);
