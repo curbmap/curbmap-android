@@ -1,40 +1,46 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.curbmap.android.models.db.RestrictionAppDatabase;
-import com.curbmap.android.MyAdapter;
 import com.curbmap.android.R;
-import com.curbmap.android.models.db.Restriction;
-import com.curbmap.android.models.db.RestrictionDao;
+import com.curbmap.android.models.db.AppDatabase;
+import com.curbmap.android.models.db.RestrictionAccessor;
 
-import java.util.List;
-
+/**
+ * The fragment for displaying all of the contributions made by the user.
+ * As of now, it only displays all contributions made using the form on the device
+ * that the user is currently using.
+ */
 public class YourContributionsFragment extends Fragment {
-
-
-    View myView;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private String TAG = "YourContributions";
+    View myView;
 
     @Nullable
     @Override
@@ -45,63 +51,19 @@ public class YourContributionsFragment extends Fragment {
 
 
         ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             DrawerLayout drawer = (DrawerLayout)
-                                                     getActivity()
-                                                             .getWindow()
-                                                             .getDecorView()
-                                                             .findViewById(R.id.drawer_layout);
-                                             drawer.openDrawer(GravityCompat.START);
-                                         }
-                                     }
+        menu_icon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DrawerLayout drawer = (DrawerLayout)
+                                getActivity()
+                                        .getWindow()
+                                        .getDecorView()
+                                        .findViewById(R.id.drawer_layout);
+                        drawer.openDrawer(GravityCompat.START);
+                    }
+                }
         );
-
-
-        RestrictionAppDatabase db = Room.databaseBuilder(myView.getContext(),
-                RestrictionAppDatabase.class,
-                "restrictions")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
-        final RestrictionDao restrictionDao = db.getRestrictionDao();
-        List<Restriction> listOfRestrictions = restrictionDao.getAll();
-
-        //todo: sort by latest entries first
-        String allCards = "";
-        for (Restriction restriction : listOfRestrictions) {
-            allCards += restriction.getCard() + "\n\n";
-        }
-        if (allCards.equals("")) {
-            allCards = getString(R.string.info_no_restrictions);
-        }
-
-
-        mRecyclerView = myView.findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(myView.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        String[] myDataset = new String[listOfRestrictions.size()];
-        int index = 0;
-        for (Restriction restriction : listOfRestrictions) {
-            myDataset[index] = restriction.getCard();
-            index++;
-        }
-
-        mAdapter = new MyAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        final TextView yourContributions = myView.findViewById(R.id.yourContributionsText);
-        //yourContributions.setText(allCards);
 
         Button clearContributionsButton = myView.findViewById(R.id.clearContributionsButton);
         clearContributionsButton.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +75,11 @@ public class YourContributionsFragment extends Fragment {
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                restrictionDao.deleteAll();
-                                yourContributions.setText("");
+                                RestrictionAccessor.deleteAllRestriction(
+                                        AppDatabase.getRestrictionAppDatabase(
+                                                getContext()
+                                        )
+                                );
 
                                 Toast.makeText(myView.getContext(),
                                         getString(R.string.success_clear_contributions),
@@ -127,7 +92,7 @@ public class YourContributionsFragment extends Fragment {
 
 
         Button emailContributionsButton = myView.findViewById(R.id.emailContributionsButton);
-        final String finalAllCards = allCards;
+        final String finalAllCards = "all cards";
         emailContributionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
