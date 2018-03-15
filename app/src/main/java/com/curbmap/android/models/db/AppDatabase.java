@@ -21,7 +21,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 @Database(entities = {Restriction.class, User.class, UserAuth.class},
-        version = 2,
+        version = 3,
         exportSchema = false)
 @TypeConverters({PolylineConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
