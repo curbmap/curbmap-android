@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.fragments;
 
 import android.app.Fragment;
@@ -19,22 +33,36 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.controller.addRestriction.HandleSubmit;
-import com.curbmap.android.models.SetTime;
+import com.curbmap.android.controller.handleTextRestriction.HandleSubmit;
+import com.curbmap.android.models.lib.SetTime;
 
+/**
+ * The fragment for adding a restriction using the
+ * manual restriction description form
+ * as opposed to simply taking a photo of the restriction
+ */
 public class AddRestrictionFragment extends Fragment {
     View myView;
 
     private String TAG = "AddRestrictionFragment";
 
-    private void selectAllDays(View parentView) {
-        CheckBox sunday = parentView.findViewById(R.id.sunday);
-        CheckBox monday = parentView.findViewById(R.id.monday);
-        CheckBox tuesday = parentView.findViewById(R.id.tuesday);
-        CheckBox wednesday = parentView.findViewById(R.id.wednesday);
-        CheckBox thursday = parentView.findViewById(R.id.thursday);
-        CheckBox friday = parentView.findViewById(R.id.friday);
-        CheckBox saturday = parentView.findViewById(R.id.saturday);
+    /**
+     * Given a view with the CheckBoxes names sunday through saturday
+     * Check all of the boxes in the view.
+     * For example, when we select a fire hydrant, we call selectAllDays(View v)
+     * so that all days are selected
+     * We have to send in the parentview and not the
+     *
+     * @param view The view which contains the checkboxes
+     */
+    private void selectAllDays(View view) {
+        CheckBox sunday = view.findViewById(R.id.sunday);
+        CheckBox monday = view.findViewById(R.id.monday);
+        CheckBox tuesday = view.findViewById(R.id.tuesday);
+        CheckBox wednesday = view.findViewById(R.id.wednesday);
+        CheckBox thursday = view.findViewById(R.id.thursday);
+        CheckBox friday = view.findViewById(R.id.friday);
+        CheckBox saturday = view.findViewById(R.id.saturday);
 
         sunday.setChecked(true);
         monday.setChecked(true);
@@ -55,17 +83,18 @@ public class AddRestrictionFragment extends Fragment {
 
 
         ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             DrawerLayout drawer = (DrawerLayout)
-                                                     getActivity()
-                                                             .getWindow()
-                                                             .getDecorView()
-                                                             .findViewById(R.id.drawer_layout);
-                                             drawer.openDrawer(GravityCompat.START);
-                                         }
-                                     }
+        menu_icon.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DrawerLayout drawer = (DrawerLayout)
+                                getActivity()
+                                        .getWindow()
+                                        .getDecorView()
+                                        .findViewById(R.id.drawer_layout);
+                        drawer.openDrawer(GravityCompat.START);
+                    }
+                }
         );
 
         Button submitButton = myView.findViewById(R.id.submitButton);
@@ -124,4 +153,6 @@ public class AddRestrictionFragment extends Fragment {
 
         return myView;
     }
+
+
 }

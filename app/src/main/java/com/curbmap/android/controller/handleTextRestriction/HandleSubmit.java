@@ -1,4 +1,18 @@
-package com.curbmap.android.controller.addRestriction;
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.curbmap.android.controller.handleTextRestriction;
 
 import android.content.Context;
 import android.view.View;
@@ -6,7 +20,6 @@ import android.widget.RadioGroup;
 
 import com.curbmap.android.R;
 import com.curbmap.android.models.db.Restriction;
-import com.curbmap.android.models.db.RestrictionDao;
 
 public class HandleSubmit {
     static final String TAG = "HandleSubmit";
@@ -21,11 +34,6 @@ public class HandleSubmit {
     public static boolean submitAddRestriction(
             View view,
             String polylineString) {
-
-        //although we restrictionDao as null, it should work properly.
-        //...this is just an intricacy of Room.
-        RestrictionDao restrictionDao = null;
-
         Restriction restriction = CreateRestriction.createRestriction(view, polylineString);
 
         RadioGroup typeRadioGroup = view.findViewById(R.id.typeOfRestrictionRadioGroup);
@@ -57,7 +65,6 @@ public class HandleSubmit {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -70,6 +77,4 @@ public class HandleSubmit {
     static String getViewString(View view, int id) {
         return view.getContext().getResources().getString(id);
     }
-
-
 }
