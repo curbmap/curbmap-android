@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_marginStart="20dp">
+
+    <include layout="@layout/menu_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/addRestrictionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_restriction"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/title_size"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/scrollViewForAddRestriction"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/addRestrictionTitle"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/relativeLayoutForAddRestriction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/content_type_restriction"
+                android:id="@+id/typeOfRestrictionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/daysOfRestriction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/typeOfRestrictionLayout"
+                android:layout_marginTop="11dp"
+                android:text="@string/days_of_restriction"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/sunday"
+                android:layout_width="110sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/daysOfRestriction"
+                android:text="@string/sunday" />
+
+            <CheckBox
+                android:id="@+id/monday"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/daysOfRestriction"
+                android:layout_toEndOf="@+id/sunday"
+                android:text="@string/monday" />
+
+            <CheckBox
+                android:id="@+id/tuesday"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/monday"
+                android:layout_alignBottom="@+id/monday"
+                android:layout_toEndOf="@+id/monday"
+                android:text="@string/tuesday" />
+
+            <CheckBox
+                android:id="@+id/wednesday"
+                android:layout_width="110sp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tuesday"
+                android:text="@string/wednesday" />
+
+            <CheckBox
+                android:id="@+id/thursday"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/wednesday"
+                android:layout_toEndOf="@+id/wednesday"
+                android:text="@string/thursday" />
+
+            <CheckBox
+                android:id="@+id/friday"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monday"
+                android:layout_toEndOf="@+id/thursday"
+                android:text="@string/friday" />
+
+            <CheckBox
+                android:id="@+id/saturday"
+                android:layout_width="110sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/friday"
+                android:text="@string/saturday" />
+
+            <TextView
+                android:id="@+id/lengthOfRestriction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/saturday"
+                android:text="@string/length_of_restriction"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/lengthOfRestrictionRadioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lengthOfRestriction"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/allDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_day" />
+
+                <RadioButton
+                    android:id="@+id/withinHoursOf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/within_hours_of" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/fromLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/lengthOfRestrictionRadioGroup"
+                android:layout_marginTop="12dp"
+                android:labelFor="@+id/fromTime"
+                android:text="@string/from" />
+
+            <EditText
+                android:id="@+id/fromTime"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/fromLabel"
+                android:layout_alignBottom="@+id/fromLabel"
+                android:layout_toEndOf="@+id/fromLabel"
+                android:ems="10"
+                android:inputType="time" />
+
+
+            <TextView
+                android:id="@+id/toLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/toTime"
+                android:layout_alignBottom="@+id/toTime"
+                android:layout_toStartOf="@+id/toTime"
+                android:labelFor="@+id/toTime"
+                android:text="@string/to" />
+
+            <EditText
+                android:id="@+id/toTime"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/parkingAngle"
+                android:layout_alignEnd="@+id/headInImage"
+                android:layout_marginEnd="15dp"
+                android:ems="10"
+                android:inputType="time" />
+
+            <TextView
+                android:id="@+id/parkingAngle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/fromTime"
+                android:text="@string/parking_angle"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/parkingAngleRadioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/parkingAngle"
+                android:layout_marginEnd="3dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/parallel"
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/parallel" />
+
+                <RadioButton
+                    android:id="@+id/angled"
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/angled" />
+
+                <RadioButton
+                    android:id="@+id/headIn"
+                    android:layout_width="90sp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/head_in" />
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/parallelImage"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/parkingAngleRadioGroup"
+                android:contentDescription="@string/description_parallel_image"
+                app:srcCompat="@drawable/angle_parallel" />
+
+            <ImageView
+                android:id="@+id/angledImage"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/parkingAngleRadioGroup"
+                android:layout_toEndOf="@+id/parallelImage"
+                android:contentDescription="@string/description_angled_image"
+                app:srcCompat="@drawable/angle_angled" />
+
+            <ImageView
+                android:id="@+id/headInImage"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/parkingAngleRadioGroup"
+                android:layout_toEndOf="@+id/angledImage"
+                android:contentDescription="@string/description_head_in_image"
+                app:srcCompat="@drawable/angle_headin" />
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/submit" />
+
+</RelativeLayout>
