@@ -35,7 +35,10 @@ import android.widget.Toast;
 import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
 import com.curbmap.android.controller.MapController;
+<<<<<<< HEAD
 import com.curbmap.android.models.Compass;
+=======
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
 import com.curbmap.android.models.OpenLocationCode;
 import com.curbmap.android.models.db.Polyline;
 import com.curbmap.android.models.db.User;
@@ -84,12 +87,17 @@ public class HomeFragment extends Fragment
 
     final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
+<<<<<<< HEAD
 
     //minimum time in miliseconds before update location
     private static final long MIN_TIME = 200;
 
     //minimum distance user moved in meters before update location
     private static final float MIN_DISTANCE = 0.5f;
+=======
+    private static final long MIN_TIME = 400;
+    private static final float MIN_DISTANCE = 1;
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
     int DEFAULT_ZOOM_LEVEL = 18;
     MapView mapView;
     View view;
@@ -103,8 +111,11 @@ public class HomeFragment extends Fragment
     private LocationManager locationManager;
     Location mLocation;
     String imagePath;
+<<<<<<< HEAD
     Compass compass;
     float azimuth;
+=======
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
 
     Button addResBtn;
     Button clearBtn;
@@ -132,7 +143,11 @@ public class HomeFragment extends Fragment
                 map.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
 
+<<<<<<< HEAD
                 //MapController.getMarkers(map, coordinatesList, username);
+=======
+                MapController.getMarkers(map, coordinatesList, username);
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
 
             }
         }
@@ -156,6 +171,7 @@ public class HomeFragment extends Fragment
         this.mContext = this.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
+<<<<<<< HEAD
         //initialize the compass..
         //please note the compass takes some time to initialize
         //right now we do not have to do any async because we assume that the compass will
@@ -163,6 +179,8 @@ public class HomeFragment extends Fragment
         //since that is when we record the azimuth
         compass = new Compass(this.getContext());
         compass.start();
+=======
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
 
         ImageView menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
         menu_icon.setOnClickListener(new View.OnClickListener() {
@@ -264,6 +282,7 @@ public class HomeFragment extends Fragment
             //bookmark
 
             String olcString = "";
+<<<<<<< HEAD
 
             //12 is about the size of a parking spot
             final int OLC_LENGTH = 12;
@@ -272,6 +291,12 @@ public class HomeFragment extends Fragment
                         mLocation.getLatitude(),
                         mLocation.getLongitude(),
                         OLC_LENGTH
+=======
+            if (mLocation != null) {
+                OpenLocationCode code = new OpenLocationCode(
+                        mLocation.getLatitude(),
+                        mLocation.getLongitude()
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
                 );
                 olcString = code.getCode();
             }
@@ -294,11 +319,16 @@ public class HomeFragment extends Fragment
             RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
             RequestBody olc = RequestBody.create(MediaType.parse("text/plain"), olcString);
+<<<<<<< HEAD
             RequestBody bearing = RequestBody.create(
                     MediaType.parse("text/plain"),
                     String.valueOf(azimuth));
 
             Log.d("olc is", olcString);
+=======
+
+            Log.d(TAG, olcString);
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
 
 
             UserAppDatabase db = Room.databaseBuilder(
@@ -328,18 +358,26 @@ public class HomeFragment extends Fragment
                     username,
                     session,
                     body,
+<<<<<<< HEAD
                     olc,
                     bearing
+=======
+                    olc
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
             );
 
             results.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
+<<<<<<< HEAD
                     Log.d(TAG,response.body());
+=======
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Succeeded in uploading image.");
                         Toast.makeText(view.getContext(),
                                 "Succeeded in uploading image.",
+<<<<<<< HEAD
                                 Toast.LENGTH_LONG)
                                 .show();
                     } else {
@@ -351,6 +389,11 @@ public class HomeFragment extends Fragment
                                 .show();
                     }
 
+=======
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
                 }
 
                 @Override
@@ -488,7 +531,11 @@ public class HomeFragment extends Fragment
 
                 Log.d("username", username);
 
+<<<<<<< HEAD
                 //MapController.getMarkers(map, coordinatesList, username);
+=======
+                MapController.getMarkers(map, coordinatesList, username);
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
             }
         });
 
@@ -583,9 +630,12 @@ public class HomeFragment extends Fragment
                             Uri _fileUri = Uri.fromFile(_photoFile);
 
 
+<<<<<<< HEAD
                             Log.d("compass azimuth", String.valueOf(compass.getAzimuth()));
                             azimuth = compass.getAzimuth();
 
+=======
+>>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, _fileUri);
                             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
