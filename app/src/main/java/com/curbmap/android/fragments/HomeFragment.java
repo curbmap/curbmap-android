@@ -39,19 +39,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.curbmap.android.R;
-<<<<<<< HEAD
 import com.curbmap.android.controller.CheckPermissions;
 import com.curbmap.android.controller.handleImageRestriction.CaptureImage;
 import com.curbmap.android.controller.handleImageRestriction.CaptureImageObject;
 import com.curbmap.android.controller.handleImageRestriction.UploadOneImage;
-=======
-import com.curbmap.android.controller.MapController;
-<<<<<<< HEAD
-import com.curbmap.android.models.Compass;
-=======
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-import com.curbmap.android.models.OpenLocationCode;
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
 import com.curbmap.android.models.db.Polyline;
 import com.curbmap.android.models.lib.Compass;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -85,7 +76,6 @@ public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
     private static final int REQUEST_IMAGE_CAPTURE = 111;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-<<<<<<< HEAD
     //minimum time in milliseconds before update location
     private static final long MIN_TIME = 500;
     //minimum distance user moved in meters before update location
@@ -94,19 +84,6 @@ public class HomeFragment extends Fragment
     final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     public List<LatLng> coordinatesList = new ArrayList<>();
-=======
-<<<<<<< HEAD
-
-    //minimum time in miliseconds before update location
-    private static final long MIN_TIME = 200;
-
-    //minimum distance user moved in meters before update location
-    private static final float MIN_DISTANCE = 0.5f;
-=======
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1;
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
     int DEFAULT_ZOOM_LEVEL = 18;
     MapView mapView;
     View view;
@@ -117,16 +94,8 @@ public class HomeFragment extends Fragment
     int numberOfMarkers = 0;
     Location mLocation;
     String imagePath;
-<<<<<<< HEAD
     Compass compass;
     float azimuth;
-=======
-<<<<<<< HEAD
-    Compass compass;
-    float azimuth;
-=======
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
 
     Button addResBtn;
     Button clearBtn;
@@ -147,15 +116,6 @@ public class HomeFragment extends Fragment
                 map.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                //MapController.getMarkers(map, coordinatesList, username);
-=======
-                MapController.getMarkers(map, coordinatesList, username);
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
             }
         }
 
@@ -178,13 +138,9 @@ public class HomeFragment extends Fragment
         this.mContext = this.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-<<<<<<< HEAD
         //initialize the database
         //the database is used every time
 
-=======
-<<<<<<< HEAD
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
         //initialize the compass..
         //please note the compass takes some time to initialize
         //right now we do not have to do any async because we assume that the compass will
@@ -192,11 +148,6 @@ public class HomeFragment extends Fragment
         //since that is when we record the azimuth
         compass = new Compass(this.getContext());
         compass.start();
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
 
         ImageView menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
         menu_icon.setOnClickListener(
@@ -289,7 +240,6 @@ public class HomeFragment extends Fragment
             }
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
-<<<<<<< HEAD
             Log.d(TAG, "Image captured, sending to upload");
             UploadOneImage.uploadOneImage(
                     getContext(),
@@ -297,139 +247,6 @@ public class HomeFragment extends Fragment
                     mLocation,
                     azimuth
             );
-=======
-            String filePath = imagePath;
-            File file = new File(filePath);
-
-            Log.d(TAG, "reached here ");
-            //bookmark
-
-            String olcString = "";
-<<<<<<< HEAD
-
-            //12 is about the size of a parking spot
-            final int OLC_LENGTH = 12;
-            if (mLocation != null) {
-                OpenLocationCode code = new OpenLocationCode(
-                        mLocation.getLatitude(),
-                        mLocation.getLongitude(),
-                        OLC_LENGTH
-=======
-            if (mLocation != null) {
-                OpenLocationCode code = new OpenLocationCode(
-                        mLocation.getLatitude(),
-                        mLocation.getLongitude()
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-                );
-                olcString = code.getCode();
-            }
-
-
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-            final String BASE_URL = "https://curbmap.com:50003/";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(client)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .build();
-
-            CurbmapRestService service = retrofit.create(CurbmapRestService.class);
-
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
-            RequestBody olc = RequestBody.create(MediaType.parse("text/plain"), olcString);
-<<<<<<< HEAD
-            RequestBody bearing = RequestBody.create(
-                    MediaType.parse("text/plain"),
-                    String.valueOf(azimuth));
-
-            Log.d("olc is", olcString);
-=======
-
-            Log.d(TAG, olcString);
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-
-
-            UserAppDatabase db = Room.databaseBuilder(
-                    getContext(),
-                    UserAppDatabase.class,
-                    "user")
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build();
-            final UserDao userDao = db.getUserDao();
-
-            username = "curbmaptest";
-            String session = "x";
-
-            User user = userDao.getUser();
-            //only if user is signed in
-            if (user != null) {
-                username = user.getUsername();
-                session = user.getSession();
-            }
-
-            Log.d("username", username);
-            Log.d("session", session);
-
-            //the current map area displayed on user's phone
-            Call<String> results = service.doUploadImage(
-                    username,
-                    session,
-                    body,
-<<<<<<< HEAD
-                    olc,
-                    bearing
-=======
-                    olc
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-            );
-
-            results.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-<<<<<<< HEAD
-                    Log.d(TAG,response.body());
-=======
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-                    if (response.isSuccessful()) {
-                        Log.d(TAG, "Succeeded in uploading image.");
-                        Toast.makeText(view.getContext(),
-                                "Succeeded in uploading image.",
-<<<<<<< HEAD
-                                Toast.LENGTH_LONG)
-                                .show();
-                    } else {
-                        Log.d(TAG, "Server rejected image upload.");
-                        Toast.makeText(view.getContext(),
-                                "Server rejected image upload." +
-                                response.body(),
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-
-=======
-                                Toast.LENGTH_SHORT)
-                                .show();
-                    }
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.e(TAG, "Failed to upload image.");
-                    t.printStackTrace();
-                    Toast.makeText(view.getContext(),
-                            "Failed to upload image.",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
         }
     }
 
@@ -519,42 +336,11 @@ public class HomeFragment extends Fragment
         map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-<<<<<<< HEAD
                 /**
                  * This section of the code is empty right now because
                  * we do not have any loading of markers. However,
                  * when we want to load markers we would add the code here.
                  */
-=======
-                // Cleaning all the markers.
-                if (map != null) {
-                    //map.clear();
-                }
-                UserAppDatabase db = Room.databaseBuilder(
-                        getContext(),
-                        UserAppDatabase.class,
-                        "user")
-                        .allowMainThreadQueries()
-                        .fallbackToDestructiveMigration()
-                        .build();
-                final UserDao userDao = db.getUserDao();
-
-                String username = "curbmaptest";
-
-                User user = userDao.getUser();
-                //only if user is signed in
-                if (user != null) {
-                    username = user.getUsername();
-                }
-
-                Log.d("username", username);
-
-<<<<<<< HEAD
-                //MapController.getMarkers(map, coordinatesList, username);
-=======
-                MapController.getMarkers(map, coordinatesList, username);
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
             }
         });
 
@@ -619,7 +405,6 @@ public class HomeFragment extends Fragment
         addResBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
 
                 CaptureImageObject captureImageObject = CaptureImage.captureImage(
                         getActivity(),
@@ -635,55 +420,6 @@ public class HomeFragment extends Fragment
                         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                             Log.d(TAG, "starting take picture intent");
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-=======
-                if (MapController.checkCameraPermission(getActivity(), getContext())) {
-                    if (MapController.checkWritePermission(getActivity(), getContext())) {
-
-                        String storageState = Environment.getExternalStorageState();
-                        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
-
-                            String path = Environment.getExternalStorageDirectory() + "/Android/data/" + getContext().getPackageName() + "/files/curbmap.jpg";
-                            imagePath = path;
-
-                            File _photoFile = new File(path);
-                            Log.d("the path is ", path);
-                            try {
-                                if (_photoFile.exists() == false) {
-                                    _photoFile.getParentFile().mkdirs();
-                                    _photoFile.createNewFile();
-                                    Log.d(TAG, "created new file");
-                                } else {
-                                    _photoFile.delete();
-                                    _photoFile.getParentFile().mkdirs();
-                                    _photoFile.createNewFile();
-                                    Log.d(TAG, "replaced old file");
-                                }
-
-                            } catch (IOException e) {
-                                Log.e(TAG, "Could not create file.", e);
-                            }
-                            Log.i(TAG, path);
-
-                            Uri _fileUri = Uri.fromFile(_photoFile);
-
-
-<<<<<<< HEAD
-                            Log.d("compass azimuth", String.valueOf(compass.getAzimuth()));
-                            azimuth = compass.getAzimuth();
-
-=======
->>>>>>> 975f200cad4f88516c3c6ebcc1a93a47b98c30fc
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, _fileUri);
-                            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-                            }
-                        } else {
-                            new AlertDialog.Builder(getContext())
-                                    .setMessage("External Storage (SD Card) is required.\n\nCurrent state: " + storageState)
-                                    .setCancelable(true).create().show();
->>>>>>> e9aa4e80ed6dd78e4500f401405ce3a34bf8acac
                         }
                     } else {
                         Log.e(TAG, "takePictureIntent is null");
