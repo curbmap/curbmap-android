@@ -26,15 +26,11 @@ import android.content.Context;
 @TypeConverters({PolylineConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     static final String TAG = "AppDatabase";
-
-    public abstract RestrictionDao getRestrictionDao();
-    public abstract UserDao getUserDao();
-    public abstract UserAuthDao getUserAuthDao();
-
     private static AppDatabase INSTANCE;
 
     /**
      * Gets the restriction database
+     *
      * @param context The context of the application
      * @return The restriction database
      */
@@ -55,6 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     /**
      * Gets the user database
+     *
      * @param context The context of the application
      * @return The user database
      */
@@ -75,6 +72,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     /**
      * Gets the UserAuth database
+     *
      * @param context The context of the application
      * @return The UserAuth database
      */
@@ -96,17 +94,23 @@ public abstract class AppDatabase extends RoomDatabase {
     /**
      * Destroys the PersonAppDatabase instance
      * This is important to call whenever an activity is destroyed so that
-     *   we do not have a SqLite leak.
+     * we do not have a SqLite leak.
      * Although it is an option to instantiate it once and keep passing it around
-     *   until an activity is finally destroyed, we choose to instantiate and destroy it
-     *   within every single activity because it reduces the corruptibility of the code.
-     *   Because for example, what if the user somehow ends up in an activity without visiting a prior
-     *   activity? For example due to some app cache mechanism that loads up an acitivity straight away.
-     *   In that case we would have to create the database anyway.
+     * until an activity is finally destroyed, we choose to instantiate and destroy it
+     * within every single activity because it reduces the corruptibility of the code.
+     * Because for example, what if the user somehow ends up in an activity without visiting a prior
+     * activity? For example due to some app cache mechanism that loads up an acitivity straight away.
+     * In that case we would have to create the database anyway.
      * However, if the database becomes too large then it might become necessary for performance
-     *   to only load up the database once and keep passing the object around.
+     * to only load up the database once and keep passing the object around.
      */
     public static void destroyInstance() {
         INSTANCE = null;
     }
+
+    public abstract RestrictionDao getRestrictionDao();
+
+    public abstract UserDao getUserDao();
+
+    public abstract UserAuthDao getUserAuthDao();
 }

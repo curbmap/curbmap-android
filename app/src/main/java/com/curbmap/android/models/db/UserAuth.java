@@ -43,6 +43,7 @@ public class UserAuth {
      * other way to reestablish authentication
      * with the server...
      * These two values should be captured when the user performs login
+     *
      * @param username the user's usernam
      * @param password the user's password
      */
@@ -55,8 +56,10 @@ public class UserAuth {
     public String getUsername() {
         return this.username;
     }
+
     /**
      * Gets the password of the currently logged in user
+     *
      * @return the user's password
      */
     public String getPassword() {
@@ -77,7 +80,8 @@ public class UserAuth {
      * Determines whether or not we should perform a new handshake right now.
      * It is based on how often the user session expires
      * or at least... based on how often we want to renew
-     *   the user session token on the device
+     * the user session token on the device
+     *
      * @return true if we should perform new handshake, false otherwise
      */
     public boolean shouldWeHandShakeRightNow() {
@@ -87,7 +91,7 @@ public class UserAuth {
         long HANDSHAKE_INTERVAL = 86400 * 1000;
         Calendar rightNow = Calendar.getInstance();
         long currentTime = rightNow.getTimeInMillis();
-        long current_interval  = currentTime - this.timeOfLastHandshake;
+        long current_interval = currentTime - this.timeOfLastHandshake;
         return current_interval > HANDSHAKE_INTERVAL;
     }
 

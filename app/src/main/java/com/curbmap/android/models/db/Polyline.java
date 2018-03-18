@@ -33,7 +33,6 @@ public class Polyline {
     }
 
     /**
-     *
      * @param coordinatesList The list of coordinates describing the polyline
      *                        For example, if we have five sequential coordinates in the
      *                        coordinatesList,

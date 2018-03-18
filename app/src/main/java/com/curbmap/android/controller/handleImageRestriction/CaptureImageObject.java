@@ -26,9 +26,10 @@ public class CaptureImageObject {
 
     /**
      * I like cats too :)
+     *
      * @param takePictureIntent The intent that launches the camera to take a picture
-     * @param azimuth The direction the device faces as degrees clockwise from True North
-     * @param imagePath The path that the image should be stored on the device
+     * @param azimuth           The direction the device faces as degrees clockwise from True North
+     * @param imagePath         The path that the image should be stored on the device
      */
     public CaptureImageObject(Intent takePictureIntent, float azimuth, String imagePath) {
         this.takePictureIntent = takePictureIntent;

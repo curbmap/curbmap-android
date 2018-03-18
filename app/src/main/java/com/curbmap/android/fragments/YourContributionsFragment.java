@@ -33,14 +33,25 @@ import com.curbmap.android.R;
 import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.RestrictionAccessor;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * The fragment for displaying all of the contributions made by the user.
  * As of now, it only displays all contributions made using the form on the device
  * that the user is currently using.
  */
 public class YourContributionsFragment extends Fragment {
-    private String TAG = "YourContributions";
     View myView;
+    @BindView(R.id.menu_icon)
+    ImageView menu_icon;
+    @BindView(R.id.clearContributionsButton)
+    Button clearContributionsButton;
+    @BindView(R.id.emailContributionsButton)
+    Button emailContributionsButton;
+    private String TAG = "YourContributions";
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -49,8 +60,8 @@ public class YourContributionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_your_contributions, container, false);
 
+        unbinder = ButterKnife.bind(this, myView);
 
-        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
         menu_icon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -65,7 +76,6 @@ public class YourContributionsFragment extends Fragment {
                 }
         );
 
-        Button clearContributionsButton = myView.findViewById(R.id.clearContributionsButton);
         clearContributionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +101,6 @@ public class YourContributionsFragment extends Fragment {
         });
 
 
-        Button emailContributionsButton = myView.findViewById(R.id.emailContributionsButton);
         final String finalAllCards = "all cards";
         emailContributionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,4 +126,12 @@ public class YourContributionsFragment extends Fragment {
 
         return myView;
     }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 }

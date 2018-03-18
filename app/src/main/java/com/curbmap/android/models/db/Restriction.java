@@ -29,16 +29,16 @@ import java.util.List;
  * curbmap's Open Street Parking Restriction Specification, available on GitHub at
  * https://github.com/curbmap/Open-Street-Parking-Restriction-Specification
  * as reflected by the following format:
- *   id	A GUID for the restriction
- *   type	"sweep"=street sweeping"red"=red zone, "hyd"=hydrant"ppd"=preferential parking district rule
- *   days	An array of 7 boolean values: all days = [true, ..., true], monday = [false, true, false, ..., false]
- *   start time	An integer count of minutes since midnight
- *   end time	An integer count of minutes since midnight
- *   angle	0 = Parallel, 45 = Acute Angled Parking, 90 = Head in parking
- *   updated	UTC time in milliseconds from 1/1/1970
- *   time limit	Optional so may be 0
- *   cost(dollars)	Optional so may be 0.0
- *   per(minutes)	Optional so may be 0
+ * id	A GUID for the restriction
+ * type	"sweep"=street sweeping"red"=red zone, "hyd"=hydrant"ppd"=preferential parking district rule
+ * days	An array of 7 boolean values: all days = [true, ..., true], monday = [false, true, false, ..., false]
+ * start time	An integer count of minutes since midnight
+ * end time	An integer count of minutes since midnight
+ * angle	0 = Parallel, 45 = Acute Angled Parking, 90 = Head in parking
+ * updated	UTC time in milliseconds from 1/1/1970
+ * time limit	Optional so may be 0
+ * cost(dollars)	Optional so may be 0.0
+ * per(minutes)	Optional so may be 0
  */
 @Entity
 public class Restriction {
@@ -234,6 +234,7 @@ public class Restriction {
     /**
      * Retrieves a string that shows the entire list of coordinates contained within the
      * polyline that is associated with the Restriction object
+     *
      * @return String containing list of coordinates within this Restriction object's polyline
      */
     public String getCoordinatesList() {
@@ -252,6 +253,7 @@ public class Restriction {
      * Gets a string of the information contained in the Restriction
      * in a format that is suitable to print in a card object
      * to display to the user in the list of restrictions.
+     *
      * @return
      */
     public String getCard() {

@@ -27,6 +27,7 @@ public class SignUpResponse {
      * as a response to sending a sign-up request to the server
      * This is dependent on the changes made on the server code at
      * https://github.com/curbmap/curbmapbackend-js/tree/master/routes
+     *
      * @return meaning of response of server to our sign-up request
      */
     public String getStatusMessage() {

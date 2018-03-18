@@ -18,9 +18,9 @@ package com.curbmap.android.models.sync;
  * Defines the container for a restriction
  * A ResContainer can contain either an image or form-based restriction
  * this is meant to be a unified container to hold restrictions
- *  for the proper processing of uploading images to the server
- *  and for aligning the restrictions on the gridview
- *  in the user's 'Your Contributions' view
+ * for the proper processing of uploading images to the server
+ * and for aligning the restrictions on the gridview
+ * in the user's 'Your Contributions' view
  */
 public class ResContainer {
 
@@ -29,6 +29,7 @@ public class ResContainer {
      * Gets the file path to the thumbnail that is associated with the restriction
      * For an image-based restriction, returns a thumbnail of the actual image.
      * For a form-based restriction, returns a generic thumbnail based on type of restriction.
+     *
      * @return file path to thumbnail of restriction
      */
     public String getThumbnail() {
@@ -37,10 +38,11 @@ public class ResContainer {
 
     /**
      * Gets the timestamp of a restriction for performing chronological sorting
+     *
      * @return the time the restriction was created by the user in milliseconds since epoch
      */
     public long getTimestamp() {
-       return 0;
+        return 0;
     }
 
     /**

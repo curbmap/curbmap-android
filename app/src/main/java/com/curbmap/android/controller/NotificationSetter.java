@@ -38,9 +38,10 @@ public class NotificationSetter {
 
     /**
      * Schedules a notification for curbmap timer
-     * @param context The context of the application
+     *
+     * @param context      The context of the application
      * @param notification The notification object to schedule
-     * @param delay The delay in milliseconds before broadcasting the notification
+     * @param delay        The delay in milliseconds before broadcasting the notification
      */
     public static void scheduleNotification(Context context, Notification notification, int delay) {
 
@@ -60,6 +61,7 @@ public class NotificationSetter {
 
     /**
      * Creates a notification object to send to the scheduleNotification() function
+     *
      * @param context The context of the application
      * @param content The text to display on the notification
      * @return The notification object which would display the text

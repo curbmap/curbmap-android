@@ -24,8 +24,9 @@ public class RestrictionAccessor {
 
     /**
      * Inserts a restriction into the restriction database
+     *
      * @param restrictionAppDatabase the restriction database
-     * @param restriction the restriction to enter into the restriction database
+     * @param restriction            the restriction to enter into the restriction database
      */
     public static void insertRestriction(AppDatabase restrictionAppDatabase, Restriction restriction) {
         RestrictionDao restrictionDao = restrictionAppDatabase.getRestrictionDao();
@@ -34,6 +35,7 @@ public class RestrictionAccessor {
 
     /**
      * Returns the entire list of restrictions stored in the restriction database
+     *
      * @param restrictionAppDatabase the restriction database
      * @return the list of all restrictions stored in the restriction database
      */
@@ -44,6 +46,7 @@ public class RestrictionAccessor {
 
     /**
      * Deletes all restrictions in the restriction database
+     *
      * @param restrictionAppDatabase the restriction database
      */
     public static void deleteAllRestriction(AppDatabase restrictionAppDatabase) {

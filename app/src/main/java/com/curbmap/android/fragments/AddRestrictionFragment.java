@@ -36,6 +36,10 @@ import com.curbmap.android.R;
 import com.curbmap.android.controller.handleTextRestriction.HandleSubmit;
 import com.curbmap.android.models.lib.SetTime;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * The fragment for adding a restriction using the
  * manual restriction description form
@@ -43,6 +47,46 @@ import com.curbmap.android.models.lib.SetTime;
  */
 public class AddRestrictionFragment extends Fragment {
     View myView;
+
+    @BindView(R.id.menu_icon)
+    ImageView menu_icon;
+    @BindView(R.id.submitButton)
+    Button submitButton;
+    @BindView(R.id.fromTime)
+    EditText startTimeObject;
+    @BindView(R.id.customTypeText)
+    EditText customTypeText;
+    @BindView(R.id.toTime)
+    EditText endTimeObject;
+    @BindView(R.id.typeOfRestrictionRadioGroup)
+    RadioGroup typeRadioGroup;
+    @BindView(R.id.allDay)
+    RadioButton allDay;
+
+    @BindView(R.id.sunday)
+    CheckBox sunday;
+    @BindView(R.id.monday)
+    CheckBox monday;
+    @BindView(R.id.tuesday)
+    CheckBox tuesday;
+    @BindView(R.id.wednesday)
+    CheckBox wednesday;
+    @BindView(R.id.thursday)
+    CheckBox thursday;
+    @BindView(R.id.friday)
+    CheckBox friday;
+    @BindView(R.id.saturday)
+    CheckBox saturday;
+
+
+    /**
+     * The unbinders are used to unbind butterknife on destruction
+     * We have two unbinders because the second one might never be instantiated
+     * unbinderAllDays is only instantiated if
+     */
+    private Unbinder unbinder;
+    private Unbinder unbinderAllDays;
+
 
     private String TAG = "AddRestrictionFragment";
 
@@ -56,14 +100,8 @@ public class AddRestrictionFragment extends Fragment {
      * @param view The view which contains the checkboxes
      */
     private void selectAllDays(View view) {
-        CheckBox sunday = view.findViewById(R.id.sunday);
-        CheckBox monday = view.findViewById(R.id.monday);
-        CheckBox tuesday = view.findViewById(R.id.tuesday);
-        CheckBox wednesday = view.findViewById(R.id.wednesday);
-        CheckBox thursday = view.findViewById(R.id.thursday);
-        CheckBox friday = view.findViewById(R.id.friday);
-        CheckBox saturday = view.findViewById(R.id.saturday);
 
+        unbinderAllDays = ButterKnife.bind(this, myView);
         sunday.setChecked(true);
         monday.setChecked(true);
         tuesday.setChecked(true);
@@ -81,8 +119,8 @@ public class AddRestrictionFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_add_restriction, container, false);
         super.onCreateView(inflater, container, savedInstanceState);
 
+        unbinder = ButterKnife.bind(this, myView);
 
-        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
         menu_icon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -97,11 +135,7 @@ public class AddRestrictionFragment extends Fragment {
                 }
         );
 
-        Button submitButton = myView.findViewById(R.id.submitButton);
-
         final String polylineString = getArguments().getString("polylineString");
-        final EditText startTimeObject = myView.findViewById(R.id.fromTime);
-        final EditText endTimeObject = myView.findViewById(R.id.toTime);
 
         //lets us use clock to set start and end time instead of just typing them in
         //these variables are not used but it instantiates the instance
@@ -109,8 +143,6 @@ public class AddRestrictionFragment extends Fragment {
         SetTime startTime = new SetTime(startTimeObject);
         SetTime endTime = new SetTime(endTimeObject);
 
-        RadioGroup typeRadioGroup = myView.findViewById(R.id.typeOfRestrictionRadioGroup);
-        final EditText customTypeText = myView.findViewById(R.id.customTypeText);
         customTypeText.setVisibility(View.INVISIBLE);
         typeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -118,7 +150,6 @@ public class AddRestrictionFragment extends Fragment {
                 switch (i) {
                     case R.id.fireHydrant:
                         selectAllDays(myView);
-                        RadioButton allDay = myView.findViewById(R.id.allDay);
                         allDay.setChecked(true);
                         break;
                     case R.id.customTypeLabel:
@@ -152,6 +183,15 @@ public class AddRestrictionFragment extends Fragment {
         });
 
         return myView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        if (unbinderAllDays != null) {
+            unbinderAllDays.unbind();
+        }
     }
 
 

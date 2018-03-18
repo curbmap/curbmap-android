@@ -41,6 +41,7 @@ public interface CurbmapRestService {
     /**
      * Sends a login request to the server
      * Url: https://curbmap.com/login
+     *
      * @param username The username to attempt for login
      * @param password The password to attempt for login
      * @return The call to the server requesting the login
@@ -58,7 +59,7 @@ public interface CurbmapRestService {
      *
      * @param username The username the user chose
      * @param password The password the user chose
-     * @param email The email the user chose
+     * @param email    The email the user chose
      * @return The call to the server requesting the sign-up
      */
     @POST("signup")
@@ -72,12 +73,13 @@ public interface CurbmapRestService {
     /**
      * Uploads an image to the server
      * Url: https://curbmap.com:50003/imageUpload
+     *
      * @param username The username of the logged in user
-     * @param session The session token string to authenticate the user
-     * @param image The image file to upload
-     * @param olc The Open Location Code describing the location the image was taken
-     * @param bearing The bearing the image was taken measured as
-     *                degrees clockwise from True North
+     * @param session  The session token string to authenticate the user
+     * @param image    The image file to upload
+     * @param olc      The Open Location Code describing the location the image was taken
+     * @param bearing  The bearing the image was taken measured as
+     *                 degrees clockwise from True North
      * @return The call to to upload the image to the server
      */
     @POST("imageUpload")

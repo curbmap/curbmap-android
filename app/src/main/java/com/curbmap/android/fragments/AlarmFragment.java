@@ -36,19 +36,38 @@ import com.curbmap.android.controller.NotificationSetter;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * The fragment for displaying the alarm and timer.
  */
 public class AlarmFragment extends Fragment {
     private static final String TAG = "AlarmFragment";
     View myView;
+    @BindView(R.id.menu_icon)
+    ImageView menu_icon;
+    @BindView(R.id.setAlarmBtn)
+    Button setAlarmBtn;
+    @BindView(R.id.timePicker)
+    TimePicker timePicker;
+    @BindView(R.id.setTimerBtn)
+    Button setTimerBtn;
+    @BindView(R.id.timerMagnitude)
+    EditText timerMagnitudeEditText;
+    @BindView(R.id.timerUnit)
+    Spinner timerUnitSpinner;
+
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_alarm, container, false);
 
-        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
+        unbinder = ButterKnife.bind(this, myView);
+
         menu_icon.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -63,12 +82,10 @@ public class AlarmFragment extends Fragment {
                 }
         );
 
-        Button setAlarmBtn = myView.findViewById(R.id.setAlarmBtn);
         setAlarmBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TimePicker timePicker = myView.findViewById(R.id.timePicker);
                         int hour = timePicker.getHour();
                         int minute = timePicker.getMinute();
 
@@ -88,12 +105,10 @@ public class AlarmFragment extends Fragment {
         );
 
 
-        Button setTimerBtn = myView.findViewById(R.id.setTimerBtn);
         setTimerBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText timerMagnitudeEditText = myView.findViewById(R.id.timerMagnitude);
                         if (timerMagnitudeEditText.getText() == null ||
                                 timerMagnitudeEditText.getText().toString().equals("")) {
                             Toast.makeText(
@@ -109,7 +124,6 @@ public class AlarmFragment extends Fragment {
                             // we would have to update this
                             int timerMinutes = Integer.parseInt(
                                     timerMagnitudeEditText.getText().toString());
-                            Spinner timerUnitSpinner = myView.findViewById(R.id.timerUnit);
                             String timerUnit = timerUnitSpinner.getSelectedItem().toString();
                             if (timerUnit.equals("hrs")) {
                                 timerMinutes *= 60;
@@ -123,8 +137,15 @@ public class AlarmFragment extends Fragment {
         return myView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     /**
      * Creates a timer that runs in integer minutes
+     *
      * @param minutes number of minutes for timer
      */
     public void createTimer(Context context, int minutes) {

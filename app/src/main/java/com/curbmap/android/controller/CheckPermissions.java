@@ -76,7 +76,6 @@ public class CheckPermissions {
     }
 
 
-
     /**
      * Checks for write external storage permission
      * If not granted, makes an alert requesting user to grant write external storage permission.

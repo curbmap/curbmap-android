@@ -35,8 +35,9 @@ public class NotificationPublisher extends BroadcastReceiver {
 
     /**
      * Receives the notification intent and publishes it
+     *
      * @param context The context of the application
-     * @param intent The notification intent
+     * @param intent  The notification intent
      */
     public void onReceive(Context context, Intent intent) {
 

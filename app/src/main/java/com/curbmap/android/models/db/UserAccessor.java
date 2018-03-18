@@ -69,6 +69,7 @@ public class UserAccessor {
 
     /**
      * Gets the currently logged in user object
+     *
      * @param userAppDatabase the user database
      * @return the user object for the currently logged in user
      */
@@ -79,6 +80,7 @@ public class UserAccessor {
 
     /**
      * Logs out the user by deleting the user from the user database
+     *
      * @param userAppDatabase the user database
      */
     public static void deleteUser(AppDatabase userAppDatabase) {

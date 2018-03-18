@@ -64,6 +64,7 @@ public class User {
     /**
      * Creates a string showing the user's information
      * This is meant for debugging purposes.
+     *
      * @return User's information as a String.
      */
     public String makeString() {

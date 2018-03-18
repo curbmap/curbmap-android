@@ -29,11 +29,36 @@ import android.widget.TextView;
 
 import com.curbmap.android.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * The fragment for displaying help.
  */
 public class HelpFragment extends Fragment {
     View myView;
+
+
+
+    //the bindviews here are used for setLinks method
+    // and not for onCreateView!
+    //because setLinks has most of the findViewByIds...
+
+    @BindView(R.id.tutorial)
+    TextView tutorial;
+    @BindView(R.id.releases)
+    TextView releases;
+    @BindView(R.id.terms)
+    TextView terms;
+    @BindView(R.id.privacy)
+    TextView privacy;
+    @BindView(R.id.open_source_licenses)
+    TextView open_source_licenses;
+    @BindView(R.id.credits)
+    TextView credits;
+    Unbinder unbinder;
+
 
     @Nullable
     @Override
@@ -61,13 +86,17 @@ public class HelpFragment extends Fragment {
         return myView;
     }
 
+
+
     /**
      * Sets the links for some of the buttons
      *
      * @param view
      */
     private void setLinks(View view) {
-        TextView tutorial = myView.findViewById(R.id.tutorial);
+
+        unbinder = ButterKnife.bind(this, view);
+
         tutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +104,6 @@ public class HelpFragment extends Fragment {
             }
         });
 
-        TextView credits = myView.findViewById(R.id.credits);
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +111,6 @@ public class HelpFragment extends Fragment {
             }
         });
 
-        TextView releases = myView.findViewById(R.id.releases);
         releases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +118,6 @@ public class HelpFragment extends Fragment {
             }
         });
 
-        TextView terms = myView.findViewById(R.id.terms);
         terms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +125,7 @@ public class HelpFragment extends Fragment {
             }
         });
 
-        TextView privacy = myView.findViewById(R.id.privacy);
+
         privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +134,6 @@ public class HelpFragment extends Fragment {
         });
 
 
-        TextView open_source_licenses = myView.findViewById(R.id.open_source_licenses);
         open_source_licenses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +146,17 @@ public class HelpFragment extends Fragment {
         Uri uri = Uri.parse(getString(uriId)); // missing 'http://' will cause crashed
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //unbinder should never be null because
+        // we always call setLinks() whenever view is created
+        // but we check for nullity anyway for safety...
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
 
