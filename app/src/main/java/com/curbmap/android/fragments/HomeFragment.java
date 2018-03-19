@@ -35,8 +35,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.curbmap.android.R;
 import com.curbmap.android.controller.CheckPermissions;
@@ -64,6 +62,10 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -128,7 +130,7 @@ public class HomeFragment extends Fragment
         public void onProviderDisabled(String provider) {
         }
     };
-
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -137,6 +139,8 @@ public class HomeFragment extends Fragment
                              Bundle savedInstanceState) {
         this.mContext = this.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        unbinder = ButterKnife.bind(this, view);
 
         //initialize the database
         //the database is used every time
@@ -149,20 +153,6 @@ public class HomeFragment extends Fragment
         compass = new Compass(this.getContext());
         compass.start();
 
-        ImageView menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DrawerLayout drawer = (DrawerLayout)
-                                getActivity()
-                                        .getWindow()
-                                        .getDecorView()
-                                        .findViewById(R.id.drawer_layout);
-                        drawer.openDrawer(GravityCompat.START);
-                    }
-                }
-        );
 
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -181,39 +171,6 @@ public class HomeFragment extends Fragment
                     MIN_DISTANCE,
                     locationListener);
         }
-
-        //the search box uses Google Places Autocomplete API
-        //...launching a fullscreen intent.
-        //...whatever the user selects will be processed in onActivityResult()
-        TextView searchBox = view.findViewById(R.id.searchBox);
-        searchBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    //results only within us
-                    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                            .setCountry("US")
-                            .build();
-
-                    Intent intent =
-                            new PlaceAutocomplete
-                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    //bias within la
-                                    .setBoundsBias(new LatLngBounds(
-                                            new LatLng(33.604807, -118.718185),
-                                            new LatLng(34.333501, -117.144204)))
-                                    .setFilter(typeFilter)
-                                    .build(getActivity());
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                    Log.e(TAG, e.toString());
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                    Log.e(TAG, e.toString());
-                }
-            }
-        });
 
         return view;
     }
@@ -452,6 +409,55 @@ public class HomeFragment extends Fragment
         });
 
 
+    }
+
+
+    //the search box uses Google Places Autocomplete API
+    //...launching a fullscreen intent.
+    //...whatever the user selects will be processed in onActivityResult()
+    @OnClick(R.id.searchBox)
+    public void setSearchBox(View view) {
+        try {
+            //results only within us
+            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                    .setCountry("US")
+                    .build();
+
+            Intent intent =
+                    new PlaceAutocomplete
+                            .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            //bias within la
+                            .setBoundsBias(new LatLngBounds(
+                                    new LatLng(33.604807, -118.718185),
+                                    new LatLng(34.333501, -117.144204)))
+                            .setFilter(typeFilter)
+                            .build(getActivity());
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.toString());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.toString());
+        }
+    }
+
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        DrawerLayout drawer = (DrawerLayout)
+                getActivity()
+                        .getWindow()
+                        .getDecorView()
+                        .findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 

@@ -21,13 +21,13 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -38,6 +38,7 @@ import com.curbmap.android.models.lib.SetTime;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -48,8 +49,6 @@ import butterknife.Unbinder;
 public class AddRestrictionFragment extends Fragment {
     View myView;
 
-    @BindView(R.id.menu_icon)
-    ImageView menu_icon;
     @BindView(R.id.submitButton)
     Button submitButton;
     @BindView(R.id.fromTime)
@@ -86,9 +85,23 @@ public class AddRestrictionFragment extends Fragment {
      */
     private Unbinder unbinder;
     private Unbinder unbinderAllDays;
-
-
     private String TAG = "AddRestrictionFragment";
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        Log.e(TAG, "menu was opened");
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout)
+                        getActivity()
+                                .getWindow()
+                                .getDecorView()
+                                .findViewById(R.id.drawer_layout);
+                drawer.openDrawer(GravityCompat.START);
+            }
+        };
+    }
 
     /**
      * Given a view with the CheckBoxes names sunday through saturday
@@ -120,20 +133,6 @@ public class AddRestrictionFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         unbinder = ButterKnife.bind(this, myView);
-
-        menu_icon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DrawerLayout drawer = (DrawerLayout)
-                                getActivity()
-                                        .getWindow()
-                                        .getDecorView()
-                                        .findViewById(R.id.drawer_layout);
-                        drawer.openDrawer(GravityCompat.START);
-                    }
-                }
-        );
 
         final String polylineString = getArguments().getString("polylineString");
 

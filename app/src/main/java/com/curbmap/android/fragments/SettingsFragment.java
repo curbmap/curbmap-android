@@ -22,36 +22,45 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.curbmap.android.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * The fragment for displaying all the settings options.
  */
 public class SettingsFragment extends Fragment {
+    private static final String TAG = "SettingsFragment";
     View myView;
+    private Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_settings, container, false);
-
-        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DrawerLayout drawer = (DrawerLayout)
-                                getActivity()
-                                        .getWindow()
-                                        .getDecorView()
-                                        .findViewById(R.id.drawer_layout);
-                        drawer.openDrawer(GravityCompat.START);
-                    }
-                }
-        );
+        unbinder = ButterKnife.bind(this, myView);
 
         return myView;
     }
+
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        DrawerLayout drawer = (DrawerLayout)
+                getActivity()
+                        .getWindow()
+                        .getDecorView()
+                        .findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 }

@@ -40,7 +40,6 @@ public class HelpFragment extends Fragment {
     View myView;
 
 
-
     //the bindviews here are used for setLinks method
     // and not for onCreateView!
     //because setLinks has most of the findViewByIds...
@@ -85,7 +84,6 @@ public class HelpFragment extends Fragment {
 
         return myView;
     }
-
 
 
     /**

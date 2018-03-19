@@ -38,6 +38,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -68,74 +69,64 @@ public class AlarmFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, myView);
 
-        menu_icon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DrawerLayout drawer = (DrawerLayout)
-                                getActivity()
-                                        .getWindow()
-                                        .getDecorView()
-                                        .findViewById(R.id.drawer_layout);
-                        drawer.openDrawer(GravityCompat.START);
-                    }
-                }
-        );
-
-        setAlarmBtn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int hour = timePicker.getHour();
-                        int minute = timePicker.getMinute();
-
-                        //rightNow snippet from https://stackoverflow.com/a/40167691
-                        Calendar rightNow = Calendar.getInstance();
-                        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-                        //end snippet
-                        int currentMinute = rightNow.get(Calendar.MINUTE);
-
-                        int minutesToTimer = (hour - currentHour) * 60 +
-                                (minute - currentMinute);
-                        //if timer is for next day, add a day's worth of minutes
-                        if (minutesToTimer < 0) minutesToTimer += 24 * 60;
-                        createTimer(getContext(), minutesToTimer);
-                    }
-                }
-        );
-
-
-        setTimerBtn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (timerMagnitudeEditText.getText() == null ||
-                                timerMagnitudeEditText.getText().toString().equals("")) {
-                            Toast.makeText(
-                                    getContext(),
-                                    "Please enter a magnitude for the timer",
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        } else {
-                            //the number of minutes to set a timer for, in the case of set timer
-                            //this does not support decimal timer magnitude
-                            // because we only allow integer input anyway
-                            // if we were to allow for entering decimal points
-                            // we would have to update this
-                            int timerMinutes = Integer.parseInt(
-                                    timerMagnitudeEditText.getText().toString());
-                            String timerUnit = timerUnitSpinner.getSelectedItem().toString();
-                            if (timerUnit.equals("hrs")) {
-                                timerMinutes *= 60;
-                            }
-                            createTimer(getContext(), timerMinutes);
-                        }
-                    }
-                }
-        );
 
         return myView;
     }
+
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        DrawerLayout drawer = (DrawerLayout)
+                getActivity()
+                        .getWindow()
+                        .getDecorView()
+                        .findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+    @OnClick(R.id.setAlarmBtn)
+    public void setSetAlarmBtn(View view) {
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+
+        //rightNow snippet from https://stackoverflow.com/a/40167691
+        Calendar rightNow = Calendar.getInstance();
+        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+        //end snippet
+        int currentMinute = rightNow.get(Calendar.MINUTE);
+
+        int minutesToTimer = (hour - currentHour) * 60 +
+                (minute - currentMinute);
+        //if timer is for next day, add a day's worth of minutes
+        if (minutesToTimer < 0) minutesToTimer += 24 * 60;
+        createTimer(getContext(), minutesToTimer);
+    }
+
+    @OnClick(R.id.setTimerBtn)
+    public void setSetTimerBtn(View view) {
+        if (timerMagnitudeEditText.getText() == null ||
+                timerMagnitudeEditText.getText().toString().equals("")) {
+            Toast.makeText(
+                    getContext(),
+                    "Please enter a magnitude for the timer",
+                    Toast.LENGTH_LONG)
+                    .show();
+        } else {
+            //the number of minutes to set a timer for, in the case of set timer
+            //this does not support decimal timer magnitude
+            // because we only allow integer input anyway
+            // if we were to allow for entering decimal points
+            // we would have to update this
+            int timerMinutes = Integer.parseInt(
+                    timerMagnitudeEditText.getText().toString());
+            String timerUnit = timerUnitSpinner.getSelectedItem().toString();
+            if (timerUnit.equals("hrs")) {
+                timerMinutes *= 60;
+            }
+            createTimer(getContext(), timerMinutes);
+        }
+    }
+
 
     @Override
     public void onDestroyView() {

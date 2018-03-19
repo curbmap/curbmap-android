@@ -25,16 +25,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
 import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.RestrictionAccessor;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -44,12 +42,6 @@ import butterknife.Unbinder;
  */
 public class YourContributionsFragment extends Fragment {
     View myView;
-    @BindView(R.id.menu_icon)
-    ImageView menu_icon;
-    @BindView(R.id.clearContributionsButton)
-    Button clearContributionsButton;
-    @BindView(R.id.emailContributionsButton)
-    Button emailContributionsButton;
     private String TAG = "YourContributions";
     private Unbinder unbinder;
 
@@ -62,71 +54,63 @@ public class YourContributionsFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, myView);
 
-        menu_icon.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DrawerLayout drawer = (DrawerLayout)
-                                getActivity()
-                                        .getWindow()
-                                        .getDecorView()
-                                        .findViewById(R.id.drawer_layout);
-                        drawer.openDrawer(GravityCompat.START);
-                    }
-                }
-        );
-
-        clearContributionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(myView.getContext())
-                        .setTitle(getString(R.string.clear_contributions))
-                        .setMessage(getString(R.string.confirm_clear_contributions))
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                RestrictionAccessor.deleteAllRestriction(
-                                        AppDatabase.getRestrictionAppDatabase(
-                                                getContext()
-                                        )
-                                );
-
-                                Toast.makeText(myView.getContext(),
-                                        getString(R.string.success_clear_contributions),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).show();
-            }
-        });
-
-
-        final String finalAllCards = "all cards";
-        emailContributionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                i.putExtra(Intent.EXTRA_EMAIL,
-                        new String[]{getString(R.string.developer_email)});
-                i.putExtra(Intent.EXTRA_SUBJECT,
-                        getString(R.string.email_subject));
-                i.putExtra(Intent.EXTRA_TEXT, finalAllCards);
-                try {
-                    startActivity(Intent.createChooser(i,
-                            getString(R.string.prompt_send_email)));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(myView.getContext(),
-                            getString(R.string.error_no_email_clients),
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-        });
-
         return myView;
     }
 
+    @OnClick(R.id.clearContributionsButton)
+    public void clearAllContributions(View view) {
+        new AlertDialog.Builder(myView.getContext())
+                .setTitle(getString(R.string.clear_contributions))
+                .setMessage(getString(R.string.confirm_clear_contributions))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        RestrictionAccessor.deleteAllRestriction(
+                                AppDatabase.getRestrictionAppDatabase(
+                                        getContext()
+                                )
+                        );
+
+                        Toast.makeText(myView.getContext(),
+                                getString(R.string.success_clear_contributions),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    @OnClick(R.id.emailContributionsButton)
+    public void emailContributions(View view) {
+        final String finalAllCards = "all cards";
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_EMAIL,
+                new String[]{getString(R.string.developer_email)});
+        i.putExtra(Intent.EXTRA_SUBJECT,
+                getString(R.string.email_subject));
+        i.putExtra(Intent.EXTRA_TEXT, finalAllCards);
+        try {
+            startActivity(Intent.createChooser(i,
+                    getString(R.string.prompt_send_email)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(myView.getContext(),
+                    getString(R.string.error_no_email_clients),
+                    Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        DrawerLayout drawer = (DrawerLayout)
+                getActivity()
+                        .getWindow()
+                        .getDecorView()
+                        .findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
 
     @Override
     public void onDestroyView() {
