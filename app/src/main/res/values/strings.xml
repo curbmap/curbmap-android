@@ -128,12 +128,12 @@
     <string name="location_data_collection">Location Data Collection</string>
 
     <!-- Links -->
-    <string name="link_tutorial">https://github.com/hexicle/MarkerMap/wiki/App-Tutorial</string>
-    <string name="link_credits">https://github.com/hexicle/MarkerMap/wiki/App-Credits</string>
-    <string name="link_releases">https://github.com/hexicle/MarkerMap/releases</string>
-    <string name="link_terms">https://github.com/hexicle/MarkerMap/wiki/App-Terms-and-Conditions</string>
-    <string name="link_privacy">https://github.com/hexicle/MarkerMap/wiki/App-Privacy-Policy</string>
-    <string name="link_open_source_licenses">https://github.com/hexicle/MarkerMap/wiki/App-Open-Source-Licenses</string>
+    <string name="link_tutorial">https://github.com/curbmap/curbmap-android/wiki/App-Tutorial</string>
+    <string name="link_credits">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
+    <string name="link_releases">https://github.com/curbmap/curbmap-android/releases</string>
+    <string name="link_terms">https://curbmap.com/terms/</string>
+    <string name="link_privacy">https://curbmap.com/privacy/</string>
+    <string name="link_open_source_licenses">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
 
     <!-- Settings -->
     <string name="allow_push_notifications">Allow Push Notifications</string>
