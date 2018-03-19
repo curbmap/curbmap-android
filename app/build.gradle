@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 apply plugin: 'com.android.application'
 
 allprojects {
@@ -16,8 +30,8 @@ android {
         applicationId "com.curbmap.android"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 9
-        versionName "0.0.7"
+        versionCode 11
+        versionName "0.0.11"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -54,4 +68,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.android.gms:play-services-places:11.8.0'
+
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.google.dagger:dagger:2.15'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:2.15"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:2.15"
 }

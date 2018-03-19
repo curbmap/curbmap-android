@@ -1,4 +1,18 @@
-package com.curbmap.android.controller.addRestriction;
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.curbmap.android.controller.handleTextRestriction;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -11,7 +25,7 @@ import android.widget.Toast;
 import com.curbmap.android.R;
 import com.curbmap.android.models.db.Restriction;
 
-import static com.curbmap.android.controller.addRestriction.HandleSubmit.getViewString;
+import static com.curbmap.android.controller.handleTextRestriction.HandleSubmit.getViewString;
 
 public class CreateRestriction {
     final static String TAG = "CreateRestriction";
@@ -192,51 +206,21 @@ public class CreateRestriction {
         CheckBox friday = view.findViewById(R.id.friday);
         CheckBox saturday = view.findViewById(R.id.saturday);
 
-        String days = "";
+        StringBuilder days = new StringBuilder();
+        boolean[] isCheckboxChecked = {sunday.isChecked(),
+                monday.isChecked(),
+                tuesday.isChecked(),
+                wednesday.isChecked(),
+                thursday.isChecked(),
+                friday.isChecked(),
+                saturday.isChecked()
+        };
 
-        if (sunday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
+        for (boolean anIsCheckboxChecked : isCheckboxChecked) {
+            if (anIsCheckboxChecked) days.append("1");
+            else days.append("0");
         }
 
-        if (monday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        if (tuesday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        if (wednesday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        if (thursday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        if (friday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        if (saturday.isChecked()) {
-            days += "1";
-        } else {
-            days += "0";
-        }
-
-        return days;
+        return days.toString();
     }
-
 }

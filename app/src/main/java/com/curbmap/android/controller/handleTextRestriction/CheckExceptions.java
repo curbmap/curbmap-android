@@ -1,14 +1,27 @@
-package com.curbmap.android.controller.addRestriction;
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
-import android.arch.persistence.room.Room;
+package com.curbmap.android.controller.handleTextRestriction;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
+import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.Restriction;
-import com.curbmap.android.models.db.RestrictionAppDatabase;
-import com.curbmap.android.models.db.RestrictionDao;
+import com.curbmap.android.models.db.RestrictionAccessor;
 
 public class CheckExceptions {
     static final String TAG = "CheckExceptions";
@@ -133,23 +146,16 @@ public class CheckExceptions {
 
     /**
      * Adds restriction to Room database
-     * Only when user has filled the form properly
+     * Should only be called after the user has filled the
+     * restriction description form properly
      */
     public static void addToDatabase(
             Context context,
             Restriction restriction) {
 
         //todo: refactor db operations to run on a non-main thread
-        //the name of the database is "restrictions"
-        RestrictionAppDatabase db = Room.databaseBuilder(
-                context,
-                RestrictionAppDatabase.class,
-                "restrictions")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
-        RestrictionDao restrictionDao = db.getRestrictionDao();
-        restrictionDao.insertAll(restriction);
+        AppDatabase restrictionAppDatabase = AppDatabase.getRestrictionAppDatabase(context);
+        RestrictionAccessor.insertRestriction(restrictionAppDatabase, restriction);
     }
 }
 

@@ -1,4 +1,18 @@
-package com.curbmap.android.models.db;
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.curbmap.android.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,6 +22,14 @@ public class SignUpResponse {
     @SerializedName("success")
     Integer success;
 
+    /**
+     * Hardcodes the meaning of the status message received from the server
+     * as a response to sending a sign-up request to the server
+     * This is dependent on the changes made on the server code at
+     * https://github.com/curbmap/curbmapbackend-js/tree/master/routes
+     *
+     * @return meaning of response of server to our sign-up request
+     */
     public String getStatusMessage() {
         if (success == null) {
             return "No response was received.";
@@ -50,14 +72,5 @@ public class SignUpResponse {
     public boolean isSuccess() {
         return success == 1;
     }
-
-    public int getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(int success) {
-        this.success = success;
-    }
-
 
 }

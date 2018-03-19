@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.fragments;
 
 import android.app.Fragment;
@@ -7,35 +21,100 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.controller.addRestriction.HandleSubmit;
-import com.curbmap.android.models.SetTime;
+import com.curbmap.android.controller.handleTextRestriction.HandleSubmit;
+import com.curbmap.android.models.lib.SetTime;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+/**
+ * The fragment for adding a restriction using the
+ * manual restriction description form
+ * as opposed to simply taking a photo of the restriction
+ */
 public class AddRestrictionFragment extends Fragment {
     View myView;
 
+    @BindView(R.id.submitButton)
+    Button submitButton;
+    @BindView(R.id.fromTime)
+    EditText startTimeObject;
+    @BindView(R.id.customTypeText)
+    EditText customTypeText;
+    @BindView(R.id.toTime)
+    EditText endTimeObject;
+    @BindView(R.id.typeOfRestrictionRadioGroup)
+    RadioGroup typeRadioGroup;
+    @BindView(R.id.allDay)
+    RadioButton allDay;
+
+    @BindView(R.id.sunday)
+    CheckBox sunday;
+    @BindView(R.id.monday)
+    CheckBox monday;
+    @BindView(R.id.tuesday)
+    CheckBox tuesday;
+    @BindView(R.id.wednesday)
+    CheckBox wednesday;
+    @BindView(R.id.thursday)
+    CheckBox thursday;
+    @BindView(R.id.friday)
+    CheckBox friday;
+    @BindView(R.id.saturday)
+    CheckBox saturday;
+
+
+    /**
+     * The unbinders are used to unbind butterknife on destruction
+     * We have two unbinders because the second one might never be instantiated
+     * unbinderAllDays is only instantiated if
+     */
+    private Unbinder unbinder;
+    private Unbinder unbinderAllDays;
     private String TAG = "AddRestrictionFragment";
 
-    private void selectAllDays(View parentView) {
-        CheckBox sunday = parentView.findViewById(R.id.sunday);
-        CheckBox monday = parentView.findViewById(R.id.monday);
-        CheckBox tuesday = parentView.findViewById(R.id.tuesday);
-        CheckBox wednesday = parentView.findViewById(R.id.wednesday);
-        CheckBox thursday = parentView.findViewById(R.id.thursday);
-        CheckBox friday = parentView.findViewById(R.id.friday);
-        CheckBox saturday = parentView.findViewById(R.id.saturday);
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        Log.e(TAG, "menu was opened");
+        new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout)
+                        getActivity()
+                                .getWindow()
+                                .getDecorView()
+                                .findViewById(R.id.drawer_layout);
+                drawer.openDrawer(GravityCompat.START);
+            }
+        };
+    }
 
+    /**
+     * Given a view with the CheckBoxes names sunday through saturday
+     * Check all of the boxes in the view.
+     * For example, when we select a fire hydrant, we call selectAllDays(View v)
+     * so that all days are selected
+     * We have to send in the parentview and not the
+     *
+     * @param view The view which contains the checkboxes
+     */
+    private void selectAllDays(View view) {
+
+        unbinderAllDays = ButterKnife.bind(this, myView);
         sunday.setChecked(true);
         monday.setChecked(true);
         tuesday.setChecked(true);
@@ -53,26 +132,9 @@ public class AddRestrictionFragment extends Fragment {
         myView = inflater.inflate(R.layout.fragment_add_restriction, container, false);
         super.onCreateView(inflater, container, savedInstanceState);
 
-
-        ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             DrawerLayout drawer = (DrawerLayout)
-                                                     getActivity()
-                                                             .getWindow()
-                                                             .getDecorView()
-                                                             .findViewById(R.id.drawer_layout);
-                                             drawer.openDrawer(GravityCompat.START);
-                                         }
-                                     }
-        );
-
-        Button submitButton = myView.findViewById(R.id.submitButton);
+        unbinder = ButterKnife.bind(this, myView);
 
         final String polylineString = getArguments().getString("polylineString");
-        final EditText startTimeObject = myView.findViewById(R.id.fromTime);
-        final EditText endTimeObject = myView.findViewById(R.id.toTime);
 
         //lets us use clock to set start and end time instead of just typing them in
         //these variables are not used but it instantiates the instance
@@ -80,8 +142,6 @@ public class AddRestrictionFragment extends Fragment {
         SetTime startTime = new SetTime(startTimeObject);
         SetTime endTime = new SetTime(endTimeObject);
 
-        RadioGroup typeRadioGroup = myView.findViewById(R.id.typeOfRestrictionRadioGroup);
-        final EditText customTypeText = myView.findViewById(R.id.customTypeText);
         customTypeText.setVisibility(View.INVISIBLE);
         typeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -89,7 +149,6 @@ public class AddRestrictionFragment extends Fragment {
                 switch (i) {
                     case R.id.fireHydrant:
                         selectAllDays(myView);
-                        RadioButton allDay = myView.findViewById(R.id.allDay);
                         allDay.setChecked(true);
                         break;
                     case R.id.customTypeLabel:
@@ -124,4 +183,15 @@ public class AddRestrictionFragment extends Fragment {
 
         return myView;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        if (unbinderAllDays != null) {
+            unbinderAllDays.unbind();
+        }
+    }
+
+
 }

@@ -1,4 +1,27 @@
-package com.curbmap.android.models;
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+/*
+ * Source:
+ * The SetTime class is sourced from the StackOverflow answer for
+ * "TimePicker Dialog from clicking EditText", answer by Sumoanand
+ * https://stackoverflow.com/a/27647415/2333621
+ * It is used to launch a TimePicker dialog which allows the user to pick a time
+ * that a restriction starts and ends respectively
+ */
+
+package com.curbmap.android.models.lib;
 
 import android.app.TimePickerDialog;
 import android.view.View;

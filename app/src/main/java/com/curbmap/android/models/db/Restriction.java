@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.models.db;
 
 import android.arch.persistence.room.Entity;
@@ -9,17 +23,22 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-id	A GUID for the restriction
-type	"sweep"=street sweeping"red"=red zone, "hyd"=hydrant"ppd"=preferential parking district rule
-days	An array of 7 boolean values: all days = [true, ..., true], monday = [false, true, false, ..., false]
-start time	An integer count of minutes since midnight
-end time	An integer count of minutes since midnight
-angle	0 = Parallel, 45 = Acute Angled Parking, 90 = Head in parking
-updated	UTC time in milliseconds from 1/1/1970
-time limit	Optional so may be 0
-cost(dollars)	Optional so may be 0.0
-per(minutes)	Optional so may be 0
+/**
+ * Contains information about a parking restriction at a polyline.
+ * The format of a Restriction is based on
+ * curbmap's Open Street Parking Restriction Specification, available on GitHub at
+ * https://github.com/curbmap/Open-Street-Parking-Restriction-Specification
+ * as reflected by the following format:
+ * id	A GUID for the restriction
+ * type	"sweep"=street sweeping"red"=red zone, "hyd"=hydrant"ppd"=preferential parking district rule
+ * days	An array of 7 boolean values: all days = [true, ..., true], monday = [false, true, false, ..., false]
+ * start time	An integer count of minutes since midnight
+ * end time	An integer count of minutes since midnight
+ * angle	0 = Parallel, 45 = Acute Angled Parking, 90 = Head in parking
+ * updated	UTC time in milliseconds from 1/1/1970
+ * time limit	Optional so may be 0
+ * cost(dollars)	Optional so may be 0.0
+ * per(minutes)	Optional so may be 0
  */
 @Entity
 public class Restriction {
@@ -212,18 +231,31 @@ public class Restriction {
         }
     }
 
+    /**
+     * Retrieves a string that shows the entire list of coordinates contained within the
+     * polyline that is associated with the Restriction object
+     *
+     * @return String containing list of coordinates within this Restriction object's polyline
+     */
     public String getCoordinatesList() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         //we start the iteration with 1 instead of 0 because this is meant for human-friendly reading
         int nCoordinate = 1;
         for (LatLng coordinates : polyline.getPolyline()) {
-            result += "Coordinate " + nCoordinate + ": ";
-            result += "(" + coordinates.latitude + ", " + coordinates.longitude + ")\n";
+            result.append("Coordinate ").append(nCoordinate).append(": ");
+            result.append("(").append(coordinates.latitude).append(", ").append(coordinates.longitude).append(")\n");
             nCoordinate++;
         }
-        return result;
+        return result.toString();
     }
 
+    /**
+     * Gets a string of the information contained in the Restriction
+     * in a format that is suitable to print in a card object
+     * to display to the user in the list of restrictions.
+     *
+     * @return
+     */
     public String getCard() {
         String result = "";
         result += getCoordinatesList();

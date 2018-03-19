@@ -1,45 +1,48 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.fragments;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
-import com.curbmap.android.controller.MapController;
-import com.curbmap.android.models.OpenLocationCode;
+import com.curbmap.android.controller.CheckPermissions;
+import com.curbmap.android.controller.handleImageRestriction.CaptureImage;
+import com.curbmap.android.controller.handleImageRestriction.CaptureImageObject;
+import com.curbmap.android.controller.handleImageRestriction.UploadOneImage;
 import com.curbmap.android.models.db.Polyline;
-import com.curbmap.android.models.db.User;
-import com.curbmap.android.models.db.UserAppDatabase;
-import com.curbmap.android.models.db.UserDao;
+import com.curbmap.android.models.lib.Compass;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
@@ -57,34 +60,32 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * The fragment for displaying the map.
+ * This is the most complicated fragment since it has the most logic.
+ */
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
     private static final int REQUEST_IMAGE_CAPTURE = 111;
-
-    final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1;
+    //minimum time in milliseconds before update location
+    private static final long MIN_TIME = 500;
+    //minimum distance user moved in meters before update location
+    //we set it to zero because it kept taking too long to update upon initialization
+    private static final float MIN_DISTANCE = 0.0f;
+    final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    public List<LatLng> coordinatesList = new ArrayList<>();
     int DEFAULT_ZOOM_LEVEL = 18;
     MapView mapView;
     View view;
@@ -92,28 +93,20 @@ public class HomeFragment extends Fragment
     String TAG = "HomeFragment";
     GoogleMap map;
     Context mContext;// Define a listener that responds to location updates
-    public List<LatLng> coordinatesList = new ArrayList<>();
     int numberOfMarkers = 0;
-    final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private LocationManager locationManager;
     Location mLocation;
     String imagePath;
+    Compass compass;
+    float azimuth;
 
     Button addResBtn;
     Button clearBtn;
     Button writeResBtn;
-
-    //global var because onlocationchanged
-    //seemed unable to use neither getContext() nor pass in string username
-    //so this was the only option to pass username in : eg through global
-    //variable
-    String username = "curbmaptest";
-
+    private LocationManager locationManager;
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             mLocation = location;
-            //commented out because we want user to manually choose their location
-            Log.d("locationchanged", "yay");
+            Log.d(TAG, "onLocationChanged was called");
             // Called when a new location is found by the network location provider.
             //makeUseOfNewLocation(location);
             if (location != null) {
@@ -124,8 +117,6 @@ public class HomeFragment extends Fragment
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL);
                 map.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
-
-                MapController.getMarkers(map, coordinatesList, username);
 
             }
         }
@@ -139,7 +130,7 @@ public class HomeFragment extends Fragment
         public void onProviderDisabled(String provider) {
         }
     };
-
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -149,20 +140,18 @@ public class HomeFragment extends Fragment
         this.mContext = this.getContext();
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        unbinder = ButterKnife.bind(this, view);
 
-        ImageView menu_icon = (ImageView) view.findViewById(R.id.menu_icon);
-        menu_icon.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View view) {
-                                             DrawerLayout drawer = (DrawerLayout)
-                                                     getActivity()
-                                                             .getWindow()
-                                                             .getDecorView()
-                                                             .findViewById(R.id.drawer_layout);
-                                             drawer.openDrawer(GravityCompat.START);
-                                         }
-                                     }
-        );
+        //initialize the database
+        //the database is used every time
+
+        //initialize the compass..
+        //please note the compass takes some time to initialize
+        //right now we do not have to do any async because we assume that the compass will
+        //initialize by the time the user presses the snap restriction button
+        //since that is when we record the azimuth
+        compass = new Compass(this.getContext());
+        compass.start();
 
 
         mapView = view.findViewById(R.id.mapView);
@@ -183,40 +172,6 @@ public class HomeFragment extends Fragment
                     locationListener);
         }
 
-
-        //the search box uses Google Places Autocomplete API
-        //...launching a fullscreen intent.
-        //...whatever the user selects will be processed in onActivityResult()
-        TextView searchBox = view.findViewById(R.id.searchBox);
-        searchBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    //results only within us
-                    AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
-                            .setCountry("US")
-                            .build();
-
-                    Intent intent =
-                            new PlaceAutocomplete
-                                    .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
-                                    //bias within la
-                                    .setBoundsBias(new LatLngBounds(
-                                            new LatLng(33.604807, -118.718185),
-                                            new LatLng(34.333501, -117.144204)))
-                                    .setFilter(typeFilter)
-                                    .build(getActivity());
-                    startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-                } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
-                    Log.e(TAG, e.toString());
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
-                    Log.e(TAG, e.toString());
-                }
-            }
-        });
-
         return view;
     }
 
@@ -228,7 +183,6 @@ public class HomeFragment extends Fragment
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 Log.i(TAG, "Place: " + place.getName());
                 LatLng latLng = place.getLatLng();
-                ;
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL);
                 map.animateCamera(cameraUpdate);
 
@@ -243,110 +197,14 @@ public class HomeFragment extends Fragment
             }
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
-            String filePath = imagePath;
-            File file = new File(filePath);
-
-            Log.d(TAG, "reached here ");
-            //bookmark
-
-            String olcString = "";
-            if (mLocation != null) {
-                OpenLocationCode code = new OpenLocationCode(
-                        mLocation.getLatitude(),
-                        mLocation.getLongitude()
-                );
-                olcString = code.getCode();
-            }
-
-
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-            final String BASE_URL = "https://curbmap.com:50003/";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(client)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .build();
-
-            CurbmapRestService service = retrofit.create(CurbmapRestService.class);
-
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
-            RequestBody olc = RequestBody.create(MediaType.parse("text/plain"), olcString);
-
-            Log.d(TAG, olcString);
-
-
-            UserAppDatabase db = Room.databaseBuilder(
+            Log.d(TAG, "Image captured, sending to upload");
+            UploadOneImage.uploadOneImage(
                     getContext(),
-                    UserAppDatabase.class,
-                    "user")
-                    .allowMainThreadQueries()
-                    .fallbackToDestructiveMigration()
-                    .build();
-            final UserDao userDao = db.getUserDao();
-
-            username = "curbmaptest";
-            String session = "x";
-
-            User user = userDao.getUser();
-            //only if user is signed in
-            if (user != null) {
-                username = user.getUsername();
-                session = user.getSession();
-            }
-
-            Log.d("username", username);
-            Log.d("session", session);
-
-            //the current map area displayed on user's phone
-            Call<String> results = service.doUploadImage(
-                    username,
-                    session,
-                    body,
-                    olc
+                    imagePath,
+                    mLocation,
+                    azimuth
             );
-
-            results.enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful()) {
-                        Log.d(TAG, "Succeeded in uploading image.");
-                        Toast.makeText(view.getContext(),
-                                "Succeeded in uploading image.",
-                                Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.e(TAG, "Failed to upload image.");
-                    t.printStackTrace();
-                    Toast.makeText(view.getContext(),
-                            "Failed to upload image.",
-                            Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
         }
-    }
-
-
-    /**
-     * Encodes an image so that we can upload it to server
-     *
-     * @param bitmap Bitmap image
-     * @return Base64 encoded string
-     */
-    public String encodeBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        return imageEncoded;
     }
 
     @Override
@@ -379,7 +237,6 @@ public class HomeFragment extends Fragment
     public void onResume() {
         mapView.onResume();
         super.onResume();
-
     }
 
     @Override
@@ -394,11 +251,10 @@ public class HomeFragment extends Fragment
         mapView.onLowMemory();
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if (MapController.checkLocationPermission(getActivity(), getContext())) {
+        if (CheckPermissions.checkLocationPermission(getActivity(), getContext())) {
             if (ContextCompat.checkSelfPermission(this.getContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -426,38 +282,22 @@ public class HomeFragment extends Fragment
         }
 
         //the default coordinates, in case the fragment_user_profile does not enable location services
-        //LatLng laLatLng = new LatLng(34.040011, -118.259419);
         LatLng laLatLng = new LatLng(34.0377002544831, -118.248260994197);
+
+        //alternative default coordinates
+        //LatLng laLatLng = new LatLng(34.040011, -118.259419);
+
         map.moveCamera(CameraUpdateFactory.newLatLng(laLatLng));
         map.moveCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM_LEVEL));
 
         map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                // Cleaning all the markers.
-                if (map != null) {
-                    //map.clear();
-                }
-                UserAppDatabase db = Room.databaseBuilder(
-                        getContext(),
-                        UserAppDatabase.class,
-                        "user")
-                        .allowMainThreadQueries()
-                        .fallbackToDestructiveMigration()
-                        .build();
-                final UserDao userDao = db.getUserDao();
-
-                String username = "curbmaptest";
-
-                User user = userDao.getUser();
-                //only if user is signed in
-                if (user != null) {
-                    username = user.getUsername();
-                }
-
-                Log.d("username", username);
-
-                MapController.getMarkers(map, coordinatesList, username);
+                /**
+                 * This section of the code is empty right now because
+                 * we do not have any loading of markers. However,
+                 * when we want to load markers we would add the code here.
+                 */
             }
         });
 
@@ -465,7 +305,6 @@ public class HomeFragment extends Fragment
         clearBtn = view.findViewById(R.id.clearButton);
         writeResBtn = view.findViewById(R.id.addRestrictionButtonForm);
         writeResBtn.setVisibility(View.INVISIBLE);
-
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -492,12 +331,12 @@ public class HomeFragment extends Fragment
                 if (numberOfMarkers == 2) {
                     //make the buttons visible
                     writeResBtn.setVisibility(View.VISIBLE);
-
                 }
-
             }
         });
 
+        //Listener for clicking write restriction
+        //  to write restriction manually on a form
         writeResBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -518,53 +357,35 @@ public class HomeFragment extends Fragment
         });
 
 
+        //Listener for clicking the Snap Restriction button
+        //  to capture an image of the restriction
         addResBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (MapController.checkCameraPermission(getActivity(), getContext())) {
-                    if (MapController.checkWritePermission(getActivity(), getContext())) {
 
-                        String storageState = Environment.getExternalStorageState();
-                        if (storageState.equals(Environment.MEDIA_MOUNTED)) {
+                CaptureImageObject captureImageObject = CaptureImage.captureImage(
+                        getActivity(),
+                        getContext(),
+                        compass
+                );
 
-                            String path = Environment.getExternalStorageDirectory() + "/Android/data/" + getContext().getPackageName() + "/files/curbmap.jpg";
-                            imagePath = path;
-
-                            File _photoFile = new File(path);
-                            Log.d("the path is ", path);
-                            try {
-                                if (_photoFile.exists() == false) {
-                                    _photoFile.getParentFile().mkdirs();
-                                    _photoFile.createNewFile();
-                                    Log.d(TAG, "created new file");
-                                } else {
-                                    _photoFile.delete();
-                                    _photoFile.getParentFile().mkdirs();
-                                    _photoFile.createNewFile();
-                                    Log.d(TAG, "replaced old file");
-                                }
-
-                            } catch (IOException e) {
-                                Log.e(TAG, "Could not create file.", e);
-                            }
-                            Log.i(TAG, path);
-
-                            Uri _fileUri = Uri.fromFile(_photoFile);
-
-
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, _fileUri);
-                            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-                            }
-                        } else {
-                            new AlertDialog.Builder(getContext())
-                                    .setMessage("External Storage (SD Card) is required.\n\nCurrent state: " + storageState)
-                                    .setCancelable(true).create().show();
+                if (captureImageObject != null) {
+                    Intent takePictureIntent = captureImageObject.takePictureIntent;
+                    azimuth = captureImageObject.azimuth;
+                    imagePath = captureImageObject.imagePath;
+                    if (takePictureIntent != null) {
+                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                            Log.d(TAG, "starting take picture intent");
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                         }
+                    } else {
+                        Log.e(TAG, "takePictureIntent is null");
                     }
+
+                } else {
+                    Log.e(TAG, "captureImageObject is null");
                 }
+
             }
         });
 
@@ -588,6 +409,55 @@ public class HomeFragment extends Fragment
         });
 
 
+    }
+
+
+    //the search box uses Google Places Autocomplete API
+    //...launching a fullscreen intent.
+    //...whatever the user selects will be processed in onActivityResult()
+    @OnClick(R.id.searchBox)
+    public void setSearchBox(View view) {
+        try {
+            //results only within us
+            AutocompleteFilter typeFilter = new AutocompleteFilter.Builder()
+                    .setCountry("US")
+                    .build();
+
+            Intent intent =
+                    new PlaceAutocomplete
+                            .IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                            //bias within la
+                            .setBoundsBias(new LatLngBounds(
+                                    new LatLng(33.604807, -118.718185),
+                                    new LatLng(34.333501, -117.144204)))
+                            .setFilter(typeFilter)
+                            .build(getActivity());
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.toString());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // TODO: Handle the error.
+            Log.e(TAG, e.toString());
+        }
+    }
+
+
+    @OnClick(R.id.menu_icon)
+    public void openMenu(View view) {
+        DrawerLayout drawer = (DrawerLayout)
+                getActivity()
+                        .getWindow()
+                        .getDecorView()
+                        .findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
 

@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 curbmap.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -10,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:id="@+id/include" />
 
     <TextView
         android:id="@+id/alarmTitle"
@@ -33,36 +48,51 @@
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/reminderTitle"
+        android:id="@+id/timerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timePicker"
+        android:layout_alignBottom="@+id/timePicker"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:labelFor="@+id/reminderTimeNumberPicker"
+        android:labelFor="@+id/timerMagnitude"
         android:text="@string/reminder"
         android:textColor="@color/colorTitle"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/reminderTimeNumberPicker"
+        android:id="@+id/timerMagnitude"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignStart="@+id/alarmTitle"
-        android:layout_below="@+id/reminderTitle"
+        android:layout_below="@+id/timerTitle"
         android:layout_marginStart="24dp"
         android:ems="10"
         android:inputType="number"
         android:textAlignment="textEnd" />
 
     <Spinner
-        android:id="@+id/reminderSpinner"
+        android:id="@+id/timerUnit"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/reminderTimeNumberPicker"
-        android:layout_alignBottom="@+id/reminderTimeNumberPicker"
-        android:layout_toEndOf="@+id/reminderTimeNumberPicker"
+        android:layout_alignBaseline="@+id/timerMagnitude"
+        android:layout_alignBottom="@+id/timerMagnitude"
+        android:layout_toEndOf="@+id/timerMagnitude"
         android:entries="@array/time_units" />
+
+    <Button
+        android:id="@+id/setTimerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/timerMagnitude"
+        android:layout_centerHorizontal="true"
+        android:text="@string/set_timer" />
+
+    <Button
+        android:id="@+id/setAlarmBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/include"
+        android:layout_below="@+id/timerMagnitude"
+        android:text="@string/set_alarm" />
 
 
 </RelativeLayout>
