@@ -39,15 +39,15 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="@string/uploads"
-        android:id="@+id/uploadsTitle"
+        android:id="@+id/uploadingTitle"
         android:layout_below="@id/yourContributionsTitle"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_centerHorizontal="true"/>
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/uploadsGridView"
-        android:layout_below="@id/uploadsTitle"
+        android:id="@+id/uploadingGridView"
+        android:layout_below="@id/uploadingTitle"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
@@ -67,7 +67,7 @@
         android:layout_height="20dp"
         android:text="@string/uploaded"
         android:id="@+id/uploadedTitle"
-        android:layout_below="@id/uploadsGridView"
+        android:layout_below="@id/uploadingGridView"
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_centerHorizontal="true"/>

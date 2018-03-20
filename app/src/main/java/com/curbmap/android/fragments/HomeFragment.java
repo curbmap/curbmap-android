@@ -41,7 +41,10 @@ import com.curbmap.android.controller.CheckPermissions;
 import com.curbmap.android.controller.handleImageRestriction.CaptureImage;
 import com.curbmap.android.controller.handleImageRestriction.CaptureImageObject;
 import com.curbmap.android.controller.handleImageRestriction.UploadOneImage;
+import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.Polyline;
+import com.curbmap.android.models.db.RestrictionAccessor;
+import com.curbmap.android.models.db.RestrictionImage;
 import com.curbmap.android.models.lib.Compass;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -184,6 +187,7 @@ public class HomeFragment extends Fragment
 
     /**
      * Handles the result of autocomplete and image capture
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -212,12 +216,14 @@ public class HomeFragment extends Fragment
         //handles the results from capturing an image from clicking the 'Snap Restriction' button
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
             Log.d(TAG, "Image captured, sending to upload");
-            UploadOneImage.uploadOneImage(
-                    getContext(),
-                    imagePath,
-                    mLocation,
-                    azimuth
+            RestrictionImage restrictionImage = new RestrictionImage(
+                    imagePath, mLocation, azimuth
             );
+            RestrictionAccessor.insertImageRestriction(
+                    AppDatabase.getRestrictionAppDatabase(getContext()),
+                    restrictionImage);
+
+            UploadOneImage.uploadOneImage(restrictionImage);
         }
     }
 
@@ -350,6 +356,7 @@ public class HomeFragment extends Fragment
     /**
      * Listener for clicking write restriction
      * to write restriction manually on a form
+     *
      * @param view
      */
     @OnClick(R.id.addRestrictionButtonForm)
@@ -457,6 +464,7 @@ public class HomeFragment extends Fragment
 
     /**
      * Opens the navigation drawer menu
+     *
      * @param view
      */
     @OnClick(R.id.menu_icon)

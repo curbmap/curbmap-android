@@ -25,9 +25,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
+import com.curbmap.android.controller.ImageAdapter;
 import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.RestrictionAccessor;
 
@@ -51,8 +54,34 @@ public class YourContributionsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_your_contributions, container, false);
-
         unbinder = ButterKnife.bind(this, myView);
+
+
+
+        GridView uploadingGridview = (GridView) myView.findViewById(R.id.uploadingGridView);
+        uploadingGridview.setAdapter(new ImageAdapter(getContext(), false));
+
+        uploadingGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getContext(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        GridView uploadedGridview = (GridView) myView.findViewById(R.id.uploadedGridView);
+        uploadedGridview.setAdapter(new ImageAdapter(getContext(), true));
+
+        uploadedGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getContext(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
 
         return myView;
     }

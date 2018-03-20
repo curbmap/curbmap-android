@@ -16,4 +16,16 @@ public class RestrictionImage {
         this.mLocation = mLocation;
         this.azimuth = azimuth;
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public Location getmLocation() {
+        return mLocation;
+    }
+
+    public float getAzimuth() {
+        return azimuth;
+    }
 }

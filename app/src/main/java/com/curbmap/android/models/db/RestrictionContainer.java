@@ -17,6 +17,16 @@ public class RestrictionContainer {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+
+    public String getImagePath() {
+        if (this.isImageRestriction()) {
+            RestrictionImage restrictionImage = RestrictionImageConverter.fromString(this.object);
+            return restrictionImage.getImagePath();
+        } else {
+            return "";
+        }
+    }
+
     public boolean isImage() {
         return isImage;
     }
