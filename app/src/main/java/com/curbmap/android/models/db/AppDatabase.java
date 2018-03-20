@@ -26,6 +26,7 @@ import android.content.Context;
 @TypeConverters({PolylineConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     static final String TAG = "AppDatabase";
+
     private static AppDatabase INSTANCE;
 
     /**

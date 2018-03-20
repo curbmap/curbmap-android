@@ -63,6 +63,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -76,6 +77,8 @@ import static android.app.Activity.RESULT_OK;
  */
 public class HomeFragment extends Fragment
         implements OnMapReadyCallback {
+    String TAG = "HomeFragment";
+
     private static final int REQUEST_IMAGE_CAPTURE = 111;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     //minimum time in milliseconds before update location
@@ -85,12 +88,12 @@ public class HomeFragment extends Fragment
     private static final float MIN_DISTANCE = 0.0f;
     final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    public List<LatLng> coordinatesList = new ArrayList<>();
     int DEFAULT_ZOOM_LEVEL = 18;
+
+    public List<LatLng> coordinatesList = new ArrayList<>();
     MapView mapView;
     View view;
     String polylineString;
-    String TAG = "HomeFragment";
     GoogleMap map;
     Context mContext;// Define a listener that responds to location updates
     int numberOfMarkers = 0;
@@ -99,9 +102,15 @@ public class HomeFragment extends Fragment
     Compass compass;
     float azimuth;
 
-    Button addResBtn;
-    Button clearBtn;
+    @BindView(R.id.addRestrictionButtonForm)
     Button writeResBtn;
+
+    @BindView(R.id.addRestrictionButton)
+    Button addResBtn;
+
+    @BindView(R.id.clearButton)
+    Button clearBtn;
+
     private LocationManager locationManager;
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -301,9 +310,6 @@ public class HomeFragment extends Fragment
             }
         });
 
-        addResBtn = view.findViewById(R.id.addRestrictionButton);
-        clearBtn = view.findViewById(R.id.clearButton);
-        writeResBtn = view.findViewById(R.id.addRestrictionButtonForm);
         writeResBtn.setVisibility(View.INVISIBLE);
 
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -334,83 +340,72 @@ public class HomeFragment extends Fragment
                 }
             }
         });
-
-        //Listener for clicking write restriction
-        //  to write restriction manually on a form
-        writeResBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Gson gson = new Gson();
-                Polyline polyline = new Polyline(coordinatesList);
-                polylineString = gson.toJson(polyline);
-                Bundle bundle = new Bundle();
-                bundle.putString("polylineString", polylineString);
-                AddRestrictionFragment addRestrictionFragment = new AddRestrictionFragment();
-                addRestrictionFragment.setArguments(bundle);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame
-                                , addRestrictionFragment)
-                        .commit();
-            }
-        });
-
-
-        //Listener for clicking the Snap Restriction button
-        //  to capture an image of the restriction
-        addResBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CaptureImageObject captureImageObject = CaptureImage.captureImage(
-                        getActivity(),
-                        getContext(),
-                        compass
-                );
-
-                if (captureImageObject != null) {
-                    Intent takePictureIntent = captureImageObject.takePictureIntent;
-                    azimuth = captureImageObject.azimuth;
-                    imagePath = captureImageObject.imagePath;
-                    if (takePictureIntent != null) {
-                        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                            Log.d(TAG, "starting take picture intent");
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                        }
-                    } else {
-                        Log.e(TAG, "takePictureIntent is null");
-                    }
-
-                } else {
-                    Log.e(TAG, "captureImageObject is null");
-                }
-
-            }
-        });
-
-
-        //clear the markers that the user drew whenever click 'clear' button
-        clearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //remove all markers including restrictions and user created markers from the map
-                map.clear();
-
-                //clear the old user created markers so that we do not redraw them
-                coordinatesList.clear();
-
-                //clear the buttons since we won't need them now
-                writeResBtn.setVisibility(View.INVISIBLE);
-
-                //reset numberOfMarkers so that it can go to 2 can display the buttons in future
-                numberOfMarkers = 0;
-            }
-        });
-
-
     }
 
+
+    //Listener for clicking write restriction
+    //  to write restriction manually on a form
+    @OnClick(R.id.addRestrictionButtonForm)
+    public void setWriteResBtn(View view) {
+        Gson gson = new Gson();
+        Polyline polyline = new Polyline(coordinatesList);
+        polylineString = gson.toJson(polyline);
+        Bundle bundle = new Bundle();
+        bundle.putString("polylineString", polylineString);
+        AddRestrictionFragment addRestrictionFragment = new AddRestrictionFragment();
+        addRestrictionFragment.setArguments(bundle);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame
+                        , addRestrictionFragment)
+                .commit();
+    }
+
+
+    //Listener for clicking the Snap Restriction button
+    //  to capture an image of the restriction
+    @OnClick(R.id.addRestrictionButton)
+    public void setAddResBtn(View view) {
+        CaptureImageObject captureImageObject = CaptureImage.captureImage(
+                getActivity(),
+                getContext(),
+                compass
+        );
+
+        if (captureImageObject != null) {
+            Intent takePictureIntent = captureImageObject.takePictureIntent;
+            azimuth = captureImageObject.azimuth;
+            imagePath = captureImageObject.imagePath;
+            if (takePictureIntent != null) {
+                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    Log.d(TAG, "starting take picture intent");
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            } else {
+                Log.e(TAG, "takePictureIntent is null");
+            }
+
+        } else {
+            Log.e(TAG, "captureImageObject is null");
+        }
+    }
+
+    //clear the markers that the user drew whenever click 'clear' button
+    @OnClick(R.id.clearButton)
+    public void setClearBtn(View view) {
+        //remove all markers including restrictions and user created markers from the map
+        map.clear();
+
+        //clear the old user created markers so that we do not redraw them
+        coordinatesList.clear();
+
+        //clear the buttons since we won't need them now
+        writeResBtn.setVisibility(View.INVISIBLE);
+
+        //reset numberOfMarkers so that it can go to 2 can display the buttons in future
+        numberOfMarkers = 0;
+    }
 
     //the search box uses Google Places Autocomplete API
     //...launching a fullscreen intent.

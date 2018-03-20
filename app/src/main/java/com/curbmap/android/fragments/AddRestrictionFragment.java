@@ -48,17 +48,18 @@ import butterknife.Unbinder;
  */
 public class AddRestrictionFragment extends Fragment {
     View myView;
+    String polylineString;
 
     @BindView(R.id.submitButton)
     Button submitButton;
     @BindView(R.id.fromTime)
-    EditText startTimeObject;
+    EditText fromTime;
     @BindView(R.id.customTypeText)
     EditText customTypeText;
     @BindView(R.id.toTime)
-    EditText endTimeObject;
+    EditText toTime;
     @BindView(R.id.typeOfRestrictionRadioGroup)
-    RadioGroup typeRadioGroup;
+    RadioGroup typeOfRestrictionRadioGroup;
     @BindView(R.id.allDay)
     RadioButton allDay;
 
@@ -134,16 +135,16 @@ public class AddRestrictionFragment extends Fragment {
 
         unbinder = ButterKnife.bind(this, myView);
 
-        final String polylineString = getArguments().getString("polylineString");
+        this.polylineString = getArguments().getString("polylineString");
 
         //lets us use clock to set start and end time instead of just typing them in
         //these variables are not used but it instantiates the instance
         //so do not delete them
-        SetTime startTime = new SetTime(startTimeObject);
-        SetTime endTime = new SetTime(endTimeObject);
+        SetTime startTime = new SetTime(fromTime);
+        SetTime endTime = new SetTime(toTime);
 
         customTypeText.setVisibility(View.INVISIBLE);
-        typeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        typeOfRestrictionRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
                 switch (i) {
@@ -161,27 +162,32 @@ public class AddRestrictionFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View parentView = (View) view.getParent();
 
-                if (HandleSubmit.submitAddRestriction(
-                        parentView,
-                        polylineString)) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame
-                                    , new HomeFragment())
-                            .commit();
-
-                    Toast.makeText(view.getContext(),
-                            getString(R.string.success_restriction_added),
-                            Toast.LENGTH_SHORT)
-                            .show();
-
-                }
             }
         });
 
         return myView;
+    }
+
+    @OnClick(R.id.submitButton)
+    public void setSubmitButton(View view) {
+        View parentView = (View) view.getParent();
+
+        if (HandleSubmit.submitAddRestriction(
+                parentView,
+                polylineString)) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame
+                            , new HomeFragment())
+                    .commit();
+
+            Toast.makeText(view.getContext(),
+                    getString(R.string.success_restriction_added),
+                    Toast.LENGTH_SHORT)
+                    .show();
+
+        }
     }
 
     @Override
@@ -192,6 +198,4 @@ public class AddRestrictionFragment extends Fragment {
             unbinderAllDays.unbind();
         }
     }
-
-
 }
