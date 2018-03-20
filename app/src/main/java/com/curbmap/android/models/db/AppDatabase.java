@@ -20,10 +20,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-@Database(entities = {Restriction.class, User.class, UserAuth.class},
+@Database(entities = {RestrictionContainer.class, User.class, UserAuth.class},
         version = 3,
         exportSchema = false)
-@TypeConverters({PolylineConverter.class})
+@TypeConverters({})
 public abstract class AppDatabase extends RoomDatabase {
     static final String TAG = "AppDatabase";
 
@@ -42,7 +42,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     Room.databaseBuilder(
                             context.getApplicationContext(),
                             AppDatabase.class,
-                            "restrictions")
+                            "restriction")
                             .allowMainThreadQueries()
                             .fallbackToDestructiveMigration()
                             .build();

@@ -14,9 +14,6 @@
 
 package com.curbmap.android.models.db;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -24,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Stores information related to a text restriction
+ * The TEXT restriction
  * Contains information about a parking restriction at a polyline.
  * The format of a Restriction is based on
  * curbmap's Open Street Parking Restriction Specification, available on GitHub at
@@ -40,9 +39,8 @@ import java.util.List;
  * cost(dollars)	Optional so may be 0.0
  * per(minutes)	Optional so may be 0
  */
-@Entity
 public class Restriction {
-    @PrimaryKey
+    //we CANNOT auto-generate this id because it is from the server!!!
     public int id;
 
     public Polyline polyline;
@@ -254,7 +252,7 @@ public class Restriction {
      * in a format that is suitable to print in a card object
      * to display to the user in the list of restrictions.
      *
-     * @return
+     * @return restriction card string
      */
     public String getCard() {
         String result = "";

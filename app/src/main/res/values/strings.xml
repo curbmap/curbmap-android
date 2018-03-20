@@ -208,5 +208,7 @@
     <string name="write_request">curbmap needs permission to write to external storage</string>
     <string name="set_timer">Set Timer</string>
     <string name="set_alarm">Set Alarm</string>
+    <string name="uploads">Uploading</string>
+    <string name="uploaded">Uploaded</string>
 
 </resources>

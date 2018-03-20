@@ -35,6 +35,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+/**
+ * Houses the uploadOneImage function which
+ * handles uploading an image to the server
+ * given the imagePath to the image.
+ */
 public class UploadOneImage {
 
     static final String TAG = "UploadOneImage";

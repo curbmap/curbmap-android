@@ -151,11 +151,8 @@ public class HomeFragment extends Fragment
 
         unbinder = ButterKnife.bind(this, view);
 
-        //initialize the database
-        //the database is used every time
-
         //initialize the compass..
-        //please note the compass takes some time to initialize
+        //warning: please note the compass takes some time to initialize
         //right now we do not have to do any async because we assume that the compass will
         //initialize by the time the user presses the snap restriction button
         //since that is when we record the azimuth
@@ -185,8 +182,15 @@ public class HomeFragment extends Fragment
     }
 
 
+    /**
+     * Handles the result of autocomplete and image capture
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //handles the results from searching in the autocomplete search box
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
@@ -205,6 +209,7 @@ public class HomeFragment extends Fragment
                 Log.i(TAG, getString(R.string.info_cancel_select_place));
             }
         }
+        //handles the results from capturing an image from clicking the 'Snap Restriction' button
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
             Log.d(TAG, "Image captured, sending to upload");
             UploadOneImage.uploadOneImage(
@@ -302,10 +307,10 @@ public class HomeFragment extends Fragment
         map.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
-                /**
-                 * This section of the code is empty right now because
-                 * we do not have any loading of markers. However,
-                 * when we want to load markers we would add the code here.
+                /*
+                  This section of the code is empty right now because
+                  we do not have any loading of markers. However,
+                  when we want to load markers we would add the code here.
                  */
             }
         });
@@ -342,9 +347,11 @@ public class HomeFragment extends Fragment
         });
     }
 
-
-    //Listener for clicking write restriction
-    //  to write restriction manually on a form
+    /**
+     * Listener for clicking write restriction
+     * to write restriction manually on a form
+     * @param view
+     */
     @OnClick(R.id.addRestrictionButtonForm)
     public void setWriteResBtn(View view) {
         Gson gson = new Gson();
@@ -362,9 +369,12 @@ public class HomeFragment extends Fragment
                 .commit();
     }
 
-
-    //Listener for clicking the Snap Restriction button
-    //  to capture an image of the restriction
+    /**
+     * Listener for clicking the Snap Restriction button
+     * to handle capturing an image of the restriction
+     *
+     * @param view the view
+     */
     @OnClick(R.id.addRestrictionButton)
     public void setAddResBtn(View view) {
         CaptureImageObject captureImageObject = CaptureImage.captureImage(
@@ -391,7 +401,10 @@ public class HomeFragment extends Fragment
         }
     }
 
-    //clear the markers that the user drew whenever click 'clear' button
+
+    /**
+     * Clear the markers that the user drew whenever click 'clear' button
+     */
     @OnClick(R.id.clearButton)
     public void setClearBtn(View view) {
         //remove all markers including restrictions and user created markers from the map
@@ -407,9 +420,13 @@ public class HomeFragment extends Fragment
         numberOfMarkers = 0;
     }
 
-    //the search box uses Google Places Autocomplete API
-    //...launching a fullscreen intent.
-    //...whatever the user selects will be processed in onActivityResult()
+
+    /**
+     * The search box uses Google Places Autocomplete API and launches a fullscreen intent.
+     * Whatever the user selects will be processed in onActivityResult()
+     *
+     * @param view
+     */
     @OnClick(R.id.searchBox)
     public void setSearchBox(View view) {
         try {
@@ -438,6 +455,10 @@ public class HomeFragment extends Fragment
     }
 
 
+    /**
+     * Opens the navigation drawer menu
+     * @param view
+     */
     @OnClick(R.id.menu_icon)
     public void openMenu(View view) {
         DrawerLayout drawer = (DrawerLayout)
