@@ -1,7 +1,7 @@
 package com.curbmap.android.fragments;
 
+import android.support.v4.app.Fragment;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
