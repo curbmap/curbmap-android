@@ -43,15 +43,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class ClearContributionsTest {
     static final String TAG = "ClearContributionsTest";
-    FragmentManager fragmentManager;
-    private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
-
     @Rule
     public ActivityTestRule mActivityRule =
             new ActivityTestRule(MainActivity.class,
                     false,
                     false) {
             };
+    FragmentManager fragmentManager;
+    private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
 
     /**
      * initiates the activity
@@ -60,7 +59,7 @@ public class ClearContributionsTest {
      * most importantly, being able to call the fragmentmanager
      * and manipulate the fragment which is being displayed
      * because this allows us to test the various fragments
-     *
+     * <p>
      * Launches the contribution fragment
      */
     @Before
@@ -87,8 +86,6 @@ public class ClearContributionsTest {
         }
 
     }
-
-
 
 
 }

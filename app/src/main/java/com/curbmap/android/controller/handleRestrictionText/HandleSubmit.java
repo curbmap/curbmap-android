@@ -12,9 +12,14 @@
  * the License.
  */
 
-package com.curbmap.android.controller.handleTextRestriction;
+package com.curbmap.android.controller.handleRestrictionText;
 
+import android.content.Context;
 import android.view.View;
+
+import com.curbmap.android.models.db.AppDatabase;
+import com.curbmap.android.models.db.RestrictionAccessor;
+import com.curbmap.android.models.db.RestrictionText;
 
 public class HandleSubmit {
     static final String TAG = "HandleSubmit";
@@ -29,38 +34,29 @@ public class HandleSubmit {
     public static boolean submitAddRestriction(
             View view,
             String polylineString) {
-        /*
-        RestrictionText restrictionText = CreateRestriction.createRestrictionText(view, polylineString);
 
-        RadioGroup typeRadioGroup = view.findViewById(R.id.typeOfRestrictionRadioGroup);
-        int selectedTypeId = typeRadioGroup.getCheckedRadioButtonId();
+        RestrictionText restrictionText = CreateRestrictionText.createRestrictionText(view, polylineString);
 
-        RadioGroup lengthRadioGroup = view.findViewById(R.id.lengthOfRestrictionRadioGroup);
-        int selectedLengthId = lengthRadioGroup.getCheckedRadioButtonId();
+        Context context = view.getContext();
+        addToDatabase(
+                context,
+                restrictionText);
+        return true;
+    }
 
-        RadioGroup angleRadioGroup = view.findViewById(R.id.parkingAngleRadioGroup);
-        int selectedAngleId = angleRadioGroup.getCheckedRadioButtonId();
 
-        String length = "";
+    /**
+     * Adds restriction to Room database
+     * Should only be called after the user has filled the
+     * restriction description form properly
+     */
+    public static void addToDatabase(
+            Context context,
+            RestrictionText restrictionText) {
 
-        boolean noExceptions = CheckExceptions.checkNoExceptions(
-                view,
-                selectedTypeId,
-                selectedLengthId,
-                selectedAngleId,
-                length,
-                restrictionText
-        );
-
-        if (noExceptions) {
-            Context context = view.getContext();
-            CheckExceptions.addToDatabase(
-                    context,
-                    restrictionText);
-            return true;
-        } else {
-            return false;
-        }*/return true;
+        //todo: refactor db operations to run on a non-main thread
+        AppDatabase restrictionAppDatabase = AppDatabase.getRestrictionAppDatabase(context);
+        RestrictionAccessor.insertRestriction(restrictionAppDatabase, restrictionText);
     }
 
     /**

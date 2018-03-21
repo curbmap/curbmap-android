@@ -26,8 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
@@ -52,15 +50,8 @@ public class AddRestrictionFragment extends Fragment {
     Button submitButton;
     @BindView(R.id.fromTimeEditText)
     EditText fromTime;
-    @BindView(R.id.customTypeText)
-    EditText customTypeText;
     @BindView(R.id.toTimeEditText)
     EditText toTime;
-    @BindView(R.id.typeOfRestrictionRadioGroup)
-    RadioGroup typeOfRestrictionRadioGroup;
-    @BindView(R.id.allDay)
-    RadioButton allDay;
-
 
     /**
      * The unbinders are used to unbind butterknife on destruction
@@ -68,7 +59,6 @@ public class AddRestrictionFragment extends Fragment {
      * unbinderAllDays is only instantiated if
      */
     private Unbinder unbinder;
-    private Unbinder unbinderAllDays;
     private String TAG = "AddRestrictionFragment";
 
     @OnClick(R.id.menu_icon)

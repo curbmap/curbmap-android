@@ -14,12 +14,23 @@
 
 package com.curbmap.android.controller.handleRestrictionText;
 
-public class CheckExceptions {
-    static final String TAG = "CheckExceptions";
+import com.curbmap.android.models.db.RestrictionText;
 
-    static final int OKAY_RESTRICTIONS = -1;
+/**
+ * Houses the uploadOneText function which
+ * handles uploading a text restriction to the server
+ * given the RestrictionText object
+ */
+public class UploadOneText {
+    static final String TAG = "UploadOneText";
 
+    /**
+     * Handles uploading a RestrictionText to the server
+     * @param restrictionText The RestrictionText to upload to the server
+     */
+    public static void uploadOneText(
+            RestrictionText restrictionText
+    ) {
+
+    }
 }
-
-
-

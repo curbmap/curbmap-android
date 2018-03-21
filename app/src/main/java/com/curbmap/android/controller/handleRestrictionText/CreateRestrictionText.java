@@ -30,96 +30,11 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 import static com.curbmap.android.controller.handleRestrictionText.HandleSubmit.getViewString;
 
 
 public class CreateRestrictionText {
     final static String TAG = "CreateRestrictionText";
-
-
-    @BindView(R.id.typeOfRestrictionSpinner)
-    Spinner typeOfRestrictionSpinner;
-    @BindView(R.id.costEditText)
-    EditText costEditText;
-    @BindView(R.id.perEditText)
-    EditText perEditText;
-    @BindView(R.id.timeLimitNumberEditText)
-    EditText timeLimitNumberEditText;
-    @BindView(R.id.timeLimitSpinner)
-    Spinner timeLimitSpinner;
-    @BindView(R.id.customTypeText)
-    EditText customTypeText;
-    @BindView(R.id.permitText)
-    EditText permitText;
-
-
-    @BindView(R.id.lengthOfRestrictionRadioGroup)
-    RadioGroup lengthOfRestrictionRadioGroup;
-    @BindView(R.id.fromTimeEditText)
-    EditText fromTimeEditText;
-    @BindView(R.id.toTimeEditText)
-    EditText toTimeEditText;
-    @BindView(R.id.compassDirSpinner)
-    Spinner compassDirSpinner;
-    @BindView(R.id.vehicleTypeSpinner)
-    Spinner vehicleTypeSpinner;
-    @BindView(R.id.parkingAngleRadioGroup)
-    RadioGroup parkingAngleRadioGroup;
-
-    @BindView(R.id.sunday)
-    CheckBox sunday;
-    @BindView(R.id.monday)
-    CheckBox monday;
-    @BindView(R.id.tuesday)
-    CheckBox tuesday;
-    @BindView(R.id.wednesday)
-    CheckBox wednesday;
-    @BindView(R.id.thursday)
-    CheckBox thursday;
-    @BindView(R.id.friday)
-    CheckBox friday;
-    @BindView(R.id.saturday)
-    CheckBox saturday;
-
-    @BindView(R.id.week1)
-    CheckBox week1;
-    @BindView(R.id.week2)
-    CheckBox week2;
-    @BindView(R.id.week3)
-    CheckBox week3;
-    @BindView(R.id.week4)
-    CheckBox week4;
-
-
-    @BindView(R.id.month01)
-    CheckBox month01;
-    @BindView(R.id.month02)
-    CheckBox month02;
-    @BindView(R.id.month03)
-    CheckBox month03;
-    @BindView(R.id.month04)
-    CheckBox month04;
-    @BindView(R.id.month05)
-    CheckBox month05;
-    @BindView(R.id.month06)
-    CheckBox month06;
-    @BindView(R.id.month07)
-    CheckBox month07;
-    @BindView(R.id.month08)
-    CheckBox month08;
-    @BindView(R.id.month09)
-    CheckBox month09;
-    @BindView(R.id.month10)
-    CheckBox month10;
-    @BindView(R.id.month11)
-    CheckBox month11;
-    @BindView(R.id.month12)
-    CheckBox month12;
-
 
     /**
      * Creates a RestrictionText object from the values in the Add Restriction view
@@ -127,18 +42,30 @@ public class CreateRestrictionText {
      * @param view the add restriction view
      * @return RestrictionText object containing information from the view
      */
-    RestrictionText createRestrictionText(
+    static RestrictionText createRestrictionText(
             View view,
             String polylineString
     ) {
-        Unbinder unbinder = ButterKnife.bind(this, view);
+
+        Spinner typeOfRestrictionSpinner = view.findViewById(R.id.typeOfRestrictionSpinner);
+        EditText costEditText = view.findViewById(R.id.costEditText);
+        EditText perEditText = view.findViewById(R.id.perEditText);
+        EditText timeLimitNumberEditText = view.findViewById(R.id.timeLimitNumberEditText);
+        Spinner timeLimitSpinner = view.findViewById(R.id.timeLimitSpinner);
+        EditText customTypeText = view.findViewById(R.id.customTypeText);
+        EditText permitText = view.findViewById(R.id.permitText);
+        RadioGroup lengthOfRestrictionRadioGroup = view.findViewById(R.id.lengthOfRestrictionRadioGroup);
+        EditText fromTimeEditText = view.findViewById(R.id.fromTimeEditText);
+        EditText toTimeEditText = view.findViewById(R.id.toTimeEditText);
+        Spinner compassDirSpinner = view.findViewById(R.id.compassDirSpinner);
+        Spinner vehicleTypeSpinner = view.findViewById(R.id.vehicleTypeSpinner);
+        RadioGroup parkingAngleRadioGroup = view.findViewById(R.id.parkingAngleRadioGroup);
 
         int type = typeOfRestrictionSpinner.getSelectedItemPosition();
 
         int angle;
         String angleString = "";
-        RadioGroup angleRadioGroup = view.findViewById(R.id.parkingAngleRadioGroup);
-        int selectedAngleId = angleRadioGroup.getCheckedRadioButtonId();
+        int selectedAngleId = parkingAngleRadioGroup.getCheckedRadioButtonId();
         if (selectedAngleId != -1) {
             RadioButton angleRadioButton = view.findViewById(selectedAngleId);
             angleString = angleRadioButton.getText().toString();
@@ -180,9 +107,9 @@ public class CreateRestrictionText {
         int end = timeToMinutes(end_time);
 
 
-        boolean[] days = this.viewToDays(view);
-        boolean[] weeks = this.viewToWeeks(view);
-        boolean[] months = this.viewToMonths(view);
+        boolean[] days = viewToDays(view);
+        boolean[] weeks = viewToWeeks(view);
+        boolean[] months = viewToMonths(view);
 
 
         int limit;
@@ -248,7 +175,6 @@ public class CreateRestrictionText {
                 restrictionTextInfo
         );
 
-        unbinder.unbind();
         return restrictionText;
 
 
@@ -265,8 +191,15 @@ public class CreateRestrictionText {
      * @return array of days where true indicates the restriction is effective
      * days start on Monday
      */
-    private boolean[] viewToDays(View view) {
-        Unbinder unbinder = ButterKnife.bind(this, view);
+    private static boolean[] viewToDays(View view) {
+        CheckBox sunday = view.findViewById(R.id.sunday);
+        CheckBox monday = view.findViewById(R.id.monday);
+        CheckBox tuesday = view.findViewById(R.id.tuesday);
+        CheckBox wednesday = view.findViewById(R.id.wednesday);
+        CheckBox thursday = view.findViewById(R.id.thursday);
+        CheckBox friday = view.findViewById(R.id.friday);
+        CheckBox saturday = view.findViewById(R.id.saturday);
+
         boolean[] days = {
                 monday.isChecked(),
                 tuesday.isChecked(),
@@ -276,7 +209,6 @@ public class CreateRestrictionText {
                 saturday.isChecked(),
                 sunday.isChecked()
         };
-        unbinder.unbind();
         return days;
     }
 
@@ -288,15 +220,18 @@ public class CreateRestrictionText {
      * @param view the add restriction form view
      * @return the array of weeks of month starting on first week of the month
      */
-    private boolean[] viewToWeeks(View view) {
-        Unbinder unbinder = ButterKnife.bind(this, view);
+    private static  boolean[] viewToWeeks(View view) {
+        CheckBox week1 = view.findViewById(R.id.week1);
+        CheckBox week2 = view.findViewById(R.id.week2);
+        CheckBox week3 = view.findViewById(R.id.week3);
+        CheckBox week4 = view.findViewById(R.id.week4);
+
         boolean[] weeks = {
                 week1.isChecked(),
                 week2.isChecked(),
                 week3.isChecked(),
                 week4.isChecked()
         };
-        unbinder.unbind();
         return weeks;
     }
 
@@ -307,8 +242,20 @@ public class CreateRestrictionText {
      * @param view the filled add restriction view
      * @return array of the months when the restriction is in effect
      */
-    private boolean[] viewToMonths(View view) {
-        Unbinder unbinder = ButterKnife.bind(this, view);
+    private static boolean[] viewToMonths(View view) {
+        CheckBox month01 = view.findViewById(R.id.month01);
+        CheckBox month02 = view.findViewById(R.id.month02);
+        CheckBox month03 = view.findViewById(R.id.month03);
+        CheckBox month04 = view.findViewById(R.id.month04);
+        CheckBox month05 = view.findViewById(R.id.month05);
+        CheckBox month06 = view.findViewById(R.id.month06);
+        CheckBox month07 = view.findViewById(R.id.month07);
+        CheckBox month08 = view.findViewById(R.id.month08);
+        CheckBox month09 = view.findViewById(R.id.month09);
+        CheckBox month10 = view.findViewById(R.id.month10);
+        CheckBox month11 = view.findViewById(R.id.month11);
+        CheckBox month12 = view.findViewById(R.id.month12);
+
         boolean[] months = {
                 month01.isChecked(),
                 month02.isChecked(),
@@ -323,7 +270,6 @@ public class CreateRestrictionText {
                 month11.isChecked(),
                 month12.isChecked(),
         };
-        unbinder.unbind();
         return months;
     }
 
@@ -337,7 +283,7 @@ public class CreateRestrictionText {
      * @param time 24 hour time in the format HH:MM
      * @return time in the format of integer minutes since midnight
      */
-    private int timeToMinutes(String time) {
+    private static int timeToMinutes(String time) {
         String[] timeElements = time.split(":");
         int hour = Integer.parseInt(timeElements[0]);
         int minutes = Integer.parseInt(timeElements[1]);
