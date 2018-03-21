@@ -27,79 +27,21 @@
         android:textStyle="bold" />
 
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/typeOfRestrictionRadioGroup"
-        android:layout_width="fill_parent"
+    <Spinner
+        android:id="@+id/typeOfRestrictionSpinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/typeOfRestriction"
-        android:orientation="vertical">
 
+        android:entries="@array/type_of_restriction" />
 
-        <RadioButton
-            android:id="@+id/timeLimitParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time_limit_parking" />
-
-        <RadioButton
-            android:id="@+id/noParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_parking" />
-
-        <RadioButton
-            android:id="@+id/noStopping"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/no_stopping" />
-
-        <RadioButton
-            android:id="@+id/streetCleaning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/street_cleaning" />
-
-        <RadioButton
-            android:id="@+id/fireHydrant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fire_hydrant" />
-
-        <RadioButton
-            android:id="@+id/permitParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/permit_parking_districts" />
-
-        <RadioButton
-            android:id="@+id/disabledParking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/disabled_parking" />
-
-
-        <RadioButton
-            android:id="@+id/parkingMeter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/parking_meter" />
-
-
-        <RadioButton
-            android:id="@+id/customTypeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/custom_type" />
-    </RadioGroup>
 
 
     <TextView
         android:id="@+id/costLabel"
         android:layout_width="50sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/typeOfRestrictionRadioGroup"
-        android:layout_toStartOf="@+id/cost"
+        android:layout_below="@+id/typeOfRestrictionSpinner"
         android:labelFor="@+id/cost"
         android:text="@string/cost" />
 
@@ -107,7 +49,7 @@
         android:id="@+id/cost"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/typeOfRestrictionRadioGroup"
+        android:layout_below="@+id/typeOfRestrictionSpinner"
         android:inputType="numberDecimal" />
 
     <TextView

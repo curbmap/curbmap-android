@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 curbmap.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -19,11 +18,12 @@
     android:layout_centerHorizontal="true"
     android:layout_marginStart="20dp">
 
-    <include layout="@layout/menu_icon"
+    <include
+        layout="@layout/menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/addRestrictionTitle"
@@ -50,8 +50,8 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/content_type_restriction"
                 android:id="@+id/typeOfRestrictionLayout"
+                layout="@layout/content_type_restriction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -121,11 +121,160 @@
                 android:layout_below="@+id/friday"
                 android:text="@string/saturday" />
 
+
+            <TextView
+                android:id="@+id/weeksOfRestriction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/saturday"
+                android:layout_marginTop="11dp"
+                android:text="@string/weeks_of_restriction"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/week1"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weeksOfRestriction"
+                android:text="1" />
+
+            <CheckBox
+                android:id="@+id/week2"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weeksOfRestriction"
+                android:layout_toRightOf="@id/week1"
+                android:text="2" />
+
+            <CheckBox
+                android:id="@+id/week3"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weeksOfRestriction"
+                android:layout_toRightOf="@id/week2"
+                android:text="3" />
+
+            <CheckBox
+                android:id="@+id/week4"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weeksOfRestriction"
+                android:layout_toRightOf="@id/week3"
+                android:text="4" />
+
+
+            <TextView
+                android:id="@+id/monthsOfRestriction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/week1"
+                android:layout_marginTop="11dp"
+                android:text="@string/months_of_restriction"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/month01"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monthsOfRestriction"
+                android:text="@string/jan" />
+
+            <CheckBox
+                android:id="@+id/month02"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monthsOfRestriction"
+                android:layout_toRightOf="@id/month01"
+                android:text="@string/feb" />
+
+            <CheckBox
+                android:id="@+id/month03"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monthsOfRestriction"
+                android:layout_toRightOf="@id/month02"
+                android:text="@string/mar" />
+
+            <CheckBox
+                android:id="@+id/month04"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monthsOfRestriction"
+                android:layout_toRightOf="@id/month03"
+                android:text="@string/apr" />
+
+            <CheckBox
+                android:id="@+id/month05"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month01"
+                android:text="@string/may" />
+
+            <CheckBox
+                android:id="@+id/month06"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month01"
+                android:layout_toRightOf="@id/month05"
+                android:text="@string/jun" />
+
+            <CheckBox
+                android:id="@+id/month07"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month01"
+                android:layout_toRightOf="@id/month06"
+                android:text="@string/jul" />
+
+            <CheckBox
+                android:id="@+id/month08"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month01"
+                android:layout_toRightOf="@id/month07"
+                android:text="@string/aug" />
+
+            <CheckBox
+                android:id="@+id/month09"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month05"
+                android:text="@string/sep" />
+
+            <CheckBox
+                android:id="@+id/month10"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month05"
+                android:layout_toRightOf="@id/month09"
+                android:text="@string/oct" />
+
+            <CheckBox
+                android:id="@+id/month11"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month05"
+                android:layout_toRightOf="@id/month10"
+                android:text="@string/nov" />
+
+            <CheckBox
+                android:id="@+id/month12"
+                android:layout_width="60sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/month05"
+                android:layout_toRightOf="@id/month11"
+                android:text="@string/dec" />
+
+
             <TextView
                 android:id="@+id/lengthOfRestriction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/saturday"
+                android:layout_below="@+id/month09"
                 android:text="@string/length_of_restriction"
                 android:textSize="@dimen/header_size"
                 android:textStyle="bold" />
@@ -178,9 +327,8 @@
                 android:id="@+id/toLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/toTime"
-                android:layout_alignBottom="@+id/toTime"
-                android:layout_toStartOf="@+id/toTime"
+                android:layout_alignBaseline="@id/fromTime"
+                android:layout_toRightOf="@id/fromTime"
                 android:labelFor="@+id/toTime"
                 android:text="@string/to" />
 
@@ -188,18 +336,58 @@
                 android:id="@+id/toTime"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/parkingAngle"
-                android:layout_alignEnd="@+id/headInImage"
+                android:layout_alignBaseline="@id/toLabel"
                 android:layout_marginEnd="15dp"
+                android:layout_toRightOf="@id/toLabel"
                 android:ems="10"
                 android:inputType="time" />
+
+
+            <TextView
+                android:id="@+id/compassDirLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/fromTime"
+                android:text="@string/compassDirection"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+
+            <Spinner
+                android:id="@+id/compassDirSpinner"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/compassDirLabel"
+                android:entries="@array/compass_directions" />
+
+
+            <TextView
+                android:id="@+id/vehicleTypeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/compassDirSpinner"
+                android:text="@string/type_of_vehicle"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/vehicleTypeSpinner"
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicleTypeLabel"
+                android:entries="@array/vehicle_type" />
+
+
+
 
             <TextView
                 android:id="@+id/parkingAngle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/fromTime"
+                android:layout_below="@+id/vehicleTypeSpinner"
                 android:text="@string/parking_angle"
                 android:textSize="@dimen/header_size"
                 android:textStyle="bold" />

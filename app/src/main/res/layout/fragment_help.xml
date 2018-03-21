@@ -128,15 +128,4 @@
         android:textColor="@color/colorText"
         android:textSize="16sp" />
 
-    <Switch
-        android:id="@+id/locationDataCollection"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/credits"
-        android:layout_below="@+id/credits"
-        android:layout_marginTop="20dp"
-        android:text="@string/location_data_collection"
-        android:textSize="16sp" />
-
-
 </RelativeLayout>
