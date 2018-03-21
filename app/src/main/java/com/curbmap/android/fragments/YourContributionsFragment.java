@@ -58,10 +58,10 @@ public class YourContributionsFragment extends Fragment {
 
 
 
-        GridView uploadingGridview = (GridView) myView.findViewById(R.id.uploadingGridView);
-        uploadingGridview.setAdapter(new ImageAdapter(getContext(), false));
+        GridView uploadingGridView = (GridView) myView.findViewById(R.id.uploadingGridView);
+        uploadingGridView.setAdapter(new ImageAdapter(getContext(), false));
 
-        uploadingGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        uploadingGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(getContext(), "" + position,
@@ -69,10 +69,10 @@ public class YourContributionsFragment extends Fragment {
             }
         });
 
-        GridView uploadedGridview = (GridView) myView.findViewById(R.id.uploadedGridView);
-        uploadedGridview.setAdapter(new ImageAdapter(getContext(), true));
+        GridView uploadedGridView = (GridView) myView.findViewById(R.id.uploadedGridView);
+        uploadedGridView.setAdapter(new ImageAdapter(getContext(), true));
 
-        uploadedGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        uploadedGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(getContext(), "" + position,

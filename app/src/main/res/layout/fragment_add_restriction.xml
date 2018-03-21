@@ -138,6 +138,7 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weeksOfRestriction"
+                android:checked="true"
                 android:text="1" />
 
             <CheckBox
@@ -145,7 +146,8 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weeksOfRestriction"
-                android:layout_toRightOf="@id/week1"
+                android:layout_toEndOf="@id/week1"
+                android:checked="true"
                 android:text="2" />
 
             <CheckBox
@@ -153,7 +155,8 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weeksOfRestriction"
-                android:layout_toRightOf="@id/week2"
+                android:layout_toEndOf="@id/week2"
+                android:checked="true"
                 android:text="3" />
 
             <CheckBox
@@ -161,7 +164,8 @@
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/weeksOfRestriction"
-                android:layout_toRightOf="@id/week3"
+                android:layout_toEndOf="@id/week3"
+                android:checked="true"
                 android:text="4" />
 
 
@@ -181,6 +185,7 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monthsOfRestriction"
+                android:checked="true"
                 android:text="@string/jan" />
 
             <CheckBox
@@ -188,7 +193,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monthsOfRestriction"
-                android:layout_toRightOf="@id/month01"
+                android:layout_toEndOf="@id/month01"
+                android:checked="true"
                 android:text="@string/feb" />
 
             <CheckBox
@@ -196,7 +202,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monthsOfRestriction"
-                android:layout_toRightOf="@id/month02"
+                android:layout_toEndOf="@id/month02"
+                android:checked="true"
                 android:text="@string/mar" />
 
             <CheckBox
@@ -204,7 +211,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monthsOfRestriction"
-                android:layout_toRightOf="@id/month03"
+                android:layout_toEndOf="@id/month03"
+                android:checked="true"
                 android:text="@string/apr" />
 
             <CheckBox
@@ -212,6 +220,7 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month01"
+                android:checked="true"
                 android:text="@string/may" />
 
             <CheckBox
@@ -219,7 +228,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month01"
-                android:layout_toRightOf="@id/month05"
+                android:layout_toEndOf="@id/month05"
+                android:checked="true"
                 android:text="@string/jun" />
 
             <CheckBox
@@ -227,7 +237,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month01"
-                android:layout_toRightOf="@id/month06"
+                android:layout_toEndOf="@id/month06"
+                android:checked="true"
                 android:text="@string/jul" />
 
             <CheckBox
@@ -235,7 +246,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month01"
-                android:layout_toRightOf="@id/month07"
+                android:layout_toEndOf="@id/month07"
+                android:checked="true"
                 android:text="@string/aug" />
 
             <CheckBox
@@ -243,6 +255,7 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month05"
+                android:checked="true"
                 android:text="@string/sep" />
 
             <CheckBox
@@ -250,7 +263,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month05"
-                android:layout_toRightOf="@id/month09"
+                android:layout_toEndOf="@id/month09"
+                android:checked="true"
                 android:text="@string/oct" />
 
             <CheckBox
@@ -258,7 +272,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month05"
-                android:layout_toRightOf="@id/month10"
+                android:layout_toEndOf="@id/month10"
+                android:checked="true"
                 android:text="@string/nov" />
 
             <CheckBox
@@ -266,7 +281,8 @@
                 android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/month05"
-                android:layout_toRightOf="@id/month11"
+                android:layout_toEndOf="@id/month11"
+                android:checked="true"
                 android:text="@string/dec" />
 
 
@@ -292,6 +308,7 @@
                     android:id="@+id/allDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/all_day" />
 
                 <RadioButton
@@ -309,11 +326,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/lengthOfRestrictionRadioGroup"
                 android:layout_marginTop="12dp"
-                android:labelFor="@+id/fromTime"
+                android:labelFor="@+id/fromTimeEditText"
                 android:text="@string/from" />
 
             <EditText
-                android:id="@+id/fromTime"
+                android:id="@+id/fromTimeEditText"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/fromLabel"
@@ -327,18 +344,18 @@
                 android:id="@+id/toLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/fromTime"
-                android:layout_toRightOf="@id/fromTime"
-                android:labelFor="@+id/toTime"
+                android:layout_alignBaseline="@id/fromTimeEditText"
+                android:layout_toEndOf="@id/fromTimeEditText"
+                android:labelFor="@+id/toTimeEditText"
                 android:text="@string/to" />
 
             <EditText
-                android:id="@+id/toTime"
+                android:id="@+id/toTimeEditText"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/toLabel"
                 android:layout_marginEnd="15dp"
-                android:layout_toRightOf="@id/toLabel"
+                android:layout_toEndOf="@id/toLabel"
                 android:ems="10"
                 android:inputType="time" />
 
@@ -348,7 +365,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/fromTime"
+                android:layout_below="@+id/fromTimeEditText"
                 android:text="@string/compassDirection"
                 android:textSize="@dimen/header_size"
                 android:textStyle="bold" />
@@ -380,8 +397,6 @@
                 android:entries="@array/vehicle_type" />
 
 
-
-
             <TextView
                 android:id="@+id/parkingAngle"
                 android:layout_width="match_parent"
@@ -405,6 +420,7 @@
                     android:id="@+id/parallel"
                     android:layout_width="90sp"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/parallel" />
 
                 <RadioButton

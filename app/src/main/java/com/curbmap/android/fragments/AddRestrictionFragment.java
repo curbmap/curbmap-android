@@ -17,7 +17,6 @@ package com.curbmap.android.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,14 +25,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.controller.handleTextRestriction.HandleSubmit;
+import com.curbmap.android.controller.handleRestrictionText.HandleSubmit;
 import com.curbmap.android.models.lib.SetTime;
 
 import butterknife.BindView;
@@ -52,31 +50,16 @@ public class AddRestrictionFragment extends Fragment {
 
     @BindView(R.id.submitButton)
     Button submitButton;
-    @BindView(R.id.fromTime)
+    @BindView(R.id.fromTimeEditText)
     EditText fromTime;
     @BindView(R.id.customTypeText)
     EditText customTypeText;
-    @BindView(R.id.toTime)
+    @BindView(R.id.toTimeEditText)
     EditText toTime;
     @BindView(R.id.typeOfRestrictionRadioGroup)
     RadioGroup typeOfRestrictionRadioGroup;
     @BindView(R.id.allDay)
     RadioButton allDay;
-
-    @BindView(R.id.sunday)
-    CheckBox sunday;
-    @BindView(R.id.monday)
-    CheckBox monday;
-    @BindView(R.id.tuesday)
-    CheckBox tuesday;
-    @BindView(R.id.wednesday)
-    CheckBox wednesday;
-    @BindView(R.id.thursday)
-    CheckBox thursday;
-    @BindView(R.id.friday)
-    CheckBox friday;
-    @BindView(R.id.saturday)
-    CheckBox saturday;
 
 
     /**
@@ -104,26 +87,6 @@ public class AddRestrictionFragment extends Fragment {
         };
     }
 
-    /**
-     * Given a view with the CheckBoxes names sunday through saturday
-     * Check all of the boxes in the view.
-     * For example, when we select a fire hydrant, we call selectAllDays(View v)
-     * so that all days are selected
-     * We have to send in the parentview and not the
-     *
-     * @param view The view which contains the checkboxes
-     */
-    private void selectAllDays(View view) {
-
-        unbinderAllDays = ButterKnife.bind(this, myView);
-        sunday.setChecked(true);
-        monday.setChecked(true);
-        tuesday.setChecked(true);
-        wednesday.setChecked(true);
-        thursday.setChecked(true);
-        friday.setChecked(true);
-        saturday.setChecked(true);
-    }
 
     @Nullable
     @Override
@@ -142,29 +105,6 @@ public class AddRestrictionFragment extends Fragment {
         //so do not delete them
         SetTime startTime = new SetTime(fromTime);
         SetTime endTime = new SetTime(toTime);
-
-        customTypeText.setVisibility(View.INVISIBLE);
-        typeOfRestrictionRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i) {
-                    case R.id.fireHydrant:
-                        selectAllDays(myView);
-                        allDay.setChecked(true);
-                        break;
-                    case R.id.customTypeLabel:
-                        customTypeText.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
-        });
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         return myView;
     }
@@ -186,7 +126,6 @@ public class AddRestrictionFragment extends Fragment {
                     getString(R.string.success_restriction_added),
                     Toast.LENGTH_SHORT)
                     .show();
-
         }
     }
 
@@ -194,8 +133,5 @@ public class AddRestrictionFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        if (unbinderAllDays != null) {
-            unbinderAllDays.unbind();
-        }
     }
 }

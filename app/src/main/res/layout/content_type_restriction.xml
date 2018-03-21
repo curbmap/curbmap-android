@@ -35,18 +35,16 @@
 
         android:entries="@array/type_of_restriction" />
 
-
-
     <TextView
         android:id="@+id/costLabel"
         android:layout_width="50sp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/typeOfRestrictionSpinner"
-        android:labelFor="@+id/cost"
+        android:labelFor="@+id/costEditText"
         android:text="@string/cost" />
 
     <EditText
-        android:id="@+id/cost"
+        android:id="@+id/costEditText"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/typeOfRestrictionSpinner"
@@ -56,7 +54,7 @@
         android:id="@+id/dollarsLabel"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cost"
+        android:layout_below="@+id/costEditText"
         android:layout_toEndOf="@+id/costLabel"
         android:text="@string/dollars"
         android:textAlignment="center" />
@@ -65,18 +63,18 @@
         android:id="@+id/perLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cost"
-        android:layout_alignBottom="@+id/cost"
+        android:layout_alignBaseline="@+id/costEditText"
+        android:layout_alignBottom="@+id/costEditText"
         android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/cost"
-        android:labelFor="@+id/per"
+        android:layout_toEndOf="@+id/costEditText"
+        android:labelFor="@+id/perEditText"
         android:text="@string/per" />
 
     <EditText
-        android:id="@+id/per"
+        android:id="@+id/perEditText"
         android:layout_width="50sp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/cost"
+        android:layout_alignBottom="@+id/costEditText"
         android:layout_marginLeft="10dp"
         android:layout_toEndOf="@+id/perLabel"
         android:inputType="number" />
@@ -85,11 +83,11 @@
         android:id="@+id/minutesLabel"
         android:layout_width="80sp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/per"
-        android:layout_alignBottom="@+id/per"
+        android:layout_alignBaseline="@+id/perEditText"
+        android:layout_alignBottom="@+id/perEditText"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:layout_toEndOf="@+id/per"
+        android:layout_toEndOf="@+id/perEditText"
         android:text="@string/minutes" />
 
 
@@ -100,11 +98,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/dollarsLabel"
         android:layout_marginTop="20dp"
-        android:labelFor="@+id/timeLimitNumber"
+        android:labelFor="@+id/timeLimitNumberEditText"
         android:text="@string/time_limit" />
 
     <EditText
-        android:id="@+id/timeLimitNumber"
+        android:id="@+id/timeLimitNumberEditText"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/timeLimitLabel"
@@ -115,8 +113,8 @@
         android:id="@+id/timeLimitSpinner"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/timeLimitNumber"
-        android:layout_toEndOf="@id/timeLimitNumber"
+        android:layout_alignBaseline="@+id/timeLimitNumberEditText"
+        android:layout_toEndOf="@id/timeLimitNumberEditText"
         android:entries="@array/time_units" />
 
 

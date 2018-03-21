@@ -14,12 +14,7 @@
 
 package com.curbmap.android.controller.handleTextRestriction;
 
-import android.content.Context;
 import android.view.View;
-import android.widget.RadioGroup;
-
-import com.curbmap.android.R;
-import com.curbmap.android.models.db.Restriction;
 
 public class HandleSubmit {
     static final String TAG = "HandleSubmit";
@@ -34,7 +29,8 @@ public class HandleSubmit {
     public static boolean submitAddRestriction(
             View view,
             String polylineString) {
-        Restriction restriction = CreateRestriction.createRestriction(view, polylineString);
+        /*
+        RestrictionText restrictionText = CreateRestriction.createRestrictionText(view, polylineString);
 
         RadioGroup typeRadioGroup = view.findViewById(R.id.typeOfRestrictionRadioGroup);
         int selectedTypeId = typeRadioGroup.getCheckedRadioButtonId();
@@ -53,18 +49,18 @@ public class HandleSubmit {
                 selectedLengthId,
                 selectedAngleId,
                 length,
-                restriction
+                restrictionText
         );
 
         if (noExceptions) {
             Context context = view.getContext();
             CheckExceptions.addToDatabase(
                     context,
-                    restriction);
+                    restrictionText);
             return true;
         } else {
             return false;
-        }
+        }*/return true;
     }
 
     /**

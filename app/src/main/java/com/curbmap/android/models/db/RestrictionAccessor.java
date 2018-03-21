@@ -53,15 +53,15 @@ public class RestrictionAccessor {
      * because we assume the restriction is entered into database right after creation
      *
      * @param restrictionAppDatabase the restriction database
-     * @param restriction            the restriction to enter into the restriction database
+     * @param restrictionText            the restrictionText to enter into the restriction database
      */
     public static void insertRestriction(
             AppDatabase restrictionAppDatabase,
-            Restriction restriction) {
+            RestrictionText restrictionText) {
         RestrictionDao restrictionDao = restrictionAppDatabase.getRestrictionDao();
         Date currentTime = Calendar.getInstance().getTime();
         long time = currentTime.getTime();
-        String restrictionString = RestrictionConverter.toString(restriction);
+        String restrictionString = RestrictionTextConverter.toString(restrictionText);
         RestrictionContainer restrictionContainer = new RestrictionContainer(
                 restrictionString, time, false);
         restrictionDao.insertAll(restrictionContainer);
