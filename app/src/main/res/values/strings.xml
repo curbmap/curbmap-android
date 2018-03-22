@@ -1,23 +1,39 @@
+<!--
+  ~ Copyright (c) 2018 curbmap.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License. You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed under the License
+  ~ is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  ~ or implied. See the License for the specific language governing permissions and limitations under
+  ~ the License.
+  -->
+
 <resources>
     <string name="app_name" translatable="false">curbmap</string>
     <string name="title_activity_maps">curbmap</string>
     <string name="google_maps_key">AIzaSyBrTHZFcJoxkvzmE7pNzY084nhoALrY-lY</string>
 
+
+    <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="home">Home</string>
     <string name="alarm">Alarm</string>
     <string name="your_places">Your Places</string>
     <string name="your_contributions">Your Contributions</string>
-    <string name="your_timeline">Your Timeline</string>
     <string name="settings">Settings</string>
     <string name="help">Help</string>
     <string name="user">User</string>
 
-    <string name="add_restriction">Add Restriction</string>
-    <string name="type_of_restriction">Type of Restriction</string>
 
+    <!-- Add Restriction page -->
+    <string name="add_restriction">Add Restriction</string>
+
+    <string name="type_of_restriction">Type of Restriction</string>
     <string name="time_limit_parking">Time Limit Parking</string>
     <string name="no_parking">No Parking</string>
     <string name="no_stopping">No Stopping</string>
@@ -32,7 +48,6 @@
     <string name="dollars">(dollars)</string>
     <string name="per">per</string>
     <string name="minutes">minutes</string>
-
     <string name="time_limit">Time Limit:</string>
     <string name="enter_custom_type">Enter custom type</string>
     <string name="enter_permit_parking_district">Enter permit parking district</string>
@@ -59,49 +74,16 @@
 
     <string name="submit">Submit</string>
 
+
+
     <string name="reminder">Reminder</string>
-
-    <string name="app_tutorial">App Tutorial</string>
-    <string name="send_feedback">Send Feedback</string>
-    <string name="contact_email">Contact Email</string>
-    <string name="version_1_1">Version 1.1</string>
-    <string name="terms_amp_privacy"><![CDATA[Terms & Privacy]]></string>
-    <string name="open_source_licenses">Open Source Licenses</string>
-    <string name="location_data_collection">Location Data Collection</string>
-
     <string name="add_restriction_explanation">
         Tap on map to add a marker at the start and end location of parking restriction.
         If they are too close, you may just add one marker.
         Then click the ADD RESTRICTION button.</string>
-    <string name="allow_push_notifications">Allow Push Notifications</string>
-    <string name="allow_sounds">Allow Sounds</string>
-    <string name="location_sharing">Location Sharing</string>
-    <string name="voice_search">Voice Search</string>
-    <string name="distance_units">Distance Units</string>
-    <string name="offline_maps">Offline Maps</string>
-    <string name="name">Name</string>
-    <string name="someone_email_com">SomeOne@Email.com</string>
-    <string name="edit">Edit</string>
-    <string name="share_contributions">Share Contributions</string>
-    <string name="clear_contributions">Clear Contributions</string>
 
-    <string name="home_address">Home 123 Main St</string>
-    <string name="work_address">Work 456 Main St</string>
 
-    <string name="greeting">Hello User!</string>
-    <string name="username">username</string>
-    <string name="password">password</string>
-    <string name="sign_in">Sign In</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="remember_me">Remember Me</string>
-    <string name="email">email</string>
-    <string name="confirm_email">confirm email</string>
-
-    <string name="mi">mi</string>
-    <string name="km">km</string>
-    <string name="min">min</string>
-    <string name="hrs">hrs</string>
-
+    <!-- Add Restriction > Warnings -->
     <string name="warning_no_location">
         You must select a location on the map by tapping the map before adding a restriction.</string>
     <string name="warning_no_type">
@@ -123,7 +105,6 @@
     <string name="warning_no_angle">You must select a Parking Angle.</string>
 
     <string name="success_restriction_added">Your restriction was added!</string>
-
     <string name="info_no_restrictions">
         You have not added any restrictions to Your Contributions.
         To add a restriction, go to Home, tap a location on the map,
@@ -132,6 +113,58 @@
         Do you really want to delete all your contributions?
         This action is permanent and cannot be undone.</string>
     <string name="success_clear_contributions">You have deleted all your contributions.</string>
+
+    <!-- Your Places -->
+    <string name="home_address">Home 123 Main St</string>
+    <string name="work_address">Work 456 Main St</string>
+
+    <!-- Help -->
+    <string name="app_tutorial">App Tutorial</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="contact_email">Contact Email</string>
+    <string name="version_1_1">Version 1.1</string>
+    <string name="terms_amp_privacy"><![CDATA[Terms & Privacy]]></string>
+    <string name="open_source_licenses">Open Source Licenses</string>
+    <string name="location_data_collection">Location Data Collection</string>
+
+    <!-- Links -->
+    <string name="link_tutorial">https://github.com/curbmap/curbmap-android/wiki/App-Tutorial</string>
+    <string name="link_credits">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
+    <string name="link_releases">https://github.com/curbmap/curbmap-android/releases</string>
+    <string name="link_terms">https://curbmap.com/terms/</string>
+    <string name="link_privacy">https://curbmap.com/privacy/</string>
+    <string name="link_open_source_licenses">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
+
+    <!-- Settings -->
+    <string name="allow_push_notifications">Allow Push Notifications</string>
+    <string name="allow_sounds">Allow Sounds</string>
+    <string name="location_sharing">Location Sharing</string>
+    <string name="voice_search">Voice Search</string>
+    <string name="distance_units">Distance Units</string>
+    <string name="offline_maps">Offline Maps</string>
+    <string name="name">Name</string>
+    <string name="someone_email_com">SomeOne@Email.com</string>
+    <string name="edit">Edit</string>
+    <string name="share_contributions">Share Contributions</string>
+    <string name="clear_contributions">Clear Contributions</string>
+
+
+    <!-- User -->
+    <string name="greeting">Hello User!</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="email">email</string>
+    <string name="confirm_email">confirm email</string>
+
+    <!-- Units -->
+    <string name="mi">mi</string>
+    <string name="km">km</string>
+    <string name="min">min</string>
+    <string name="hrs">hrs</string>
+
 
     <string name="developer_email">developer@curbmap.com</string>
     <string name="email_subject">curbmap Android Contributions Data</string>
@@ -145,6 +178,7 @@
     <string name="description_home_icon">Icon of home</string>
     <string name="description_work_icon">Icon of work</string>
     <string name="description_edit_icon">Icon for edit profile picture</string>
+
     <string name="toggle_icons">Toggle Icons</string>
     <string name="update_map">Update Map</string>
     <string name="warn_select_restriction">You must select at least two locations
@@ -164,18 +198,71 @@
     <string name="privacy">Privacy Policy</string>
 
 
-    <string name="link_tutorial">https://github.com/hexicle/MarkerMap/wiki/App-Tutorial</string>
-    <string name="link_credits">https://github.com/hexicle/MarkerMap/wiki/App-Credits</string>
-    <string name="link_releases">https://github.com/hexicle/MarkerMap/releases</string>
-    <string name="link_terms">https://github.com/hexicle/MarkerMap/wiki/App-Terms-and-Conditions</string>
-    <string name="link_privacy">https://github.com/hexicle/MarkerMap/wiki/App-Privacy-Policy</string>
-    <string name="link_open_source_licenses">https://github.com/hexicle/MarkerMap/wiki/App-Open-Source-Licenses</string>
     <string name="credits">Credits</string>
     <string name="warn_null_restriction">The restriction object is null.</string>
     <string name="add_restriction_photo">Snap Restriction</string>
     <string name="add_restriction_form">Write Restriction</string>
     <string name="clear_map">Clear Map</string>
+
     <string name="camera_request">curbmap needs camera permissions</string>
     <string name="write_request">curbmap needs permission to write to external storage</string>
+    <string name="set_timer">Set Timer</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="uploads">Uploading</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="cellular_data_uploads">Cellular Data Uploads</string>
+
+    <!-- Types of restrictions -->
+    <string name="type00">Short time limit (AKA green, &lt; 1hr)></string>
+    <string name="type01">Short time limit metered (AKA green with meter, &lt;1hr)</string>
+    <string name="type02">Time limit (&gt;=1hr )</string>
+    <string name="type03">Time limit metered (&gt;=1hr)</string>
+    <string name="type04">Time limit with permit exemption</string>
+    <string name="type05">Time limit metered with permit exemption</string>
+    <string name="type06">No parking</string>
+    <string name="type07">No parking with permit exemption</string>
+    <string name="type08">No stopping</string>
+    <string name="type09">Street cleaning</string>
+    <string name="type10">Disabled parking</string>
+    <string name="type11">Passenger loading (AKA white)</string>
+    <string name="type12">Commercial loading (AKA yellow)</string>
+    <string name="type13">Other</string>
+    <string name="weeks_of_restriction">Weeks of Restriction</string>
+    <string name="months_of_restriction">Months of Restriction</string>
+
+    <!-- calendar month abbreviations -->
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="may">May</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
+
+    <string name="compassDirection">Compass Direction</string>
+
+    <!-- Compass directions -->
+    <string name="north">north</string>
+    <string name="south">south</string>
+    <string name="east">east</string>
+    <string name="west">west</string>
+    <string name="northeast">northeast</string>
+    <string name="northwest">northwest</string>
+    <string name="southeast">southeast</string>
+    <string name="southwest">southwest</string>
+    <string name="type_of_vehicle">Type of Vehicle</string>
+
+    <!-- Types of vehicles -->
+    <string name="type_vehicle_n1">Unspecified</string>
+    <string name="type_vehicle_0">Car, Truck (2 axel), Non-inhabiting</string>
+    <string name="type_vehicle_1">Motorcycle</string>
+    <string name="type_vehicle_2">Truck, Bus (3+ axel, including trailer), Non-inhabiting</string>
+    <string name="type_vehicle_3">Vehicle for inhabitation (Camper, Car, Truck, etc.)</string>
 
 </resources>

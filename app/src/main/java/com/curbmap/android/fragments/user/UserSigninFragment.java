@@ -1,9 +1,21 @@
+/*
+ * Copyright (c) 2018 curbmap.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package com.curbmap.android.fragments.user;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-
-import android.arch.persistence.room.Room;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -20,9 +32,11 @@ import android.widget.Toast;
 
 import com.curbmap.android.CurbmapRestService;
 import com.curbmap.android.R;
+import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.User;
-import com.curbmap.android.models.db.UserAppDatabase;
-import com.curbmap.android.models.db.UserDao;
+import com.curbmap.android.models.db.UserAccessor;
+import com.curbmap.android.models.db.UserAuth;
+import com.curbmap.android.models.db.UserAuthAccessor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +47,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserSigninFragment extends Fragment {
     View myView;
     String TAG = "UserSigninFragment";
+    AppDatabase userAppDatabase;
 
     //todo:handle logic for showing signinorup or user screen here
 
@@ -42,6 +57,7 @@ public class UserSigninFragment extends Fragment {
                              @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_user_signin, container, false);
+        userAppDatabase = AppDatabase.getUserAppDatabase(getContext());
 
         ImageView menu_icon = (ImageView) myView.findViewById(R.id.menu_icon);
 
@@ -91,13 +107,14 @@ public class UserSigninFragment extends Fragment {
         return myView;
     }
 
+
     /**
      * posts the signin info onto server
      *
      * @param username
      * @param password
      */
-    public void signIn(String username, String password) {
+    public void signIn(final String username, final String password) {
         final String BASE_URL = getString(R.string.BASE_URL_API);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -115,7 +132,7 @@ public class UserSigninFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, getString(R.string.success_signin));
+                    Log.d(TAG, getContext().getResources().getString(R.string.success_signin));
                     Toast.makeText(
                             getContext(),
                             "Signed in!",
@@ -124,16 +141,13 @@ public class UserSigninFragment extends Fragment {
                     Log.d(TAG, response.body().makeString());
                     User user = response.body();
 
-                    UserAppDatabase db = Room.databaseBuilder(
-                            getContext(),
-                            UserAppDatabase.class,
-                            "user")
-                            .allowMainThreadQueries()
-                            .fallbackToDestructiveMigration()
-                            .build();
-                    UserDao userDao = db.getUserDao();
-                    userDao.insert(user);
+                    UserAccessor.insertUser(userAppDatabase, user);
 
+                    //store the userAuth information since the user has finally
+                    //  successfully logged in with the username and password
+                    AppDatabase userAuthAppDatabase = AppDatabase.getUserAuthAppDatabase(getContext());
+                    UserAuth userAuth = new UserAuth(username, password);
+                    UserAuthAccessor.insertUserAuth(userAuthAppDatabase, userAuth);
 
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
@@ -148,7 +162,6 @@ public class UserSigninFragment extends Fragment {
                             "Wrong username or password",
                             Toast.LENGTH_LONG)
                             .show();
-
                 }
             }
 
@@ -159,4 +172,12 @@ public class UserSigninFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        //todo: check whether this works or not
+        AppDatabase.destroyInstance();
+        super.onDestroy();
+    }
+
 }
