@@ -59,11 +59,13 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -94,6 +96,9 @@ public class HomeFragment extends Fragment
     int DEFAULT_ZOOM_LEVEL = 18;
 
     public List<LatLng> coordinatesList = new ArrayList<>();
+    private HashMap<LatLng,Marker> markers;
+    Marker markerHolder;
+    com.google.android.gms.maps.model.Polyline polyLine;
     MapView mapView;
     View view;
     String polylineString;
@@ -108,7 +113,7 @@ public class HomeFragment extends Fragment
     @BindView(R.id.addRestrictionButtonForm)
     Button writeResBtn;
 
-    @BindView(R.id.addRestrictionButton)
+    @BindView(R.id.addSnapRestrictionButton)
     Button addResBtn;
 
     @BindView(R.id.clearButton)
@@ -180,6 +185,9 @@ public class HomeFragment extends Fragment
                     MIN_DISTANCE,
                     locationListener);
         }
+
+        writeResBtn.setVisibility(View.INVISIBLE);
+        clearBtn.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -266,6 +274,12 @@ public class HomeFragment extends Fragment
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
@@ -288,9 +302,9 @@ public class HomeFragment extends Fragment
             }
         }
 
-        map = googleMap;
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        map.getUiSettings().setMyLocationButtonEnabled(true);
+        this.map = googleMap;
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.getUiSettings().setMyLocationButtonEnabled(false);
         if (ActivityCompat.checkSelfPermission(this.getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED
@@ -321,33 +335,64 @@ public class HomeFragment extends Fragment
             }
         });
 
-        writeResBtn.setVisibility(View.INVISIBLE);
+        map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
 
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            int index;
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+                if(polyLine != null) {
+                    index = polyLine.getPoints().indexOf(marker.getPosition());
+                }
+            }
 
             @Override
-            public void onMapClick(LatLng point) {
-                if (numberOfMarkers == 0) {
-                    map.addMarker(new MarkerOptions().position(point));
+            public void onMarkerDrag(Marker marker) {
+                //TODO: Update Polyline
+                updatePolyLine(index, marker);
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                updatePolyLine(index, marker);
+            }
+        });
+
+
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+
+            @Override
+            public void onMapLongClick(LatLng point) {
+
+                clearBtn.setVisibility(View.VISIBLE);
+
+                if (numberOfMarkers < 2) {
+                    if(numberOfMarkers < 1) {
+                        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                    }
+                    map.addMarker(new MarkerOptions().position(point).draggable(true));
                     coordinatesList.add(point);
                     numberOfMarkers = 1;
-                } else {
-                    //we can draw a line
-                    map.addMarker(new MarkerOptions().position(point));
-                    coordinatesList.add(point);
-                    numberOfMarkers++;
+                }
 
+                //we can draw a line
+                if (numberOfMarkers == 2) {
+                    //make the buttons visible
+                    writeResBtn.setVisibility(View.VISIBLE);
                     PolylineOptions line =
                             new PolylineOptions()
                                     .addAll(coordinatesList)
                                     .width(5)
                                     .color(Color.RED);
-                    map.addPolyline(line);
+                    polyLine = map.addPolyline(line);
                 }
 
-                if (numberOfMarkers == 2) {
-                    //make the buttons visible
-                    writeResBtn.setVisibility(View.VISIBLE);
+                if(numberOfMarkers > 2){
+                    //Add new markers to the polyline
+                    updatePolyLine(polyLine.getPoints().size(), map.addMarker(
+                            new MarkerOptions().position(point).draggable(true))
+                    );
+                    numberOfMarkers++;
                 }
             }
         });
@@ -382,7 +427,7 @@ public class HomeFragment extends Fragment
      *
      * @param view the view
      */
-    @OnClick(R.id.addRestrictionButton)
+    @OnClick(R.id.addSnapRestrictionButton)
     public void setAddResBtn(View view) {
         CaptureImageObject captureImageObject = CaptureImage.captureImage(
                 getActivity(),
@@ -416,6 +461,7 @@ public class HomeFragment extends Fragment
     public void setClearBtn(View view) {
         //remove all markers including restrictions and user created markers from the map
         map.clear();
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         //clear the old user created markers so that we do not redraw them
         coordinatesList.clear();
@@ -425,6 +471,9 @@ public class HomeFragment extends Fragment
 
         //reset numberOfMarkers so that it can go to 2 can display the buttons in future
         numberOfMarkers = 0;
+
+        //hides the button again till needed
+        clearBtn.setVisibility(View.INVISIBLE);
     }
 
 
@@ -477,12 +526,17 @@ public class HomeFragment extends Fragment
         drawer.openDrawer(GravityCompat.START);
     }
 
+    private void updatePolyLine(int index, Marker marker){
+        if(this.polyLine != null) {
+            List points = polyLine.getPoints();
+            points.set(index, marker.getPosition());
+            polyLine.setPoints(points);
+        }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
+
+
+
 
 
 }
