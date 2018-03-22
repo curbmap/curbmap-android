@@ -56,9 +56,9 @@ public class AlarmFragment extends Fragment {
     @BindView(R.id.setTimerBtn)
     Button setTimerBtn;
     @BindView(R.id.timerMagnitude)
-    EditText timerMagnitudeEditText;
+    EditText timerMagnitude;
     @BindView(R.id.timerUnit)
-    Spinner timerUnitSpinner;
+    Spinner timerUnit;
 
     private Unbinder unbinder;
 
@@ -104,8 +104,8 @@ public class AlarmFragment extends Fragment {
 
     @OnClick(R.id.setTimerBtn)
     public void setSetTimerBtn(View view) {
-        if (timerMagnitudeEditText.getText() == null ||
-                timerMagnitudeEditText.getText().toString().equals("")) {
+        if (timerMagnitude.getText() == null ||
+                timerMagnitude.getText().toString().equals("")) {
             Toast.makeText(
                     getContext(),
                     "Please enter a magnitude for the timer",
@@ -118,9 +118,9 @@ public class AlarmFragment extends Fragment {
             // if we were to allow for entering decimal points
             // we would have to update this
             int timerMinutes = Integer.parseInt(
-                    timerMagnitudeEditText.getText().toString());
-            String timerUnit = timerUnitSpinner.getSelectedItem().toString();
-            if (timerUnit.equals("hrs")) {
+                    timerMagnitude.getText().toString());
+            String timerUnitString = timerUnit.getSelectedItem().toString();
+            if (timerUnitString.equals("hrs")) {
                 timerMinutes *= 60;
             }
             createTimer(getContext(), timerMinutes);

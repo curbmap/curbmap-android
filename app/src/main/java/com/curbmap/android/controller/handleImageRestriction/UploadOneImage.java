@@ -14,12 +14,11 @@
 
 package com.curbmap.android.controller.handleImageRestriction;
 
-import android.content.Context;
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.curbmap.android.CurbmapRestService;
+import com.curbmap.android.models.db.RestrictionImage;
 import com.curbmap.android.models.lib.OpenLocationCode;
 
 import java.io.File;
@@ -35,6 +34,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+/**
+ * Houses the uploadOneImage function which
+ * handles uploading an image to the server
+ * given the imagePath to the image.
+ */
 public class UploadOneImage {
 
     static final String TAG = "UploadOneImage";
@@ -51,27 +55,22 @@ public class UploadOneImage {
      * by storing location and azimuth in separate text files for retrieval
      * in the case of uploading multiple images.
      *
-     * @param context   The application context
-     * @param imagePath The path to the image on the device
-     * @param mLocation The location of the user
-     * @param azimuth   The azimuth of the camera, measured as
-     *                  degrees clockwise from True North
+     * @param restrictionImage the RestrictionImage object to upload
      */
     public static void uploadOneImage(
-            final Context context,
-            String imagePath,
-            Location mLocation,
-            float azimuth
+            RestrictionImage restrictionImage
     ) {
-        String filePath = imagePath;
-        File file = new File(filePath);
+        String imagePath = restrictionImage.getImagePath();
+        Location mLocation = restrictionImage.getmLocation();
+        float azimuth = restrictionImage.getAzimuth();
+
+        File file = new File(imagePath);
 
         Log.d(TAG, "created image file without exceptions");
-        //bookmark
 
         String olcString = "";
 
-        //12 is about the size of a parking spot
+        //OLC of length 12 is about the size of a parking spot
         final int OLC_LENGTH = 12;
         if (mLocation != null) {
             OpenLocationCode code = new OpenLocationCode(
@@ -109,7 +108,6 @@ public class UploadOneImage {
                 String.valueOf(azimuth));
 
         Log.d("olc is", olcString);
-
 
 
         /*
@@ -159,17 +157,8 @@ public class UploadOneImage {
 
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Succeeded in uploading image.");
-                        Toast.makeText(context,
-                                "Succeeded in uploading image.",
-                                Toast.LENGTH_LONG)
-                                .show();
                     } else {
                         Log.d(TAG, "Server rejected image upload.");
-                        Toast.makeText(context,
-                                "Server rejected image upload." +
-                                        response.body(),
-                                Toast.LENGTH_LONG)
-                                .show();
                     }
                 }
             }
@@ -178,10 +167,6 @@ public class UploadOneImage {
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e(TAG, "Failed to upload image.");
                 t.printStackTrace();
-                Toast.makeText(context,
-                        "Failed to upload image.",
-                        Toast.LENGTH_LONG)
-                        .show();
             }
         });
     }

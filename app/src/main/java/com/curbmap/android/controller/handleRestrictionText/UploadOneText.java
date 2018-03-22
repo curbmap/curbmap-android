@@ -12,27 +12,25 @@
  * the License.
  */
 
-package com.curbmap.android.models.db;
+package com.curbmap.android.controller.handleRestrictionText;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
+import com.curbmap.android.models.db.RestrictionText;
 
-import java.util.List;
+/**
+ * Houses the uploadOneText function which
+ * handles uploading a text restriction to the server
+ * given the RestrictionText object
+ */
+public class UploadOneText {
+    static final String TAG = "UploadOneText";
 
-@Dao
-public interface RestrictionDao {
-    @Query("SELECT * FROM restriction")
-    List<RestrictionContainer> getAll();
+    /**
+     * Handles uploading a RestrictionText to the server
+     * @param restrictionText The RestrictionText to upload to the server
+     */
+    public static void uploadOneText(
+            RestrictionText restrictionText
+    ) {
 
-    @Insert
-    void insertAll(RestrictionContainer... restrictions);
-
-    @Delete
-    void delete(RestrictionContainer restriction);
-
-    @Query("DELETE FROM restriction")
-    void deleteAll();
-
+    }
 }

@@ -17,7 +17,8 @@ package com.curbmap.android.controller.handleImageRestriction;
 import android.content.Intent;
 
 /**
- * Stores the information needed to capture an image.
+ * Stores the information needed to capture an image:
+ *  the takePictureIntent, azimuth and imagePath.
  */
 public class CaptureImageObject {
     public Intent takePictureIntent;

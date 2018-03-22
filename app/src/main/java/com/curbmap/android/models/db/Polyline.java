@@ -16,6 +16,7 @@ package com.curbmap.android.models.db;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,23 @@ public class Polyline {
 
     public void setPolyline(List<LatLng> coordinatesList) {
         this.coordinatesList = coordinatesList;
+    }
+
+
+    /**
+     * Converts a Polyline object into the coordinates object
+     * which is needed to create a RestrictionText object
+     * each array of doubles in the result has size two,
+     * the value of its elements correspond to latitude and longitude
+     * @return An ArrayList of arrays of two doubles corrresponding to coordinates
+     */
+    public ArrayList<double[]> getAsCoordinates () {
+        ArrayList<double[]> coordinates = new ArrayList<>();
+        for (LatLng latLng : this.coordinatesList) {
+            double[] array = {latLng.latitude, latLng.longitude};
+            coordinates.add(array);
+        }
+        return coordinates;
     }
 
 }

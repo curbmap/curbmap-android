@@ -125,7 +125,8 @@ public class UserSignupFragment extends Fragment {
                     }
                 } else {
                     Log.d(TAG, "failure signing up");
-                    Log.d(TAG, response.body().getStatusMessage());
+                    //triggers null pointer exception:
+                    //Log.d(TAG, response.body().getStatusMessage());
                     Toast.makeText(
                             getContext(),
                             "Failed to sign up. Please check that your entries are valid.",

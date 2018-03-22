@@ -36,6 +36,18 @@ public class CaptureImage {
 
     private static final int REQUEST_IMAGE_CAPTURE = 111;
 
+    /**
+     * Given activity, context and compass objects,
+     * this function processes and finds the azimuth of image and
+     * appropriate imagePath to store the image
+     * and the intent for launching the camera
+     * and returns the CaptureImageObject which stores this new information
+     * @param activity The current activity
+     * @param context The current application context
+     * @param compass A compass object to find the azimuth from
+     * @return CaptureImageObject containing the
+     * take picture intent, azimuth of device and appropriate path to store captured image
+     */
     public static CaptureImageObject captureImage(
             Activity activity,
             Context context,
@@ -58,16 +70,24 @@ public class CaptureImage {
                     //this is a way to store unique filenames
                     //and also allows us to upload images in chronological order
                     String filename = String.valueOf(time);
-                    String path = Environment.getExternalStorageDirectory() +
+                    imagePath = Environment.getExternalStorageDirectory() +
                             "/Android/data/" +
                             context.getPackageName() +
                             "/files/" +
                             filename +
                             ".jpg";
-                    imagePath = path;
 
-                    File _photoFile = new File(path);
-                    Log.d("the path is ", path);
+
+
+                    //---------------------------------------------------------------------
+                    //this section checks whether there is duplicate file
+                    //and makes sure to delete the previous if there is a duplicate
+                    //and *then* creates the file at the path for the camera
+                    // later to store the image at
+                    //it is unnecessary now because we are using timestamp as the filename
+                    //but it remains here just in case...
+                    File _photoFile = new File(imagePath);
+                    Log.d("the path is ", imagePath);
                     try {
                         if (!_photoFile.exists()) {
                             _photoFile.getParentFile().mkdirs();
@@ -83,7 +103,8 @@ public class CaptureImage {
                     } catch (IOException e) {
                         Log.e(TAG, "Could not create file.", e);
                     }
-                    Log.i(TAG, path);
+                    Log.i(TAG, imagePath);
+                    //---------------------------------------------------------------------
 
                     Uri _fileUri = Uri.fromFile(_photoFile);
 

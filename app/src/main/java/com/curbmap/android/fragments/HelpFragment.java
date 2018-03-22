@@ -40,7 +40,7 @@ public class HelpFragment extends Fragment {
     View myView;
 
 
-    //the bindviews here are used for setLinks method
+    //the BindViews here are used for setLinks method
     // and not for onCreateView!
     //because setLinks has most of the findViewByIds...
 
@@ -56,8 +56,8 @@ public class HelpFragment extends Fragment {
     TextView open_source_licenses;
     @BindView(R.id.credits)
     TextView credits;
-    Unbinder unbinder;
 
+    Unbinder unbinder;
 
     @Nullable
     @Override

@@ -14,25 +14,23 @@
 
 package com.curbmap.android.models.db;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
+import android.arch.persistence.room.TypeConverter;
 
-import java.util.List;
+import com.google.gson.Gson;
 
-@Dao
-public interface RestrictionDao {
-    @Query("SELECT * FROM restriction")
-    List<RestrictionContainer> getAll();
+/**
+ * Converts RestrictionText to and from String
+ */
+public class RestrictionTextConverter {
+    @TypeConverter
+    public static RestrictionText fromString(String restrictionTextString) {
+        Gson gson = new Gson();
+        return gson.fromJson(restrictionTextString, RestrictionText.class);
+    }
 
-    @Insert
-    void insertAll(RestrictionContainer... restrictions);
-
-    @Delete
-    void delete(RestrictionContainer restriction);
-
-    @Query("DELETE FROM restriction")
-    void deleteAll();
-
+    @TypeConverter
+    public static String toString(RestrictionText restrictionText) {
+        Gson gson = new Gson();
+        return gson.toJson(restrictionText);
+    }
 }

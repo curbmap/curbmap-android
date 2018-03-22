@@ -128,12 +128,12 @@
     <string name="location_data_collection">Location Data Collection</string>
 
     <!-- Links -->
-    <string name="link_tutorial">https://github.com/hexicle/MarkerMap/wiki/App-Tutorial</string>
-    <string name="link_credits">https://github.com/hexicle/MarkerMap/wiki/App-Credits</string>
-    <string name="link_releases">https://github.com/hexicle/MarkerMap/releases</string>
-    <string name="link_terms">https://github.com/hexicle/MarkerMap/wiki/App-Terms-and-Conditions</string>
-    <string name="link_privacy">https://github.com/hexicle/MarkerMap/wiki/App-Privacy-Policy</string>
-    <string name="link_open_source_licenses">https://github.com/hexicle/MarkerMap/wiki/App-Open-Source-Licenses</string>
+    <string name="link_tutorial">https://github.com/curbmap/curbmap-android/wiki/App-Tutorial</string>
+    <string name="link_credits">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
+    <string name="link_releases">https://github.com/curbmap/curbmap-android/releases</string>
+    <string name="link_terms">https://curbmap.com/terms/</string>
+    <string name="link_privacy">https://curbmap.com/privacy/</string>
+    <string name="link_open_source_licenses">https://github.com/curbmap/curbmap-android/blob/development/credits.md</string>
 
     <!-- Settings -->
     <string name="allow_push_notifications">Allow Push Notifications</string>
@@ -208,5 +208,61 @@
     <string name="write_request">curbmap needs permission to write to external storage</string>
     <string name="set_timer">Set Timer</string>
     <string name="set_alarm">Set Alarm</string>
+    <string name="uploads">Uploading</string>
+    <string name="uploaded">Uploaded</string>
+    <string name="cellular_data_uploads">Cellular Data Uploads</string>
+
+    <!-- Types of restrictions -->
+    <string name="type00">Short time limit (AKA green, &lt; 1hr)></string>
+    <string name="type01">Short time limit metered (AKA green with meter, &lt;1hr)</string>
+    <string name="type02">Time limit (&gt;=1hr )</string>
+    <string name="type03">Time limit metered (&gt;=1hr)</string>
+    <string name="type04">Time limit with permit exemption</string>
+    <string name="type05">Time limit metered with permit exemption</string>
+    <string name="type06">No parking</string>
+    <string name="type07">No parking with permit exemption</string>
+    <string name="type08">No stopping</string>
+    <string name="type09">Street cleaning</string>
+    <string name="type10">Disabled parking</string>
+    <string name="type11">Passenger loading (AKA white)</string>
+    <string name="type12">Commercial loading (AKA yellow)</string>
+    <string name="type13">Other</string>
+    <string name="weeks_of_restriction">Weeks of Restriction</string>
+    <string name="months_of_restriction">Months of Restriction</string>
+
+    <!-- calendar month abbreviations -->
+    <string name="jan">Jan</string>
+    <string name="feb">Feb</string>
+    <string name="mar">Mar</string>
+    <string name="apr">Apr</string>
+    <string name="may">May</string>
+    <string name="jun">Jun</string>
+    <string name="jul">Jul</string>
+    <string name="aug">Aug</string>
+    <string name="sep">Sep</string>
+    <string name="oct">Oct</string>
+    <string name="nov">Nov</string>
+    <string name="dec">Dec</string>
+
+
+    <string name="compassDirection">Compass Direction</string>
+
+    <!-- Compass directions -->
+    <string name="north">north</string>
+    <string name="south">south</string>
+    <string name="east">east</string>
+    <string name="west">west</string>
+    <string name="northeast">northeast</string>
+    <string name="northwest">northwest</string>
+    <string name="southeast">southeast</string>
+    <string name="southwest">southwest</string>
+    <string name="type_of_vehicle">Type of Vehicle</string>
+
+    <!-- Types of vehicles -->
+    <string name="type_vehicle_n1">Unspecified</string>
+    <string name="type_vehicle_0">Car, Truck (2 axel), Non-inhabiting</string>
+    <string name="type_vehicle_1">Motorcycle</string>
+    <string name="type_vehicle_2">Truck, Bus (3+ axel, including trailer), Non-inhabiting</string>
+    <string name="type_vehicle_3">Vehicle for inhabitation (Camper, Car, Truck, etc.)</string>
 
 </resources>

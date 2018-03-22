@@ -12,27 +12,14 @@
  * the License.
  */
 
-package com.curbmap.android.models.db;
+package com.curbmap.android.controller.handleRestrictionText;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
+public class CheckExceptions {
+    static final String TAG = "CheckExceptions";
 
-import java.util.List;
-
-@Dao
-public interface RestrictionDao {
-    @Query("SELECT * FROM restriction")
-    List<RestrictionContainer> getAll();
-
-    @Insert
-    void insertAll(RestrictionContainer... restrictions);
-
-    @Delete
-    void delete(RestrictionContainer restriction);
-
-    @Query("DELETE FROM restriction")
-    void deleteAll();
+    static final int OKAY_RESTRICTIONS = -1;
 
 }
+
+
+

@@ -24,4 +24,41 @@
         <item>@string/hrs</item>
     </string-array>
 
+    <string-array name="type_of_restriction" >
+        <item>@string/type00</item>
+        <item>@string/type01</item>
+        <item>@string/type02</item>
+        <item>@string/type03</item>
+        <item>@string/type04</item>
+        <item>@string/type05</item>
+        <item>@string/type06</item>
+        <item>@string/type07</item>
+        <item>@string/type08</item>
+        <item>@string/type09</item>
+        <item>@string/type10</item>
+        <item>@string/type11</item>
+        <item>@string/type12</item>
+        <item>@string/type13</item>
+    </string-array>
+    
+    <string-array name="compass_directions">
+        <item>@string/north</item>
+        <item>@string/south</item>
+        <item>@string/east</item>
+        <item>@string/west</item>
+        <item>@string/northeast</item>
+        <item>@string/northwest</item>
+        <item>@string/southeast</item>
+        <item>@string/southwest</item>
+    </string-array>
+    
+    <string-array name="vehicle_type">
+        <item>@string/type_vehicle_n1</item>
+        <item>@string/type_vehicle_0</item>
+        <item>@string/type_vehicle_1</item>
+        <item>@string/type_vehicle_2</item>
+        <item>@string/type_vehicle_3</item>
+    </string-array>
+    
+
 </resources>

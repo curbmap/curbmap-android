@@ -16,7 +16,11 @@ package com.curbmap.android;
 
 
 import com.curbmap.android.models.SignUpResponse;
+import com.curbmap.android.models.db.RestrictionTextInfo;
 import com.curbmap.android.models.db.User;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -93,4 +97,31 @@ public interface CurbmapRestService {
             @Part("bearing") RequestBody bearing
     );
 
+    /**
+     * {
+     * "coordinates": [[0]],
+     * "restrictions": [
+     * {"type": 0,"angle": 0,"start": 0,"end": 0,
+     * "days": [false,false,false,false,false,false,false],
+     * "weeks": [false,false,false,false],
+     * "months": [false,false,false,false,
+     * false,false,false,false,false,false,
+     * false,false],
+     * "limit": 60,"permit": "111","cost": 1.25,
+     * "per": 60,"vehicle": 0,"side": 0}
+     * ]
+     * }
+     *
+     * @return
+     */
+    @POST("addLine")
+    Call<String> doUploadText(
+            @Header("username") String username,
+            @Header("session") String session,
+
+            //the following are the contents of a single RestrictionText object:
+            //  coordinates and restrictionTextInfo
+            @Field("coordinates") ArrayList<Map<Integer,Integer>> coordinates,
+            @Field("restrictions") RestrictionTextInfo restrictionTextInfo
+    );
 }

@@ -43,15 +43,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 public class SetTimerTest {
     static final String TAG = "SetTimerTest";
-    FragmentManager fragmentManager;
-    private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
-
     @Rule
     public ActivityTestRule mActivityRule =
             new ActivityTestRule(MainActivity.class,
                     false,
                     false) {
             };
+    FragmentManager fragmentManager;
+    private UiDevice uiDevice = UiDevice.getInstance(getInstrumentation());
 
     /**
      * Launches the alarm fragment
@@ -68,6 +67,7 @@ public class SetTimerTest {
 
     /**
      * Sets a timer that runs for 30 minutes
+     *
      * @throws Exception
      */
     @Test
