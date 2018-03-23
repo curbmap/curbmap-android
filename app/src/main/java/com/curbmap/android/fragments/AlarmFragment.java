@@ -14,9 +14,9 @@
 
 package com.curbmap.android.fragments;
 
-import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
