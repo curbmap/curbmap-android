@@ -38,6 +38,8 @@ import com.curbmap.android.models.db.UserAccessor;
 import com.curbmap.android.models.db.UserAuth;
 import com.curbmap.android.models.db.UserAuthAccessor;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -144,7 +146,9 @@ public class UserSigninFragment extends Fragment {
                     //store the userAuth information since the user has finally
                     //  successfully logged in with the username and password
                     AppDatabase userAuthAppDatabase = AppDatabase.getUserAuthAppDatabase(getContext());
-                    UserAuth userAuth = new UserAuth(username, password);
+
+                    long timestamp =  Calendar.getInstance().getTimeInMillis();
+                    UserAuth userAuth = new UserAuth(username, password, timestamp);
                     UserAuthAccessor.insertUserAuth(userAuthAppDatabase, userAuth);
 
                     FragmentManager fragmentManager = getFragmentManager();

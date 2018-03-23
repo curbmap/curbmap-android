@@ -32,8 +32,8 @@ public class UserAuth {
     @SerializedName("password")
     String password;
 
-    @SerializedName("timeOfLastHandshake")
-    long timeOfLastHandshake;
+    @SerializedName("timestamp")
+    long timestamp;
 
     /**
      * Creates a new UserAuth object
@@ -44,12 +44,15 @@ public class UserAuth {
      * with the server...
      * These two values should be captured when the user performs login
      *
-     * @param username the user's usernam
-     * @param password the user's password
+     * @param username  the user's usernam
+     * @param password  the user's password
+     * @param timestamp timestamp generated from following to track time of last handshake
+     *                  Calendar.getInstance().getTimeInMillis()
      */
-    public UserAuth(String username, String password) {
+    public UserAuth(String username, String password, long timestamp) {
         this.username = username;
         this.password = password;
+        this.timestamp = timestamp;
     }
 
 
@@ -67,16 +70,6 @@ public class UserAuth {
     }
 
     /**
-     * Stores the time of last handshake as right now.
-     * by passing in a new instance of Calendar
-     * this must be passed in at the time of handshake
-     */
-    public void setTimeOfLastHandshakeAsRightNow() {
-        Calendar rightNow = Calendar.getInstance();
-        this.timeOfLastHandshake = rightNow.getTimeInMillis();
-    }
-
-    /**
      * Determines whether or not we should perform a new handshake right now.
      * It is based on how often the user session expires
      * or at least... based on how often we want to renew
@@ -91,7 +84,7 @@ public class UserAuth {
         long HANDSHAKE_INTERVAL = 86400 * 1000;
         Calendar rightNow = Calendar.getInstance();
         long currentTime = rightNow.getTimeInMillis();
-        long current_interval = currentTime - this.timeOfLastHandshake;
+        long current_interval = currentTime - this.timestamp;
         return current_interval > HANDSHAKE_INTERVAL;
     }
 

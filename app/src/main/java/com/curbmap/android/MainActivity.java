@@ -37,6 +37,7 @@ import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.User;
 import com.curbmap.android.models.db.UserAccessor;
 import com.curbmap.android.models.db.UserAuth;
+import com.curbmap.android.models.db.UserAuthAccessor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,6 +84,10 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame
                         , new HomeFragment())
                 .commit();
+
+
+        handShake(context);
+
 
     }
 
@@ -153,8 +158,8 @@ public class MainActivity extends AppCompatActivity
                         .commit();
             } else {
                 Log.d(TAG, "User is logged in");
-               // Log.d(TAG, UserAccessor.getString(userAppDatabase));
-              //  Log.d("user-session", UserAccessor.getUser(userAppDatabase).getSession());
+                // Log.d(TAG, UserAccessor.getString(userAppDatabase));
+                //  Log.d("user-session", UserAccessor.getUser(userAppDatabase).getSession());
 
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame
@@ -181,47 +186,70 @@ public class MainActivity extends AppCompatActivity
      * Every time the function is called
      * check whether its time to shake hands
      * if it is, then run handshake
-     * Warning: whenever we try to run handShake
-     * it crashes the app with a NullPointerException
-     * because the line userAuth.shouldWeHandShakeRightNow()
-     * references null userAuth. We need to figure out
-     * how to call handShake without a null userAuth...
      */
-    private void handShake(UserAuth userAuth) {
-        if (userAuth.shouldWeHandShakeRightNow()) {
-            //perform handshake
-            //send login request to server
-            final String BASE_URL = getString(R.string.BASE_URL_API);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+    private void handShake(Context context) {
 
-            String username = userAuth.getUsername();
-            String password = userAuth.getPassword();
+        AppDatabase userAuthAppDatabase = AppDatabase.getUserAuthAppDatabase(
+                context);
+        UserAuth userAuth = UserAuthAccessor.getUserAuth(userAuthAppDatabase);
+        if(userAuth != null) {
+            if (userAuth.shouldWeHandShakeRightNow()) {
+                //perform handshake
+                //send login request to server
+                final String BASE_URL = getString(R.string.BASE_URL_API);
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
-            CurbmapRestService service = retrofit.create(CurbmapRestService.class);
-            Call<User> results = service.doLoginPOST(
-                    username,
-                    password);
+                String username = userAuth.getUsername();
+                String password = userAuth.getPassword();
 
-            results.enqueue(new Callback<User>() {
-                @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()) {
-                        Log.d(TAG, "successfully signed in through handshake to renew session token");
-                    } else {
-                        Log.e(TAG, "failed to sign in for handshake to renew session token");
+                CurbmapRestService service = retrofit.create(CurbmapRestService.class);
+                Call<User> results = service.doLoginPOST(
+                        username,
+                        password);
+
+                results.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "successfully signed in through handshake to renew session token");
+
+                            AppDatabase userAuthAppDatabase = AppDatabase.getUserAuthAppDatabase(
+                                    getApplicationContext());
+
+                            UserAuthAccessor.updateUserAuth(userAuthAppDatabase);
+
+                            AppDatabase userAppDatabase = AppDatabase.getUserAppDatabase(
+                                    getApplicationContext());
+                            UserAccessor.deleteUser(userAppDatabase);
+
+                            //update user object
+                            //so not only the session token is renewed
+                            //but also any other updates from the server will be received
+                            User user = response.body();
+                            UserAccessor.insertUser(userAppDatabase, user);
+
+
+                        } else {
+                            Log.e(TAG, "failed to sign in for handshake to renew session token");
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    Log.d(TAG, getString(R.string.fail_signin));
-                    t.printStackTrace();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.d(TAG, getString(R.string.fail_signin));
+                        t.printStackTrace();
+                    }
+                });
+            } else {
+                Log.d(TAG, "We do not need to handshake.");
+            }
+        } else {
+            Log.e(TAG, "userAuth was null so could not perform handshake");
         }
+
     }
 
 }
