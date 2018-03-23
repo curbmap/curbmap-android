@@ -173,7 +173,13 @@ public class CreateRestrictionText {
 
         Gson gson = new Gson();
         Polyline polyline = gson.fromJson(polylineString, Polyline.class);
-        ArrayList<double[]> coordinates = polyline.getAsCoordinates();
+        ArrayList<double[]> tempcoordinates = polyline.getAsCoordinates();
+        //switch lat,long to long,lat because server is using long,lat
+        ArrayList<double[]> coordinates = new ArrayList<>();
+        for (double[] c : tempcoordinates) {
+            double[] current = new double[]{c[1],c[0]};
+            coordinates.add(current);
+        }
 
         RestrictionTextInfo restrictionTextInfo = new RestrictionTextInfo(
                 type,
