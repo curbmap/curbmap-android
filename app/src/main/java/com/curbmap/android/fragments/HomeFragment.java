@@ -45,6 +45,8 @@ import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.Polyline;
 import com.curbmap.android.models.db.RestrictionAccessor;
 import com.curbmap.android.models.db.RestrictionImage;
+import com.curbmap.android.models.db.User;
+import com.curbmap.android.models.db.UserAccessor;
 import com.curbmap.android.models.lib.Compass;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -223,7 +225,12 @@ public class HomeFragment extends Fragment
                     AppDatabase.getRestrictionAppDatabase(getContext()),
                     restrictionImage);
 
-            UploadOneImage.uploadOneImage(restrictionImage);
+            User user = UserAccessor.getUser(
+                    AppDatabase.getUserAppDatabase(getContext())
+            );
+            String token = user.getToken();
+
+            UploadOneImage.uploadOneImage(restrictionImage, token);
         }
     }
 

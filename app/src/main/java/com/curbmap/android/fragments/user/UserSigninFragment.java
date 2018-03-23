@@ -103,7 +103,6 @@ public class UserSigninFragment extends Fragment {
                     }
                 });
 
-
         return myView;
     }
 
@@ -111,8 +110,8 @@ public class UserSigninFragment extends Fragment {
     /**
      * posts the signin info onto server
      *
-     * @param username
-     * @param password
+     * @param username the user's username
+     * @param password the user's password
      */
     public void signIn(final String username, final String password) {
         final String BASE_URL = getString(R.string.BASE_URL_API);
@@ -126,7 +125,6 @@ public class UserSigninFragment extends Fragment {
         Call<User> results = service.doLoginPOST(
                 username,
                 password);
-
 
         results.enqueue(new Callback<User>() {
             @Override

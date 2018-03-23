@@ -22,6 +22,7 @@ import com.curbmap.android.models.db.RestrictionImage;
 import com.curbmap.android.models.lib.OpenLocationCode;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -56,9 +57,11 @@ public class UploadOneImage {
      * in the case of uploading multiple images.
      *
      * @param restrictionImage the RestrictionImage object to upload
+     * @param token            the user's session token
      */
     public static void uploadOneImage(
-            RestrictionImage restrictionImage
+            RestrictionImage restrictionImage,
+            String token
     ) {
         String imagePath = restrictionImage.getImagePath();
         Location mLocation = restrictionImage.getmLocation();
@@ -88,7 +91,15 @@ public class UploadOneImage {
         //because it keeps spamming the logs...
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                //we increase the timeout here because
+                //the default timeout is about 10 seconds
+                //and does not allow enough time for the image to upload
+                .readTimeout(2,TimeUnit.MINUTES)
+                .writeTimeout(2,TimeUnit.MINUTES)
+                .connectTimeout(2, TimeUnit.MINUTES)
+                .addInterceptor(interceptor)
+                .build();
 
         final String BASE_URL = "https://curbmap.com:50003";
         Retrofit retrofit = new Retrofit.Builder()
@@ -109,38 +120,11 @@ public class UploadOneImage {
 
         Log.d("olc is", olcString);
 
-
-        /*
-         * The default username and session
-         * we use this temporarily before fixing the proper
-         * user session token to always update properly
-         */
-        String username = "curbmaptest";
-        String session = "x";
-
-        //warning this code does not work right now
-        //it must be refactored so that the session is updated
-        //otherwise, we receive a 404 error because
-        //the session is expired and invalid
-        //only if user is signed in
-        /*
-        AppDatabase userAppDatabase = AppDatabase.getUserAppDatabase(context);
-        User user = UserAccessor.getUser(userAppDatabase);
-        AppDatabase.destroyInstance();
-
-        if (user != null) {
-            username = user.getUsername();
-            session = user.getSession();
-        }
-        */
-
-        Log.d("username", username);
-        Log.d("session", session);
+        String bearerSpaceToken = "Bearer " + token;
 
         //the current map area displayed on user's phone
         Call<String> results = service.doUploadImage(
-                username,
-                session,
+                bearerSpaceToken,
                 body,
                 olc,
                 bearing
