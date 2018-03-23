@@ -16,15 +16,12 @@ package com.curbmap.android;
 
 
 import com.curbmap.android.models.SignUpResponse;
-import com.curbmap.android.models.db.RestrictionTextInfo;
 import com.curbmap.android.models.db.User;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
@@ -96,9 +93,8 @@ public interface CurbmapRestService {
     );
 
     /**
-     * Warning: this format is different from what is specified in the API docs
-     * the API docs uses "coordinates" as the first key which will result in success:false
-     * we must use "line" instead as is demonstrated in the following example
+     * Warning: "coordinates" in API docs must actually be "line" as used here.
+     *
      * {
      * "line": [[-118.3997778, 33.8608611], [-118.3997414,33.8607043]],
      * "restrictions": [{
@@ -123,10 +119,6 @@ public interface CurbmapRestService {
     @POST("addLine")
     Call<String> doUploadText(
             @Header("Authorization") String bearerSpaceToken,
-
-            //the following are the contents of a single RestrictionText object:
-            //  coordinates and restrictionTextInfo
-            @Field("line") ArrayList<Map<Integer, Integer>> coordinates,
-            @Field("restrictions") RestrictionTextInfo restrictionTextInfo
-    );
+            @Body RequestBody body
+            );
 }
