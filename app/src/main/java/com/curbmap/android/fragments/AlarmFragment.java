@@ -15,8 +15,12 @@
 package com.curbmap.android.fragments;
 
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +36,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.curbmap.android.R;
-import com.curbmap.android.controller.NotificationSetter;
 
 import java.util.Calendar;
 
@@ -66,9 +69,7 @@ public class AlarmFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.fragment_alarm, container, false);
-
         unbinder = ButterKnife.bind(this, myView);
-
 
         return myView;
     }
@@ -127,7 +128,6 @@ public class AlarmFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -135,17 +135,69 @@ public class AlarmFragment extends Fragment {
     }
 
     /**
-     * Creates a timer that runs in integer minutes
+     * Creates a timer that will execute a notification in given number of minutes
      *
-     * @param minutes number of minutes for timer
+     * @param context The application context
+     * @param minutes The number of minutes to start the notification in
      */
-    public void createTimer(Context context, int minutes) {
-        int minutesToMilliseconds = 60 * 1000;
-        int notificationDelay = minutes * minutesToMilliseconds;
+    public void createTimer(final Context context, int minutes) {
+
+        int MS_IN_A_MINUTE = 60 * 1000;
+        int notificationDelay = minutes * MS_IN_A_MINUTE;
         Log.d(TAG, "creating timer for " + minutes + " minutes");
-        notificationDelay = 0;
-        NotificationSetter.scheduleNotification(context,
-                NotificationSetter.getNotification(context, "5 second delay"),
-                notificationDelay);
+
+
+        int secondsLeft = notificationDelay / 1000;
+        while (secondsLeft > 0) {
+            //run the notification countdown
+            Handler handler = new Handler();
+            final int finalTimerMinutes = minutes;
+            final int finalSecondsLeft = secondsLeft;
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    Notification.Builder mBuilder =
+                            new Notification.Builder(context)
+                                    .setSmallIcon(R.drawable.curbmap_25x25)
+                                    .setContentTitle("curbmap timer")
+                                    .setContentText("Your timer for " +
+                                            finalTimerMinutes +
+                                            " minutes has " +
+                                            finalSecondsLeft / 60 +
+                                            ":" +
+                                            String.format("%02d", finalSecondsLeft % 60) +
+                                            " remaining.");
+
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) context.getSystemService(
+                                    Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(001, mBuilder.build());
+                    Log.d(TAG, "Published timer notification");
+                }
+            }, notificationDelay - (secondsLeft * 1000));
+
+            secondsLeft--;
+        }
+
+        //run the notification alarm
+        Handler handler = new Handler();
+        final int finalTimerMinutes = minutes;
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Notification.Builder mBuilder =
+                        new Notification.Builder(context)
+                                .setSmallIcon(R.drawable.curbmap_25x25)
+                                .setContentTitle("curbmap timer")
+                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                                .setContentText("Your timer for " + finalTimerMinutes +
+                                        " minutes has completed.");
+
+                NotificationManager mNotificationManager =
+                        (NotificationManager) context.getSystemService(
+                                Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(001, mBuilder.build());
+                Log.d(TAG, "Published timer notification");
+            }
+        }, notificationDelay);
     }
+
 }

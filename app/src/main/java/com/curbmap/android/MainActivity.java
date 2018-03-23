@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity
                         .commit();
             } else {
                 Log.d(TAG, "User is logged in");
-                Log.d(TAG, UserAccessor.getString(userAppDatabase));
-                Log.d("user-session", UserAccessor.getUser(userAppDatabase).getSession());
+               // Log.d(TAG, UserAccessor.getString(userAppDatabase));
+              //  Log.d("user-session", UserAccessor.getUser(userAppDatabase).getSession());
 
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame
