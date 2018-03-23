@@ -12,12 +12,14 @@
  * the License.
  */
 
-package com.curbmap.android.controller.handleImageRestriction;
+package com.curbmap.android.controller.handleupload;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
 import com.curbmap.android.CurbmapRestService;
+import com.curbmap.android.models.db.RestrictionContainer;
 import com.curbmap.android.models.db.RestrictionImage;
 import com.curbmap.android.models.lib.OpenLocationCode;
 
@@ -60,7 +62,9 @@ public class UploadOneImage {
      * @param token            the user's session token
      */
     public static void uploadOneImage(
-            RestrictionImage restrictionImage,
+            final Context context,
+            final RestrictionContainer restrictionContainer,
+            final RestrictionImage restrictionImage,
             String token
     ) {
         String imagePath = restrictionImage.getImagePath();
@@ -141,6 +145,7 @@ public class UploadOneImage {
 
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Succeeded in uploading image.");
+                        UploadHandler.handleSuccessfulUpload(context, restrictionContainer);
                     } else {
                         Log.d(TAG, "Server rejected image upload.");
                     }

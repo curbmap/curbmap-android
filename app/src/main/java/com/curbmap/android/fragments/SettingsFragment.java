@@ -22,10 +22,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.curbmap.android.R;
+import com.curbmap.android.models.db.AppDatabase;
+import com.curbmap.android.models.db.SettingsAccessor;
 
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
@@ -55,6 +59,12 @@ public class SettingsFragment extends Fragment {
                         .getDecorView()
                         .findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
+    }
+
+    @OnCheckedChanged(R.id.uploadOverWifi)
+    public void switchUploadOverWifi(CompoundButton button,boolean uploadOverWifi) {
+        AppDatabase settingsAppDatabase = AppDatabase.getSettingsAppDatabase(button.getContext());
+        SettingsAccessor.setUploadOverWifi(settingsAppDatabase, uploadOverWifi);
     }
 
     @Override

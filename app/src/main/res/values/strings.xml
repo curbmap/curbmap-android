@@ -267,5 +267,6 @@
     <string name="holiday">Holiday</string>
     <string name="not_holiday_description">Not a holiday-related restriction</string>
     <string name="is_a_holiday_related_restriction">Is a holiday-related restriction</string>
+    <string name="upload_over_wifi">Upload only over Wifi</string>
 
 </resources>

@@ -12,11 +12,13 @@
  * the License.
  */
 
-package com.curbmap.android.controller.handleRestrictionText;
+package com.curbmap.android.controller.handleupload;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.curbmap.android.CurbmapRestService;
+import com.curbmap.android.models.db.RestrictionContainer;
 import com.curbmap.android.models.db.RestrictionText;
 import com.google.gson.Gson;
 
@@ -37,6 +39,8 @@ public class UploadOneText {
     static final String TAG = "UploadOneText";
 
     public static void uploadOneText(
+            final Context context,
+            final RestrictionContainer restrictionContainer,
             RestrictionText restrictionText,
             String token
     ) {
@@ -87,6 +91,7 @@ public class UploadOneText {
 
                     if (response.isSuccessful()) {
                         Log.d(TAG, "Succeeded in uploading restriction text.");
+                        UploadHandler.handleSuccessfulUpload(context, restrictionContainer);
                     } else {
                         Log.d(TAG, "Server rejected restriction text upload.");
                     }

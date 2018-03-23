@@ -33,8 +33,7 @@ public class HandleSubmit {
      */
     public static boolean submitAddRestriction(
             View view,
-            String polylineString,
-            String token) {
+            String polylineString) {
 
         RestrictionText restrictionText = CreateRestrictionText.createRestrictionText(view, polylineString);
 
@@ -42,9 +41,6 @@ public class HandleSubmit {
         addToDatabase(
                 context,
                 restrictionText);
-
-        UploadOneText.uploadOneText(restrictionText, token);
-
 
         return true;
     }

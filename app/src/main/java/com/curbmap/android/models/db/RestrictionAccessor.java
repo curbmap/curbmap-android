@@ -85,7 +85,8 @@ public class RestrictionAccessor {
      * @param restrictionAppDatabase the restriction database
      * @return the restrictions which have not been uploaded to the server
      */
-    public static List<RestrictionContainer> getAllUploadingRestriction(AppDatabase restrictionAppDatabase) {
+    public static List<RestrictionContainer> getAllUploadingRestriction(
+            AppDatabase restrictionAppDatabase) {
         RestrictionDao restrictionDao = restrictionAppDatabase.getRestrictionDao();
         List<RestrictionContainer> restrictionContainerList = restrictionDao.getAll();
         List<RestrictionContainer> uploadingRestrictions = new ArrayList<>();
@@ -96,6 +97,14 @@ public class RestrictionAccessor {
         }
 
         return uploadingRestrictions;
+    }
+
+    public static void setRestrictionAsUploaded(AppDatabase restrictionAppDatabase,
+                                                RestrictionContainer restrictionContainer) {
+        RestrictionDao restrictionDao = restrictionAppDatabase.getRestrictionDao();
+        restrictionDao.delete(restrictionContainer);
+        restrictionContainer.setUploaded(true);
+        restrictionDao.insertAll(restrictionContainer);
     }
 
     /**
@@ -118,6 +127,14 @@ public class RestrictionAccessor {
 
         return uploadedRestrictions;
     }
+
+
+    public static void deleteRestriction(AppDatabase restrictionAppDatabase,
+                                         RestrictionContainer restrictionContainer) {
+        RestrictionDao restrictionDao = restrictionAppDatabase.getRestrictionDao();
+        restrictionDao.delete(restrictionContainer);
+    }
+
 
     /**
      * Deletes all restrictions in the restriction database
