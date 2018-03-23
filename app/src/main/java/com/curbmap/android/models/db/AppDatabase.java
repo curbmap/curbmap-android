@@ -21,7 +21,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 @Database(entities = {RestrictionContainer.class, User.class, UserAuth.class, Settings.class},
-        version = 8,
+        version = 9,
         exportSchema = false)
 @TypeConverters({})
 public abstract class AppDatabase extends RoomDatabase {

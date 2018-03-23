@@ -18,6 +18,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.db.RestrictionAccessor;
@@ -43,6 +44,12 @@ public class UploadHandler {
     public static void initiateHandler(Context context) {
         if (isUserLoggedIn(context) && isNetworkReadyForUploading(context)) {
             initiateUploading(context);
+        } else if (!isUserLoggedIn(context)) {
+            Toast.makeText(
+                    context,
+                    "Please log in to upload restrictions",
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     }
 

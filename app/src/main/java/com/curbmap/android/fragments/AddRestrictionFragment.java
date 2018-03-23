@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.curbmap.android.R;
 import com.curbmap.android.controller.handleRestrictionText.HandleSubmit;
-import com.curbmap.android.models.db.AppDatabase;
 import com.curbmap.android.models.lib.SetTime;
 
 import butterknife.BindView;
@@ -78,7 +77,6 @@ public class AddRestrictionFragment extends Fragment {
         };
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -103,8 +101,6 @@ public class AddRestrictionFragment extends Fragment {
     @OnClick(R.id.submitButton)
     public void setSubmitButton(View view) {
         View parentView = (View) view.getParent();
-
-        AppDatabase userAppDatabase = AppDatabase.getUserAppDatabase(getContext());
 
         if (HandleSubmit.submitAddRestriction(
                 parentView,

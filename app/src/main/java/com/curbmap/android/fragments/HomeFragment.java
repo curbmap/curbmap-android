@@ -474,12 +474,10 @@ public class HomeFragment extends Fragment
         drawer.openDrawer(GravityCompat.START);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 }
