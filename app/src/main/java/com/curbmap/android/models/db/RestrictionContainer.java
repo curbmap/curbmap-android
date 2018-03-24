@@ -77,6 +77,15 @@ public class RestrictionContainer {
         }
     }
 
+    public String getThumbnailPath() {
+        if (this.isImageRestriction()) {
+            RestrictionImage restrictionImage = RestrictionImageConverter.fromString(this.object);
+            return restrictionImage.getImagePath().replace(".jpg", "_tmb.jpg");
+        } else {
+            return "";
+        }
+    }
+
     public void setRestrictionAsUploaded() {
         if (this.isUploaded) {
             /*

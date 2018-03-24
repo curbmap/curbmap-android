@@ -35,6 +35,10 @@ public class RestrictionImage {
         return imagePath;
     }
 
+    public String getThumbnailPath() {
+        return this.imagePath.replace(".jpg", "_tmb.jpg");
+    }
+
     public Location getmLocation() {
         return mLocation;
     }

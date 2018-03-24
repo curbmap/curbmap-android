@@ -15,18 +15,21 @@
 package com.curbmap.android.fragments;
 
 import android.Manifest;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -62,7 +65,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -213,6 +221,7 @@ public class HomeFragment extends Fragment
             }
         }
         //handles the results from capturing an image from clicking the 'Snap Restriction' button
+        //at this point the image has been created
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
             Log.d(TAG, "Image captured, sending to upload");
             RestrictionImage restrictionImage = new RestrictionImage(
@@ -221,6 +230,59 @@ public class HomeFragment extends Fragment
             RestrictionAccessor.insertImageRestriction(
                     AppDatabase.getRestrictionAppDatabase(getContext()),
                     restrictionImage);
+            //create and store the thumbnail of the image
+            //because now the image finally exists
+
+            Date currentTime = Calendar.getInstance().getTime();
+            long time = currentTime.getTime();
+            String filename = imagePath.replace(".jpg","_tmb.jpg");
+
+            final int THUMBSIZE = 32;
+
+            Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(
+                    BitmapFactory.decodeFile(
+                            imagePath
+                    ),
+                    THUMBSIZE,
+                    THUMBSIZE);
+
+            File _photoFile = new File(filename);
+            Log.d("the path is ", imagePath);
+            try {
+                if (!_photoFile.exists()) {
+                    _photoFile.getParentFile().mkdirs();
+                    _photoFile.createNewFile();
+                    Log.d(TAG, "created new file");
+                } else {
+                    _photoFile.delete();
+                    _photoFile.getParentFile().mkdirs();
+                    _photoFile.createNewFile();
+                    Log.d(TAG, "replaced old file");
+                }
+
+            } catch (IOException e) {
+                Log.e(TAG, "Could not create file.", e);
+            }
+
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(filename);
+                ThumbImage.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //thumbnail is now stored at the path
+
+
         }
     }
 
