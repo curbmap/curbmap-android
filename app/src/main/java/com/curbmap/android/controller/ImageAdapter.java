@@ -83,9 +83,10 @@ public class ImageAdapter extends BaseAdapter {
 
         RestrictionContainer r = restrictionContainerList.get(position);
         if (r.isTextRestriction()) {
+            //todo: set image for text restriction based on the type of text restriction
             imageView.setImageResource(R.drawable.type_no_parking);
         } else {
-            imageView.setImageURI(Uri.parse(r.getImagePath()));
+            imageView.setImageURI(Uri.parse(r.getThumbnailPath()));
         }
         return imageView;
     }

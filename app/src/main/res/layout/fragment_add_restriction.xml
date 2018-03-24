@@ -55,12 +55,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+
+            <TextView
+                android:id="@+id/holidayLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/typeOfRestrictionLayout"
+                android:layout_marginTop="11dp"
+                android:text="@string/holiday"
+                android:textSize="@dimen/header_size"
+                android:textStyle="bold" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/holidayRadioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/holidayLabel"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/notHoliday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/not_holiday_description" />
+
+                <RadioButton
+                    android:id="@+id/yesHoliday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_a_holiday_related_restriction" />
+
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/daysOfRestriction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/typeOfRestrictionLayout"
+                android:layout_below="@+id/holidayRadioGroup"
                 android:layout_marginTop="11dp"
                 android:text="@string/days_of_restriction"
                 android:textSize="@dimen/header_size"

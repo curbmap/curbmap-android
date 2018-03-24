@@ -30,8 +30,8 @@ android {
         applicationId "com.curbmap.android"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 11
-        versionName "0.0.11"
+        versionCode 13
+        versionName "0.0.13"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

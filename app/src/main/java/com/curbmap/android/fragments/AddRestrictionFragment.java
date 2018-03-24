@@ -77,7 +77,6 @@ public class AddRestrictionFragment extends Fragment {
         };
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,

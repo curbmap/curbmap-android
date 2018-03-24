@@ -60,6 +60,7 @@ public class CreateRestrictionText {
         Spinner compassDirSpinner = view.findViewById(R.id.compassDirSpinner);
         Spinner vehicleTypeSpinner = view.findViewById(R.id.vehicleTypeSpinner);
         RadioGroup parkingAngleRadioGroup = view.findViewById(R.id.parkingAngleRadioGroup);
+        RadioGroup holidayRadioGroup = view.findViewById(R.id.holidayRadioGroup);
 
         int type = typeOfRestrictionSpinner.getSelectedItemPosition();
 
@@ -80,6 +81,26 @@ public class CreateRestrictionText {
             Log.e(TAG, "No angle selected");
             angle = -1;
         }
+
+
+        boolean holiday = false;
+        String holidayString = "";
+        int selectedHolidayId = holidayRadioGroup.getCheckedRadioButtonId();
+        if (selectedHolidayId != -1) {
+            RadioButton holidayButton = view.findViewById(selectedHolidayId);
+            holidayString = holidayButton.getText().toString();
+        }
+        if (holidayString.equals(getViewString(view, R.string.is_a_holiday_related_restriction))) {
+            holiday = true;
+        } else if (holidayString.equals(getViewString(view, R.string.not_holiday_description))) {
+            holiday = false;
+        } else {
+            //this should never be called because 'not a holiday' is selected by default
+            //and since this is a radio group it should be impossible to have no selections
+            //given that we start off with a default selection
+            Log.e(TAG, "No holiday selected");
+        }
+
 
         String start_time;
         String end_time;
@@ -152,7 +173,13 @@ public class CreateRestrictionText {
 
         Gson gson = new Gson();
         Polyline polyline = gson.fromJson(polylineString, Polyline.class);
-        ArrayList<double[]> coordinates = polyline.getAsCoordinates();
+        ArrayList<double[]> tempcoordinates = polyline.getAsCoordinates();
+        //switch lat,long to long,lat because server is using long,lat
+        ArrayList<double[]> coordinates = new ArrayList<>();
+        for (double[] c : tempcoordinates) {
+            double[] current = new double[]{c[1],c[0]};
+            coordinates.add(current);
+        }
 
         RestrictionTextInfo restrictionTextInfo = new RestrictionTextInfo(
                 type,
@@ -167,7 +194,8 @@ public class CreateRestrictionText {
                 cost,
                 per,
                 vehicle,
-                side
+                side,
+                holiday
         );
 
         RestrictionText restrictionText = new RestrictionText(
@@ -220,7 +248,7 @@ public class CreateRestrictionText {
      * @param view the add restriction form view
      * @return the array of weeks of month starting on first week of the month
      */
-    private static  boolean[] viewToWeeks(View view) {
+    private static boolean[] viewToWeeks(View view) {
         CheckBox week1 = view.findViewById(R.id.week1);
         CheckBox week2 = view.findViewById(R.id.week2);
         CheckBox week3 = view.findViewById(R.id.week3);

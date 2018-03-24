@@ -41,6 +41,7 @@ public class HandleSubmit {
         addToDatabase(
                 context,
                 restrictionText);
+
         return true;
     }
 

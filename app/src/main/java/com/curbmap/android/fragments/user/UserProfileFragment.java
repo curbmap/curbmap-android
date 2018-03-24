@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +66,7 @@ public class UserProfileFragment extends Fragment {
 
 
         final User user = UserAccessor.getUser(userAppDatabase);
-        Log.e("session-is", user.getSession());
+//        Log.e("session-is", user.getSession());
         EditText nameField = myView.findViewById(R.id.nameField);
         nameField.setText(user.getUsername());
 
