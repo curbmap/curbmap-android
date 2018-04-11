@@ -8,4 +8,5 @@
 .externalNativeBuild
 app/release/app-release.apk
 app/release/output.json
+.idea/
 
