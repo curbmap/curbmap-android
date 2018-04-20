@@ -21,19 +21,33 @@ import java.util.ArrayList;
  * along with its coordinates
  */
 public class RestrictionText {
-    public ArrayList<double[]> coordinates;
-    public RestrictionTextInfo restrictionTextInfo;
+    public ArrayList<double[]> line;
+
+
+    public ArrayList<RestrictionTextInfo> restrictions;
 
     /**
      * Creates a RestrictionText object
-     * @param coordinates The ArrayList of coordinates indicating the polyline along which
-     *                    the restriction is effective
-     * @param restrictionTextInfo The RestrictionTextInfo object containing information about
+     *
+     * @param line                The ArrayList of coordinates indicating the polyline along which
+     *                            the restriction is effective
+     *                            Warning: format is currently ArrayList of [longitude, latitude]
+     *                            because that is what server is currently using
+     * @param restrictions The ArrayList<RestrictionTextInfo> object containing information about
      *                            the restriction
      */
-    public RestrictionText(ArrayList<double[]> coordinates, RestrictionTextInfo restrictionTextInfo) {
-        this.coordinates = coordinates;
-        this.restrictionTextInfo = restrictionTextInfo;
+    public RestrictionText(ArrayList<double[]> line, RestrictionTextInfo restrictions) {
+        this.line = line;
+        this.restrictions = new ArrayList<>();
+        this.restrictions.add(restrictions);
+    }
+
+    public ArrayList<double[]> getLine() {
+        return line;
+    }
+
+    public ArrayList<RestrictionTextInfo> getRestrictionTextInfoArrayList() {
+        return restrictions;
     }
 
 }

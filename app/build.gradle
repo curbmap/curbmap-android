@@ -24,14 +24,14 @@ allprojects {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.curbmap.android"
         minSdkVersion 23
-        targetSdkVersion 23
-        versionCode 11
-        versionName "0.0.11"
+        targetSdkVersion 27
+        versionCode 13
+        versionName "0.0.13"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

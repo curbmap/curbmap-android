@@ -39,7 +39,6 @@ import butterknife.Unbinder;
 public class HelpFragment extends Fragment {
     View myView;
 
-
     //the BindViews here are used for setLinks method
     // and not for onCreateView!
     //because setLinks has most of the findViewByIds...

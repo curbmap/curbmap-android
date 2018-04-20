@@ -18,7 +18,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class SignUpResponse {
 
-
     @SerializedName("success")
     Integer success;
 

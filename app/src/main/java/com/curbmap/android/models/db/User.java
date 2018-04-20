@@ -33,17 +33,23 @@ public class User {
     @SerializedName("username")
     String username;
 
+    @SerializedName("role")
+    String role;
+
     @SerializedName("badge")
     String badge;
 
-    @SerializedName("badgeLastUpdated")
-    String badgeLastUpdated;
+    @SerializedName("badge_updatedAt")
+    String badge_updatedAt;
 
     @SerializedName("score")
     Integer score;
 
-    @SerializedName("scoreUpdatedAt")
-    String scoreUpdatedAt;
+    @SerializedName("score_updatedAt")
+    String score_updatedAt;
+
+    @SerializedName("email")
+    String email;
 
     /**
      * The session token to authenticate the user is logged in
@@ -58,8 +64,8 @@ public class User {
      * We send a new request every time the app is launched
      * because we assume nobody will use the app for more than 24 hours nonstop...
      */
-    @SerializedName("session")
-    String session;
+    @SerializedName("token")
+    String token;
 
     /**
      * Creates a string showing the user's information
@@ -68,16 +74,17 @@ public class User {
      * @return User's information as a String.
      */
     public String makeString() {
-        String result = "";
-        result += "username : " + this.getUsername();
-        result += ", badge : " + this.getBadge();
-        result += ", badgeLastUpdated : " + this.getBadgeLastUpdated();
-        result += ", score : " + this.getScore();
-        result += ", scoreUpdatedAt : " + this.getScoreUpdatedAt();
-        result += ", session : " + this.getSession();
+        String result = "This is the string generated for logged in user\n";
+        result += "username: " + this.getUsername() + "\n"
+                + "role: " +  this.getRole() + "\n"
+                + "badge: " + this.getBadge() + "\n"
+                + "badge_updatedAt: " + this.getBadge_updatedAt() + "\n"
+                + "score: " + this.getScore() + "\n"
+                + "score_updatedAt: " + this.getScore_updatedAt() + "\n"
+                + "token: " + this.getToken() + "\n"
+                + "email: " + this.getEmail();
         return result;
     }
-
 
     public String getUsername() {
         return username;
@@ -85,6 +92,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getBadge() {
@@ -95,12 +110,12 @@ public class User {
         this.badge = badge;
     }
 
-    public String getBadgeLastUpdated() {
-        return badgeLastUpdated;
+    public String getBadge_updatedAt() {
+        return badge_updatedAt;
     }
 
-    public void setBadgeLastUpdated(String badgeLastUpdated) {
-        this.badgeLastUpdated = badgeLastUpdated;
+    public void setBadge_updatedAt(String badge_updatedAt) {
+        this.badge_updatedAt = badge_updatedAt;
     }
 
     public Integer getScore() {
@@ -111,19 +126,27 @@ public class User {
         this.score = score;
     }
 
-    public String getScoreUpdatedAt() {
-        return scoreUpdatedAt;
+    public String getScore_updatedAt() {
+        return score_updatedAt;
     }
 
-    public void setScoreUpdatedAt(String scoreUpdatedAt) {
-        this.scoreUpdatedAt = scoreUpdatedAt;
+    public void setScore_updatedAt(String score_updatedAt) {
+        this.score_updatedAt = score_updatedAt;
     }
 
-    public String getSession() {
-        return session;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSession(String session) {
-        this.session = session;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

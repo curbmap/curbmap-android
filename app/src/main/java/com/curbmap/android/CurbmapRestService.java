@@ -16,15 +16,12 @@ package com.curbmap.android;
 
 
 import com.curbmap.android.models.SignUpResponse;
-import com.curbmap.android.models.db.RestrictionTextInfo;
 import com.curbmap.android.models.db.User;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
@@ -78,19 +75,17 @@ public interface CurbmapRestService {
      * Uploads an image to the server
      * Url: https://curbmap.com:50003/imageUpload
      *
-     * @param username The username of the logged in user
-     * @param session  The session token string to authenticate the user
-     * @param image    The image file to upload
-     * @param olc      The Open Location Code describing the location the image was taken
-     * @param bearing  The bearing the image was taken measured as
-     *                 degrees clockwise from True North
+     * @param bearerSpaceToken "Bearer " + token, where token is the session token received upon login
+     * @param image            The image file to upload
+     * @param olc              The Open Location Code describing the location the image was taken
+     * @param bearing          The bearing the image was taken measured as
+     *                         degrees clockwise from True North
      * @return The call to to upload the image to the server
      */
     @POST("imageUpload")
     @Multipart
     Call<String> doUploadImage(
-            @Header("username") String username,
-            @Header("session") String session,
+            @Header("Authorization") String bearerSpaceToken,
 
             @Part MultipartBody.Part image,
             @Part("olc") RequestBody olc,
@@ -98,30 +93,32 @@ public interface CurbmapRestService {
     );
 
     /**
+     * Warning: "coordinates" in API docs must actually be "line" as used here.
+     *
      * {
-     * "coordinates": [[0]],
-     * "restrictions": [
-     * {"type": 0,"angle": 0,"start": 0,"end": 0,
-     * "days": [false,false,false,false,false,false,false],
-     * "weeks": [false,false,false,false],
-     * "months": [false,false,false,false,
-     * false,false,false,false,false,false,
-     * false,false],
-     * "limit": 60,"permit": "111","cost": 1.25,
-     * "per": 60,"vehicle": 0,"side": 0}
-     * ]
+     * "line": [[-118.3997778, 33.8608611], [-118.3997414,33.8607043]],
+     * "restrictions": [{
+     * "type": 3,
+     * "duration": 120,
+     * "vehicle": -1,
+     * "cost": 0.25,
+     * "per": 12,
+     * "side": 3,
+     * "angle": 0,
+     * "holiday": true,
+     * "days": [1,1,1,1,1,1,1],
+     * "weeks": [1,1,1,1],
+     * "months": [1,1,1,1,1,1,1,1,1,1,1,1],
+     * "start": 600,
+     * "end": 1440
+     * }]
      * }
      *
      * @return
      */
     @POST("addLine")
     Call<String> doUploadText(
-            @Header("username") String username,
-            @Header("session") String session,
-
-            //the following are the contents of a single RestrictionText object:
-            //  coordinates and restrictionTextInfo
-            @Field("coordinates") ArrayList<Map<Integer,Integer>> coordinates,
-            @Field("restrictions") RestrictionTextInfo restrictionTextInfo
-    );
+            @Header("Authorization") String bearerSpaceToken,
+            @Body RequestBody body
+            );
 }

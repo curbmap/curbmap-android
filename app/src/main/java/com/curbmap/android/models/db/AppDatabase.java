@@ -20,8 +20,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-@Database(entities = {RestrictionContainer.class, User.class, UserAuth.class},
-        version = 3,
+@Database(entities = {RestrictionContainer.class, User.class, UserAuth.class, Settings.class},
+        version = 9,
         exportSchema = false)
 @TypeConverters({})
 public abstract class AppDatabase extends RoomDatabase {
@@ -93,7 +93,28 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     /**
-     * Destroys the PersonAppDatabase instance
+     * Gets the Settings database
+     *
+     * @param context The context of the application
+     * @return The Settings database
+     */
+    public static AppDatabase getSettingsAppDatabase(Context context) {
+        if (INSTANCE != null) destroyInstance();
+        if (INSTANCE == null) {
+            INSTANCE =
+                    Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            AppDatabase.class,
+                            "settings")
+                            .allowMainThreadQueries()
+                            .fallbackToDestructiveMigration()
+                            .build();
+        }
+        return INSTANCE;
+    }
+
+    /**
+     * Destroys the AppDatabase instance
      * This is important to call whenever an activity is destroyed so that
      * we do not have a SqLite leak.
      * Although it is an option to instantiate it once and keep passing it around
@@ -114,4 +135,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao getUserDao();
 
     public abstract UserAuthDao getUserAuthDao();
+
+
+    public abstract SettingsDao getSettingsDao();
 }

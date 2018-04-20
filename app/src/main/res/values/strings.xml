@@ -264,5 +264,9 @@
     <string name="type_vehicle_1">Motorcycle</string>
     <string name="type_vehicle_2">Truck, Bus (3+ axel, including trailer), Non-inhabiting</string>
     <string name="type_vehicle_3">Vehicle for inhabitation (Camper, Car, Truck, etc.)</string>
+    <string name="holiday">Holiday</string>
+    <string name="not_holiday_description">Not a holiday-related restriction</string>
+    <string name="is_a_holiday_related_restriction">Is a holiday-related restriction</string>
+    <string name="upload_over_wifi">Upload only over Wifi</string>
 
 </resources>

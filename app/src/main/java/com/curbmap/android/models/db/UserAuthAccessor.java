@@ -14,6 +14,8 @@
 
 package com.curbmap.android.models.db;
 
+import java.util.Calendar;
+
 public class UserAuthAccessor {
     private static final String TAG = "UserAuthAccessor";
 
@@ -28,6 +30,26 @@ public class UserAuthAccessor {
     public static void insertUserAuth(AppDatabase userAuthAppDatabase, UserAuth userAuth) {
         UserAuthDao userAuthDao = userAuthAppDatabase.getUserAuthDao();
         userAuthDao.insert(userAuth);
+    }
+
+    /**
+     * Updates the timestamp on a user auth
+     * for the purposes of renewing token when performing handshake
+     * @param userAuthAppDatabase The UserAuth database
+     */
+    public static void updateUserAuth(AppDatabase userAuthAppDatabase) {
+        UserAuthDao userAuthDao = userAuthAppDatabase.getUserAuthDao();
+        UserAuth userAuth = userAuthDao.getUserAuth();
+        String username = userAuth.getUsername();
+        String password = userAuth.getPassword();
+        long timestamp = Calendar.getInstance().getTimeInMillis();
+        userAuthDao.deleteUserAuth();
+        UserAuth newUserAuth = new UserAuth(
+                username,
+                password,
+                timestamp
+        );
+        userAuthDao.insert(newUserAuth);
     }
 
     public static void deleteUserAuth(AppDatabase userAuthAppDatabase) {
