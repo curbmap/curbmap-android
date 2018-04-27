@@ -14,19 +14,18 @@
 
 package com.curbmap.android.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.curbmap.android.R;
-import com.curbmap.android.models.db.AppDatabase;
-import com.curbmap.android.models.db.SettingsAccessor;
 
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -63,8 +62,8 @@ public class SettingsFragment extends Fragment {
 
     @OnCheckedChanged(R.id.uploadOverWifi)
     public void switchUploadOverWifi(CompoundButton button,boolean uploadOverWifi) {
-        AppDatabase settingsAppDatabase = AppDatabase.getSettingsAppDatabase(button.getContext());
-        SettingsAccessor.setUploadOverWifi(settingsAppDatabase, uploadOverWifi);
+        //todo: implement updating value of uploadOverWifi in our Settings object in our database
+        Log.d(TAG, "switchUploadOverWifi was called");
     }
 
     @Override

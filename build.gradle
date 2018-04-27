@@ -21,3 +21,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+ext {
+
+    archLifecycleVersion = '1.1.1'
+    archLifecycleCompilerVersion = '1.0.0'
+    archLifecycleExtensionsVersion = '1.1.1'
+}
