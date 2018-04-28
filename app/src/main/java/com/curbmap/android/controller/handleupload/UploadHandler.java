@@ -26,7 +26,6 @@ import com.curbmap.android.models.db.RestrictionContainer;
 import com.curbmap.android.models.db.RestrictionImage;
 import com.curbmap.android.models.db.RestrictionText;
 import com.curbmap.android.models.db.Settings;
-import com.curbmap.android.models.db.SettingsAccessor;
 import com.curbmap.android.models.db.User;
 import com.curbmap.android.models.db.UserAccessor;
 import com.google.gson.Gson;
@@ -62,14 +61,16 @@ public class UploadHandler {
     public static boolean isNetworkReadyForUploading(Context context) {
         AppDatabase settingsAppDatabase = AppDatabase.getSettingsAppDatabase(
                 context);
-        Settings settings = SettingsAccessor.getSettings(settingsAppDatabase);
+        //todo: actually access the settings object from database
+        Settings settings = new Settings();
 
         if (settings == null || settings.isUploadOverWifi()) {
             if (settings == null) {
                 //if settings entry does not exist we must create it
-                Settings newSettings = new Settings();
-                SettingsAccessor.insertSettings(settingsAppDatabase, newSettings);
-                Log.d(TAG, "Created new settings entry");
+                Log.d(TAG, "Settings was null because failed to instantiate new Settings object");
+                //Settings newSettings = new Settings();
+                //SettingsAccessor.insertSettings(settingsAppDatabase, newSettings);
+                //Log.d(TAG, "Created new settings entry");
             }
             ConnectivityManager connManager = (ConnectivityManager)
                     context.getSystemService(Context.CONNECTIVITY_SERVICE);
